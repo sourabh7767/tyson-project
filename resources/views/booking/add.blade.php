@@ -19,7 +19,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('user.home')}}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{route('users.index')}}">Booking</a>
+                                    <li class="breadcrumb-item"><a href="{{route('user.home')}}">Booking</a>
                                     </li>
                                     <li class="breadcrumb-item active">Add Booking
                                     </li>

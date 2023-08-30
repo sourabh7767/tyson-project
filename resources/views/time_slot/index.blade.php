@@ -16,7 +16,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('user.home')}}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{route('users.index')}}">Time Slots</a>
+                                    <li class="breadcrumb-item"><a href="{{route('time_slot.index')}}">Time Slots</a>
                                     </li>
                                     <li class="breadcrumb-item active">Time Slot List
                                     </li>
