@@ -8,7 +8,7 @@
   #calendar {
 max-width: 1100px;
 margin: 40px auto;
-}
+} 
 </style>
 
     <!-- Main content -->
@@ -86,101 +86,101 @@ margin: 40px auto;
                       center: 'title',
                       right: 'dayGridMonth,timeGridWeek,timeGridDay'
                   },
-                  events: //@json($events),
-                  [
-                      {
-                      title: 'All Day Event',
-                      start: '2023-07-01',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      title: 'Long Event',
-                      start: '2023-07-07',
-                      end: '2023-07-10',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      groupId: '999',
-                      title: 'Repeating Event',
-                      start: '2023-07-09T16:00:00',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      groupId: '999',
-                      title: 'Repeating Event',
-                      start: '2023-07-16T16:00:00',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      title: 'Conference',
-                      start: '2023-07-11',
-                      end: '2023-07-13',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      title: 'Meeting',
-                      start: '2023-07-12T10:30:00',
-                      end: '2023-07-12T12:30:00',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      title: 'Lunch',
-                      start: '2023-07-12T12:00:00',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      title: 'Meeting',
-                      start: '2023-07-12T14:30:00',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      title: 'Birthday Party',
-                      start: '2023-07-13T07:00:00',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      },
-                      {
-                      title: 'Click for Google',
-                      url: 'https://google.com/',
-                      start: '2023-07-28',
-                      description: 'Hurrayyyyyyyyyy',
-                      extendedProps: {
-                              department: 'BioChemistry'
-                          },
-                      }
-                  ],
-                  eventDidMount: function(info) {
-                      //console.log("info--------------------",info.event.extendedProps.department)
-                      //var statusText = info.event.extendedProps.status;
-                      // info.el.setAttribute("data-id", 123);
-                      $(info.el).find('.fc-event-title').append("<br/>" + info.event.extendedProps.department);
-                  },
+                  events: @json($data),
+                //   [
+                //       {
+                //       title: 'All Day Event',
+                //       start: '2023-07-01',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       title: 'Long Event',
+                //       start: '2023-07-07',
+                //       end: '2023-07-10',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       groupId: '999',
+                //       title: 'Repeating Event',
+                //       start: '2023-07-09T16:00:00',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       groupId: '999',
+                //       title: 'Repeating Event',
+                //       start: '2023-07-16T16:00:00',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       title: 'Conference',
+                //       start: '2023-07-11',
+                //       end: '2023-07-13',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       title: 'Meeting',
+                //       start: '2023-07-12T10:30:00',
+                //       end: '2023-07-12T12:30:00',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       title: 'Lunch',
+                //       start: '2023-07-12T12:00:00',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       title: 'Meeting',
+                //       start: '2023-07-12T14:30:00',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       title: 'Birthday Party',
+                //       start: '2023-07-13T07:00:00',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       },
+                //       {
+                //       title: 'Click for Google',
+                //       url: 'https://google.com/',
+                //       start: '2023-07-28',
+                //       description: 'Hurrayyyyyyyyyy',
+                //       extendedProps: {
+                //               department: 'BioChemistry'
+                //           },
+                //       }
+                //   ],
+                //   eventDidMount: function(info) {
+                //       //console.log("info--------------------",info.event.extendedProps.department)
+                //       //var statusText = info.event.extendedProps.status;
+                //       // info.el.setAttribute("data-id", 123);
+                //       $(info.el).find('.fc-event-title').append("<br/>" + info.event.extendedProps.department);
+                //   },
                   // eventRender: function(event, element) {
                   //     console.log("event---------------------",event)
                   //     element.qtip({

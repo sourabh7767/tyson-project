@@ -17,6 +17,7 @@ class CreateBookingTable extends Migration
             $table->id();
             $table->integer('company_id');
             $table->integer('slot_id');
+            $table->integer('user_id');
             $table->dateTime('start_date_time');
             $table->dateTime('end_date_time');
             $table->string('csr_name');

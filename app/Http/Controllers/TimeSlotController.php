@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TimeSlot;
 use Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class TimeSlotController extends Controller
 {
