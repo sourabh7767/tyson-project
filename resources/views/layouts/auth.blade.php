@@ -5,9 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-        <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-        <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
-        <meta name="author" content="Devendra Rajput">
+        <meta name="description" content="booking app">
+        <meta name="keywords" content="booking app">
+        <meta name="author" content="Sourabh">
         <title> @yield('title') </title>
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <link rel="apple-touch-icon" href="{{ asset('images/theme/ico/apple-icon-120.png') }}">
@@ -88,7 +88,7 @@
                                         </g>
                                     </g>
                                 </svg>
-                                <h2 class="brand-text text-primary ms-1">Vuexy</h2>
+                                <h2 class="brand-text text-primary ms-1">Booking App</h2>
                             </a>
                             <!-- /Brand logo-->
                             <!-- Left Text-->

@@ -26,7 +26,7 @@
                                 </g>
                             </g>
                         </svg></span>
-                    <h2 class="brand-text">Vuexy</h2>
+                    <h2 class="brand-text">Booking App</h2>
                 </a></li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
         </ul>
@@ -37,13 +37,45 @@
             <li class=" nav-item {{request()->is('/')?'active':''}}">
                 <a class="d-flex align-items-center" href="{{ route('user.home') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span></a>
             </li>
-            <li class=" navigation-header">User Management<i data-feather="more-horizontal"></i></li>
-            <!-- <li class=" nav-item"><a class="d-flex align-items-center" href="app-email.html"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Email</span></a>
-            </li> -->
+            @if(auth::user()->role == 1)
+                <li class=" navigation-header">User Management<i data-feather="more-horizontal"></i></li>
+                <!-- <li class=" nav-item"><a class="d-flex align-items-center" href="app-email.html"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Email</span></a>
+                </li> -->
+                
+                <li class=" nav-item {{request()->is('users') || request()->is('users/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('users.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Users</span></a>
+                
+                </li>
+
+                <li class=" navigation-header">Slot Management<i data-feather="more-horizontal"></i></li>
+                
+                <li class=" nav-item {{request()->is('time_slot') || request()->is('time_slot/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('time_slot.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Slots</span></a>
+                
+                </li>
+                
+
+                <li class=" navigation-header">Booking Management<i data-feather="more-horizontal"></i></li>
+                
+                <li class=" nav-item {{request()->is('booking') || request()->is('booking/*')?'active open':''}}"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Booking</span></a>
+                    <ul class="menu-content">
+                            <li class="{{request()->is('booking') || request()->is('booking/1')?'active':''}}"><a class="d-flex align-items-center" href="{{route('booking.index',1)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">HVAC Demand Board</span></a>
+                            </li>
+                            <li class="{{request()->is('booking') || request()->is('booking/2')?'active':''}}"><a class="d-flex align-items-center" href="{{route('booking.index',2)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Permission">Parts Warranty Board</span></a>
+                            </li>
+                        </ul>
+                </li>
+            @else
             
-            <li class=" nav-item {{request()->is('users') || request()->is('users/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('users.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Users</span></a>
-               
-            </li>
+                <li class=" navigation-header">Slot Management<i data-feather="more-horizontal"></i></li>
+                
+                <li class=" nav-item {{request()->is('booking') || request()->is('booking/*')?'active open':''}}"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Book Slots</span></a>
+                    <ul class="menu-content">
+                                <li class="{{request()->is('booking') || request()->is('booking/add/1')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('booking.add',1)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">HVAC Demand Board</span></a>
+                                </li>
+                                <li class="{{request()->is('booking') || request()->is('booking/add/2')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('booking.add',2)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Permission">Parts Warranty Board</span></a>
+                                </li>
+                            </ul>
+                </li>
+            @endif    
 
             <!--<li class=" nav-item {{request()->is('role') || request()->is('role/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('role.index')}}"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Kanban">Roles</span></a>-->
             <!--    </li>-->

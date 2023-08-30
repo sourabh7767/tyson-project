@@ -26,6 +26,34 @@ class RoleSeeder extends Seeder
                 'created_by'=> 0
             ]);
 
+            DB::table('roles')->insert([
+                'title' => "CST",
+                'is_deleteable' => 0,
+                'created_at' => date("Y-m-d H:i:s"),
+                'created_by'=> 0
+            ]);
+
+            DB::table('roles')->insert([
+                'title' => "Comfort Advisor",
+                'is_deleteable' => 0,
+                'created_at' => date("Y-m-d H:i:s"),
+                'created_by'=> 0
+            ]);
+
+            DB::table('roles')->insert([
+                'title' => "Installer",
+                'is_deleteable' => 0,
+                'created_at' => date("Y-m-d H:i:s"),
+                'created_by'=> 0
+            ]);
+
+            DB::table('roles')->insert([
+                'title' => "Technician",
+                'is_deleteable' => 0,
+                'created_at' => date("Y-m-d H:i:s"),
+                'created_by'=> 0
+            ]);
+
     	}
     
     }

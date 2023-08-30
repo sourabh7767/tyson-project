@@ -27,7 +27,12 @@ Route::middleware('prevent-back-history')->group(function (){
     Auth::routes();
 
     Route::middleware('auth')->group(function(){
-
+        Route::get('/booking/{id}', 'BookingController@showBooking')->name('booking.index');
+        Route::get('booking/add/{id}', 'BookingController@addBooking')->name('booking.add');
+        Route::get('booking/store/{id}', 'BookingController@storeBooking')->name('booking.store');
+        Route::get('/time_slot', 'TimeSlotController@index')->name('time_slot.index');
+        Route::get('/time_slot/create', 'TimeSlotController@create')->name('time_slot.create');
+        Route::post('/time_slot/store', 'TimeSlotController@store')->name('time_slot.store');
         Route::get('/', 'HomeController@index')->name('user.home');
         Route::resource('users', 'UserController');
         Route::resource('role', 'RoleController');
