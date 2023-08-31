@@ -27,6 +27,9 @@ Route::middleware('prevent-back-history')->group(function (){
     Auth::routes();
 
     Route::middleware('auth')->group(function(){
+        Route::get('/company', 'CompanyController@index')->name('company.index');
+        Route::get('/company/add', 'CompanyController@add')->name('company.add');
+        Route::post('/company/store', 'CompanyController@store')->name('company.store');
         Route::get('/booking/{id}', 'BookingController@showBooking')->name('booking.index');
         Route::get('booking/add/{id}', 'BookingController@addBooking')->name('booking.add');
         Route::post('booking/store', 'BookingController@storeBooking')->name('booking.store');

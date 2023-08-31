@@ -15,7 +15,7 @@ class BookingController extends Controller
         $events = Booking::where("company_id",$id)->with("companyData","slotData")->get();
         if(!$events->isEmpty()){
             foreach($events as $key => $value){
-                $data[] = ["title" => "Meeting",
+                $data[] = ["title" => "test",
                             "start"=> $value->start_date_time,
                             "end"=> $value->end_date_time,
                             ];

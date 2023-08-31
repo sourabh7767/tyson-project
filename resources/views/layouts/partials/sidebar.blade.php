@@ -1,3 +1,6 @@
+@php
+    $company = \App\Models\Company::get();
+@endphp
 <!-- BEGIN: Main Menu-->
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
@@ -57,10 +60,11 @@
                 
                 <li class=" nav-item {{request()->is('booking') || request()->is('booking/*')?'active open':''}}"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Booking</span></a>
                     <ul class="menu-content">
-                            <li class="{{request()->is('booking') || request()->is('booking/1')?'active':''}}"><a class="d-flex align-items-center" href="{{route('booking.index',1)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">HVAC Demand Board</span></a>
-                            </li>
-                            <li class="{{request()->is('booking') || request()->is('booking/2')?'active':''}}"><a class="d-flex align-items-center" href="{{route('booking.index',2)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Permission">Parts Warranty Board</span></a>
-                            </li>
+                    @foreach($company as $key => $value)
+                            <li class="{{request()->is('booking') || request()->is('booking/$value->id')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('booking.index',$value->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">{{$value->name}}</span></a>
+                                    </li>
+                        @endforeach
+                            
                         </ul>
                 </li>
             @else
@@ -69,10 +73,11 @@
                 
                 <li class=" nav-item {{request()->is('booking') || request()->is('booking/*')?'active open':''}}"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Book Slots</span></a>
                     <ul class="menu-content">
-                                <li class="{{request()->is('booking') || request()->is('booking/add/1')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('booking.add',1)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">HVAC Demand Board</span></a>
-                                </li>
-                                <li class="{{request()->is('booking') || request()->is('booking/add/2')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('booking.add',2)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Permission">Parts Warranty Board</span></a>
-                                </li>
+                        @foreach($company as $key => $value)
+                            <li class="{{request()->is('booking') || request()->is('booking/add/$value->id')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('booking.add',$value->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">{{$value->name}}</span></a>
+                                    </li>
+                        @endforeach
+                               
                             </ul>
                 </li>
             @endif    

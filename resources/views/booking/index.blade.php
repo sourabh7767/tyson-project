@@ -13,7 +13,25 @@ margin: 40px auto;
 
     <!-- Main content -->
     <section>
-
+      <!-- Modal to display event details -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Title:</strong> <span id="eventTitle"></span></p>
+                    <p><strong>Date:</strong> <span id="eventDate"></span></p>
+                    <!-- Add more event details here as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
       <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
@@ -197,6 +215,15 @@ margin: 40px auto;
                   //         }
                   //     });
                   // }
+                  eventClick: function(info) {
+                      // Update modal content with event details
+                      document.getElementById('eventTitle').textContent = info.event.title;
+                      document.getElementById('eventDate').textContent = info.event.start.toLocaleString();
+                      
+                      // Show the modal
+                      var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                      eventModal.show();
+                  }
               });
           calendar.render();
         });
