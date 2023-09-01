@@ -28,6 +28,60 @@
                         </div>
                     </div>
                 </div>
+
+                 <!-- Boxes for Today, Tomorrow, 3 Days Out, and 4 Days Out -->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="card bg-info">
+                            <div class="card-body text-white">
+                                    <h5 class="card-title">Today</h5>
+                                    @forelse($slotsData as $sKey => $sVal)
+                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
+                                    @empty
+                                    <p class="card-text"><span>No Slots added</p>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card bg-info">
+                                <div class="card-body text-white">
+                                    <h5 class="card-title">Tomorrow</h5>
+                                    @forelse($slotsDataTommorow as $sKey => $sVal)
+                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
+                                        @empty
+                                    <p class="card-text"><span>No Slots added</p>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card bg-info">
+                                <div class="card-body text-white">
+                                    <h5 class="card-title">3 Days Out</h5>
+                                    @forelse($slotsDataThreeDay as $sKey => $sVal)
+                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
+                                        @empty
+                                    <p class="card-text"><span>No Slots added</p>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card bg-info">
+                                <div class="card-body text-white">
+                                    <h5 class="card-title">4 Days Out</h5>
+                                    @forelse($slotsDataFourDay as $sKey => $sVal)
+                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
+                                        @empty
+                                    <p class="card-text"><span>No Slots added</p>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+           
        
                     <div class="row">
                         <div class="col-12">
@@ -46,6 +100,8 @@
                                                       <select class="form-control" id="daySelect" name="day">
                                                         <option data-id="{{$id}}" value="<?php echo date("Y-m-d");?>">Today</option>
                                                         <option data-id="{{$id}}" value="<?php echo date("Y-m-d",strtotime("+1 day"));?>">Tommorow</option>
+                                                        <option data-id="{{$id}}" value="<?php echo date("Y-m-d",strtotime("+3 day"));?>">3 Days Out</option>
+                                                        <option data-id="{{$id}}" value="<?php echo date("Y-m-d",strtotime("+4 day"));?>">4 Days Out</option>
                                                       </select>
                                                         @if ($errors->has('day'))
                                                             <span class="invalid-feedback" role="alert">
@@ -78,11 +134,7 @@
                                             <div class="col-md-6 col-12 slotnumber d-none">
                                                 <div class="mb-1" id="slotnumber">
                                                     <label class="form-label" for="no_of_slots">No Of Sloats <span class="text-danger asteric-sign">&#42;</span></label>
-                                                    <select class="form-control" name="no_of_slots">
-                                                        @for($i = 1;$i<=5;$i++)
-                                                            <option value="{{$i}}">{{$i}}</option>
-                                                        @endfor
-                                                    </select>
+                                                    <input type = "text" class="form-control" readonly value={{$slotValue->remaining_slots}}>
                                                     @if ($errors->has('no_of_slots'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('no_of_slots') }}</strong>
@@ -109,6 +161,17 @@
                                                     @if ($errors->has('job_number'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('job_number') }}</strong>
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12 slotjobnumber d-none">
+                                                <div class="mb-1" id="slotjobnumber">
+                                                    <label class="form-label" for="customer_name">Customer Name</label>
+                                                    <input id="customer_name" type="text" class="form-control {{ $errors->has('customer_name') ? ' is-invalid' : '' }}" name="customer_name" placeholder="CSR Name">
+                                                    @if ($errors->has('customer_name'))
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $errors->first('customer_name') }}</strong>
                                                         </span>
                                                     @endif
                                                 </div>

@@ -71,7 +71,7 @@
             
                 <li class=" navigation-header">Slot Management<i data-feather="more-horizontal"></i></li>
                 
-                <li class=" nav-item {{request()->is('booking') || request()->is('booking/*')?'active open':''}}"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Book Slots</span></a>
+                <li class=" nav-item {{ request()->is('booking', 'booking/add*') ?'active open':''}}"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Book Slots</span></a>
                     <ul class="menu-content">
                         @foreach($company as $key => $value)
                             <li class="{{request()->is('booking') || request()->is('booking/add/$value->id')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('booking.add',$value->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">{{$value->name}}</span></a>
@@ -79,6 +79,18 @@
                         @endforeach
                                
                             </ul>
+                </li>
+
+                <li class=" navigation-header">Booking Management<i data-feather="more-horizontal"></i></li>
+                
+                <li class=" nav-item {{request()->is('booking/csr', 'booking/csr/*')?'active open':''}}"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Booking</span></a>
+                    <ul class="menu-content">
+                    @foreach($company as $key => $value)
+                            <li class="{{request()->is('booking/csr') || request()->is('booking/csr/$value->id')?'active ':''}}"><a class="d-flex align-items-center" href="{{route('csr.booking.index',$value->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Roles">{{$value->name}}</span></a>
+                                    </li>
+                        @endforeach
+                            
+                        </ul>
                 </li>
             @endif    
 

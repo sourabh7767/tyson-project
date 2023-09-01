@@ -21,6 +21,7 @@ class CreateBookingTable extends Migration
             $table->dateTime('start_date_time');
             $table->dateTime('end_date_time');
             $table->string('csr_name');
+            $table->string('customer_name')->nullable();
             $table->dateTime('time_of_booking');
             $table->string('job_number');
             $table->timestamps();

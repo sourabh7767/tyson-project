@@ -30,7 +30,7 @@ margin: 40px auto;
                     <!-- Add more event details here as needed -->
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" id="cancelEventBtn">Cancel Event</button>
+                  
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -237,31 +237,7 @@ margin: 40px auto;
                       eventModal.show();
 
 
-                      var cancelEventBtn = document.getElementById('cancelEventBtn');
-                      cancelEventBtn.addEventListener('click', function() {
-                        var confirmation = confirm('Are you sure you want to cancel this event?');
-
-                            if (confirmation) {
-                                // User confirmed, proceed with AJAX request
-                                // Replace this with your actual AJAX logic
-                                // Here's a simple example with jQuery AJAX:
-                                $.ajax({
-                                    url: '/booking/cancel', // Replace with your API endpoint
-                                    method: 'POST',
-                                    data: { eventId: info.event.id }, // Pass the event ID or other data
-                                    success: function(response) {
-                                        // If the cancellation was successful, remove the event from the calendar
-                                        info.event.remove();
-                                        // Close the modal
-                                        eventModal.hide();
-                                    },
-                                    error: function(error) {
-                                        // Handle AJAX error here
-                                        alert('An error occurred while canceling the event.');
-                                    }
-                                });
-                            }
-                      });
+                      
                   }
               });
           calendar.render();

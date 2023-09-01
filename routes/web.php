@@ -30,10 +30,12 @@ Route::middleware('prevent-back-history')->group(function (){
         Route::get('/company', 'CompanyController@index')->name('company.index');
         Route::get('/company/add', 'CompanyController@add')->name('company.add');
         Route::post('/company/store', 'CompanyController@store')->name('company.store');
+        Route::post('/booking/cancel', 'BookingController@cancelBooking')->name('booking.cancel');
         Route::get('/booking/{id}', 'BookingController@showBooking')->name('booking.index');
         Route::get('booking/add/{id}', 'BookingController@addBooking')->name('booking.add');
         Route::post('booking/store', 'BookingController@storeBooking')->name('booking.store');
         
+        Route::get('/booking/csr/{id}', 'BookingController@showBookingCsr')->name('csr.booking.index');
         // Route::get('booking/store/{id}', 'BookingController@storeBooking')->name('booking.store');
         Route::get('get-slots', 'BookingController@getSlots')->name('booking.get.slots');
         Route::get('get-slots-number', 'BookingController@getSlotsNumber')->name('booking.get.slots.number');
