@@ -79,6 +79,7 @@ class BookingController extends Controller
     }
 
     public function storeBooking(request $request){
+      //  echo "<pre>";print_r($request->all());die;
         $rules = array(
         'day' => 'required',
            'slot' => 'required',
@@ -93,11 +94,18 @@ class BookingController extends Controller
            return Redirect::back()->withInput()->withErrors($validator);
        }  
 
+       $slot = TimeSlot::where("id",$request->slot)->first();
+       list($start_time, $end_time) = explode(' - ', $slot->slot);
+
+        // Convert day and time to DateTime format
+        $start_datetime = date('Y-m-d H:i:s', strtotime($request->day . ' ' . $start_time));
+        $end_datetime = date('Y-m-d H:i:s', strtotime($request->day . ' ' . $end_time));
+
        $model =  new Booking();
        $model->company_id = $request->company_id;
        $model->slot_id = $request->slot;
-       $model->start_date_time = $request->day;
-       $model->end_date_time = $request->day;
+       $model->start_date_time = $start_datetime;
+       $model->end_date_time = $end_datetime;
        $model->customer_name = $request->customer_name;
        $model->csr_name = $request->csr_name;
        $model->time_of_booking = date("Y-m-d");
