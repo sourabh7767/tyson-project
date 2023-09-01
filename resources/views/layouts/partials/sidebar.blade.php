@@ -49,6 +49,14 @@
                 
                 </li>
 
+                <li class=" navigation-header">Company Management<i data-feather="more-horizontal"></i></li>
+                <!-- <li class=" nav-item"><a class="d-flex align-items-center" href="app-email.html"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Email</span></a>
+                </li> -->
+                
+                <li class=" nav-item {{request()->is('company') || request()->is('company/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('company.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Company</span></a>
+                
+                </li>
+
                 <li class=" navigation-header">Slot Management<i data-feather="more-horizontal"></i></li>
                 
                 <li class=" nav-item {{request()->is('time_slot') || request()->is('time_slot/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('time_slot.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Slots</span></a>
