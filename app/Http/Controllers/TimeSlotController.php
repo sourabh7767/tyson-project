@@ -61,6 +61,7 @@ class TimeSlotController extends Controller
     }
 
     public function store(request $request){
+      //  echo "<pre>";print_r($request->all());die;
         $rules = array(
             'company_id' => 'required',
            'date' => 'required',
@@ -73,18 +74,23 @@ class TimeSlotController extends Controller
        if ($validator->fails()) {
            return Redirect::back()->withInput()->withErrors($validator);
        }
+       foreach($request->slot as $key => $value){
+            if(array_key_exists($key,$request->no_of_slots) && $request->no_of_slots[$key] != ""){
+                $obj = new TimeSlot();
+                $obj->company_id = $request->company_id;
+                $obj->start_date_time = $request->date;
+                $obj->end_date_time = $request->date;
+                $obj->slot = $value;
+                $obj->no_of_slots = $request->no_of_slots[$key];
+                $obj->remaining_slots = $request->no_of_slots[$key];
+                $obj->save();
+            }
+       }
+       
 
-       $obj = new TimeSlot();
-       $obj->company_id = $request->company_id;
-       $obj->start_date_time = $request->date;
-       $obj->end_date_time = $request->date;
-       $obj->slot = $request->slot;
-       $obj->no_of_slots = $request->no_of_slots;
-       $obj->remaining_slots = $request->no_of_slots;
-
-       if(!$obj->save()){
-            return redirect()->back()->with('error', 'Unable to create slot. Please try again later.');
-        }
+    //    if(!$obj->save()){
+    //         return redirect()->back()->with('error', 'Unable to create slot. Please try again later.');
+    //     }
 
         return redirect()->route('time_slot.index')->with('success', 'Time Slot created successfully.');
     }
