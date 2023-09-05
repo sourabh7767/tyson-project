@@ -157,7 +157,7 @@
                                             <div class="col-md-6 col-12 slotjobnumber d-none">
                                                 <div class="mb-1" id="slotjobnumber">
                                                     <label class="form-label" for="job_number">Service Titan Job Number<span class="text-danger asteric-sign">&#42;</span></label>
-                                                    <input id="job_number" type="text" class="form-control {{ $errors->has('job_number') ? ' is-invalid' : '' }}" name="job_number" placeholder="CSR Name">
+                                                    <input id="job_number" type="text" class="form-control {{ $errors->has('job_number') ? ' is-invalid' : '' }}" name="job_number" placeholder="Service Titan Job Number">
                                                     @if ($errors->has('job_number'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('job_number') }}</strong>
@@ -168,7 +168,7 @@
                                             <div class="col-md-6 col-12 slotjobnumber d-none">
                                                 <div class="mb-1" id="slotjobnumber">
                                                     <label class="form-label" for="customer_name">Customer Name</label>
-                                                    <input id="customer_name" type="text" class="form-control {{ $errors->has('customer_name') ? ' is-invalid' : '' }}" name="customer_name" placeholder="CSR Name">
+                                                    <input id="customer_name" type="text" class="form-control {{ $errors->has('customer_name') ? ' is-invalid' : '' }}" name="customer_name" placeholder="Customer Name">
                                                     @if ($errors->has('customer_name'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('customer_name') }}</strong>
