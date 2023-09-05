@@ -129,12 +129,12 @@
                                                         </span>
                                                     @endif
                                                 </div>
-                                            </div>
+                                            </div> 
                                             
                                             <div class="col-md-6 col-12 slotnumber d-none">
                                                 <div class="mb-1" id="slotnumber">
                                                     <label class="form-label" for="no_of_slots">No Of Sloats <span class="text-danger asteric-sign">&#42;</span></label>
-                                                    <input type = "text" class="form-control" readonly value={{$slotValue->remaining_slots}}>
+                                                    <input type = "text" class="form-control" readonly value={{@$slotValue->remaining_slots}}>
                                                     @if ($errors->has('no_of_slots'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('no_of_slots') }}</strong>
