@@ -42,7 +42,9 @@ class TimeSlot extends Model
 
             if(!empty($search)){
                  $query->where(function ($query) use($request,$search){
-                        $query->orWhere( 'company.name', 'LIKE', '%'. $search .'%');
+                        $query->orWhere( 'company.name', 'LIKE', '%'. $search .'%')
+                        ->orWhere( 'time_slots.slot', 'LIKE', '%'. $search .'%');
+                        //$query->orWhereDate( 'time_slots.start_date_time', 'LIKE', '%'. $search .'%');
                             //->orWhere( 'email', 'LIKE', '%'. $search .'%')
                             //->orWhere( 'roles.title', 'LIKE', '%'. $search .'%')
                             //->orWhere('users.created_at', 'LIKE', '%' . $search . '%');
