@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\Booking;
+use App\Models\TimeSlot;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
 
@@ -41,7 +43,7 @@ class CompanyController extends Controller
                 $btn = '';
                 //$btn = '<a href="' . route('users.show',encrypt($user->id)) . '" title="View"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;';
                // $btn .= '<a href="' . route('users.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
-                //$btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
+                $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
 
                 return $btn;
             })
@@ -53,6 +55,20 @@ class CompanyController extends Controller
         }
 
         return view('company.index');
+    }
+
+    public function deleteCompany($id){
+        $slot = Company::find($id);
+
+        if(!$slot){
+            return returnNotFoundResponse('This company does not exist');
+        }
+
+        Booking::where("company_id",$id)->delete();
+        TimeSlot::where("company_id",$id)->delete();
+        Company::where("id",$id)->delete();
+
+        return returnSuccessResponse('Company deleted successfully');
     }
 
     public function add(request $request){

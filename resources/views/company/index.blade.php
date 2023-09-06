@@ -43,6 +43,7 @@
                   <tr>
                     <th>S.No</th>
                     <th>Name</th>
+                    <th data-orderable="false">Action</th>
                   </tr>
                   </thead>
               
