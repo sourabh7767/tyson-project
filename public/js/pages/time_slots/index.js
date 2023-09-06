@@ -17,7 +17,7 @@ $(document).ready(function() {
             { data: 'no_of_slots', name: 'no_of_slots' },
             { data: 'remaining_slots', name: 'remaining_slots' },
             
-            // { data: 'action', name: 'action', orderable: false, searchable: false},
+             { data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TimeSlot;
+use App\Models\Booking;
 use Validator;
 use Illuminate\Support\Facades\Redirect;
 
@@ -42,7 +43,7 @@ class TimeSlotController extends Controller
                 $btn = '';
                 // $btn = '<a href="' . route('users.show',encrypt($user->id)) . '" title="View"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;';
                 // $btn .= '<a href="' . route('users.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
-                // $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
+                 $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
 
                 return $btn;
             })
@@ -54,6 +55,20 @@ class TimeSlotController extends Controller
         }
 
         return view('time_slot.index');
+    }
+
+    public function deleteTimeSlot($id,request $request){
+
+        $slot = TimeSlot::find($id);
+
+        if(!$slot){
+            return returnNotFoundResponse('This time slot does not exist');
+        }
+
+        Booking::where("slot_id",$id)->delete();
+        TimeSlot::where("id",$id)->delete();
+
+        return returnSuccessResponse('Time Slot deleted successfully');
     }
 
     public function create(request $request){

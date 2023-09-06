@@ -48,7 +48,7 @@
                     <th>No Of Slots</th>
                     <th>Remaining Slots</th>
                     
-                    <!-- <th data-orderable="false">Action</th> -->
+                    <th data-orderable="false">Action</th>
                   </tr>
                   </thead>
               

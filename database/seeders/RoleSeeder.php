@@ -27,7 +27,7 @@ class RoleSeeder extends Seeder
             ]);
 
             DB::table('roles')->insert([
-                'title' => "CST",
+                'title' => "CSR",
                 'is_deleteable' => 0,
                 'created_at' => date("Y-m-d H:i:s"),
                 'created_by'=> 0

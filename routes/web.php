@@ -40,6 +40,7 @@ Route::middleware('prevent-back-history')->group(function (){
         Route::get('get-slots', 'BookingController@getSlots')->name('booking.get.slots');
         Route::get('get-slots-number', 'BookingController@getSlotsNumber')->name('booking.get.slots.number');
         
+        Route::delete('/time_slot/{id}', 'TimeSlotController@deleteTimeSlot')->name('time_slot.delete');
         Route::get('/time_slot', 'TimeSlotController@index')->name('time_slot.index');
         Route::get('/time_slot/create', 'TimeSlotController@create')->name('time_slot.create');
         Route::post('/time_slot/store', 'TimeSlotController@store')->name('time_slot.store');

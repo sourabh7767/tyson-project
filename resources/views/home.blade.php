@@ -8,7 +8,7 @@
     <div class="row match-height">
 
       <!-- Statistics Card -->
-      <div class="col-xl-12 col-md-12 col-12">
+      <!-- <div class="col-xl-12 col-md-12 col-12">
           <div class="card card-statistics">
               <div class="card-header">
                   <h4 class="card-title">Statistics</h4>
@@ -73,7 +73,7 @@
                   </div>
               </div>
           </div>
-      </div>
+      </div> -->
       <!--/ Statistics Card -->
     </div>
   </section>

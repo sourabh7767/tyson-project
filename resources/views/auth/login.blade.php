@@ -7,8 +7,8 @@
 <!-- Login-->
     <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
         <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-            <h2 class="card-title fw-bold mb-1">Welcome to Booking App! 👋</h2>
-            <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
+            <h2 class="card-title fw-bold mb-1">Tune-Up Scheduling 👋</h2>
+            <p class="card-text mb-2">Please sign-in to your account</p>
             <form class="auth-login-form mt-2" method="post" action="{{ url('/login') }}">
                 @csrf
                 <div class="mb-1">
