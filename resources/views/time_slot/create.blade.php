@@ -43,8 +43,10 @@
                                                 <div class="mb-1">
                                                     <label class="form-label" for="full_name">Select Company <span class="text-danger asteric-sign">&#42;</span></label>
                                                     <select class="form-control" required name="company_id">
-                                                        <option value=1>HVAC Demand Board</option>
-                                                        <option value=2>Parts Warranty Board</option>
+                                                        @foreach($company as $key => $val)
+                                                        <option value={{$key}}>{{$val}}</option>
+                                                        @endforeach
+                                                        
                                                     </select>
                                                       
                                                         @if ($errors->has('company_id'))
@@ -70,7 +72,7 @@
                                                 <div class="col-md-5 col-12">
                                                     <div class="mb-1">
                                                         <label class="form-label" for="email">Select Slot <span class="text-danger asteric-sign">&#42;</span></label>
-                                                        <select class="form-control" required name="slot[]">
+                                                        <select class="form-select" required name="slot[]">
                                                             <option value="8AM - 9AM">8AM - 9AM</option>
                                                             <option value="10AM - 1PM">10AM - 1PM</option>
                                                             <option value="12PM - 3PM">12PM - 3PM</option>

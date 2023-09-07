@@ -127,7 +127,7 @@
                                             <div class="col-md-6 col-12 first_div">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="day">Select Day <span class="text-danger asteric-sign">&#42;</span></label>
-                                                      <select class="form-control" id="daySelect" name="day">
+                                                      <select class="form-select" id="daySelect" name="day">
                                                       @foreach($dateStrings as $key => $dateString)
                                                         <option data-id="{{$id}}" value="<?php echo $key;?>">{{$dateString}}</option>
                                                       @endforeach

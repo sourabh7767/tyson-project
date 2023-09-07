@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TimeSlot;
 use App\Models\Booking;
+use App\Models\Company;
 use Validator;
 use Illuminate\Support\Facades\Redirect;
 
@@ -72,7 +73,8 @@ class TimeSlotController extends Controller
     }
 
     public function create(request $request){
-        return view('time_slot.create');
+        $company = Company::pluck("name","id")->toArray();
+        return view('time_slot.create',compact('company'));
     }
 
     public function store(request $request){
