@@ -71,10 +71,10 @@
                                                     <div class="mb-1">
                                                         <label class="form-label" for="email">Select Slot <span class="text-danger asteric-sign">&#42;</span></label>
                                                         <select class="form-control" required name="slot[]">
-                                                            <option value="9AM - 11PM">9AM - 11PM</option>
-                                                            <option value="9AM - 12PM">9AM - 12PM</option>
+                                                            <option value="8AM - 9AM">8AM - 9AM</option>
+                                                            <option value="10AM - 1PM">10AM - 1PM</option>
                                                             <option value="12PM - 3PM">12PM - 3PM</option>
-                                                            <option value="3PM - 6PM">3PM - 6PM</option>
+                                                            <option value="2PM - 5PM">2PM - 5PM</option>
                                                         </select>
                                                         @if ($errors->has('slot'))
                                                             <span class="invalid-feedback" role="alert">
