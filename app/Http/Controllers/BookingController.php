@@ -74,8 +74,104 @@ class BookingController extends Controller
         $slotsDataFourDay = TimeSlot::where("company_id",$id)
         ->whereDate("start_date_time",date("Y-m-d",strtotime("+4 day")))
         ->get();
-        //echo "<pre>";print_r($slotsData->toArray());die;
-        return view('booking.add',compact('slotsData',"id","slotsDataFourDay","slotsDataThreeDay","slotsDataTommorow"));
+        $week = "";
+        $slotsData = [];
+        if($request->has("week")){
+            $week = $request->week;
+            if($request->week == "current"){
+                $today = now();
+                
+                $dateStrings = [];
+                $slotsDataArr = $dates = [];
+
+                for ($i = 0; $i <= 6; $i++) {
+                    
+
+                    
+
+                    if ($i == 0) {
+                        $dates[] = $dateToCheck = $today->format('Y-m-d');
+                        $dateStrings[$dateToCheck] = 'Today';
+                        $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$id)
+                                            ->whereDate("start_date_time",$today)
+                                                ->get();
+                        $slotsData = TimeSlot::where("company_id",$id)
+                                                ->whereDate("start_date_time",date("Y-m-d"))
+                                                ->get();                        
+                    } elseif ($i == 1) {
+                        $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                        $dateStrings[$dateToCheck] = 'Tomorrow';
+                        $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$id)
+                                            ->whereDate("start_date_time",$dateToCheck)
+                                                ->get();
+                    } else {
+                        $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                        $dateStrings[$dateToCheck] = '+' . $i . ' days';
+                        $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$id)
+                                            ->whereDate("start_date_time",$dateToCheck)
+                                                ->get();
+                    }
+                    
+                }    
+            }else{
+                $nextWeekStartDate = now()->addDays(7);
+                $dateStrings = [];
+                $dates = [];
+
+                for ($i = 0; $i < 7; $i++) {
+                    $dates[] = $dateToCheck = $nextWeekStartDate->addDay()->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = $dateToCheck;
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$id)
+                                            ->whereDate("start_date_time",$dateToCheck)
+                                                ->get();
+                    if($i == 0){
+                        $slotsData = TimeSlot::where("company_id",$id)
+                                                ->whereDate("start_date_time",$dateToCheck)
+                                                ->get();                                                     
+
+                    }                            
+                }
+
+                //echo "<pre>";print_r($dateStrings);die;
+            }
+        }else{
+            $week = "current";
+            $today = now();
+            $dateStrings = [];
+            $slotsDataArr = $dates = [];
+
+            for ($i = 0; $i <= 6; $i++) {
+                
+
+                
+
+                if ($i == 0) {
+                    $dates[] = $dateToCheck = $today->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = 'Today';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$id)
+                                        ->whereDate("start_date_time",$today)
+                                            ->get();
+                    $slotsData = TimeSlot::where("company_id",$id)
+                                            ->whereDate("start_date_time",date("Y-m-d"))
+                                            ->get();                                                
+                } elseif ($i == 1) {
+                    $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = 'Tomorrow';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$id)
+                                        ->whereDate("start_date_time",$dateToCheck)
+                                            ->get();
+                } else {
+                    $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = '+' . $i . ' days';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$id)
+                                        ->whereDate("start_date_time",$dateToCheck)
+                                            ->get();
+                }
+            }
+        }
+        
+        //echo "<pre>";print_r($slotsDataArr);die;
+        return view('booking.add',compact('slotsData',"id","slotsDataFourDay","slotsDataThreeDay","slotsDataTommorow","dateStrings","dates","slotsDataArr","week"));
     }
 
     public function storeBooking(request $request){

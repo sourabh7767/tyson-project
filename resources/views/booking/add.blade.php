@@ -31,6 +31,35 @@
 
                  <!-- Boxes for Today, Tomorrow, 3 Days Out, and 4 Days Out -->
                     <div class="row">
+                        <div class="col-md-12 d-flex justify-content-end">
+                            <form class="mb-2" action="{{ route('booking.add', ['id' => $id]) }}" method="get">
+                                <div class="form-group">
+                                    <label for="week">Select Week:</label>
+                                    <select class="form-select"  style="width: 200px;" name="week" id="week" onchange="this.form.submit()">
+                                        <option @if($week == "current") selected @endif value="current">Current Week</option>
+                                        <option @if($week == "next") selected @endif value="next">Next Week</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>    
+                        @foreach($dateStrings as $key => $dateString)
+                        <div class="col-3">
+                            <div class="card bg-info">
+                            <div class="card-body text-white">
+                                    <h5 class="card-title">{{$dateString}} @if($week == "current") ({{$key}}) @endif</h5>
+                                    @forelse($slotsDataArr[$key] as $sKey => $sVal)
+                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
+                                    @empty
+                                        <p class="card-text"><span>No slots available</span></p>
+                                    @endforelse
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <!-- <div class="row">
                         <div class="col-3">
                             <div class="card bg-info">
                             <div class="card-body text-white">
@@ -79,7 +108,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
             
            
        
@@ -98,10 +128,13 @@
                                                 <div class="mb-1">
                                                     <label class="form-label" for="day">Select Day <span class="text-danger asteric-sign">&#42;</span></label>
                                                       <select class="form-control" id="daySelect" name="day">
-                                                        <option data-id="{{$id}}" value="<?php echo date("Y-m-d");?>">Today</option>
+                                                      @foreach($dateStrings as $key => $dateString)
+                                                        <option data-id="{{$id}}" value="<?php echo $key;?>">{{$dateString}}</option>
+                                                      @endforeach
+                                                        <!-- <option data-id="{{$id}}" value="<?php echo date("Y-m-d");?>">Today</option>
                                                         <option data-id="{{$id}}" value="<?php echo date("Y-m-d",strtotime("+1 day"));?>">Tommorow</option>
                                                         <option data-id="{{$id}}" value="<?php echo date("Y-m-d",strtotime("+3 day"));?>">3 Days Out</option>
-                                                        <option data-id="{{$id}}" value="<?php echo date("Y-m-d",strtotime("+4 day"));?>">4 Days Out</option>
+                                                        <option data-id="{{$id}}" value="<?php echo date("Y-m-d",strtotime("+4 day"));?>">4 Days Out</option> -->
                                                       </select>
                                                         @if ($errors->has('day'))
                                                             <span class="invalid-feedback" role="alert">
