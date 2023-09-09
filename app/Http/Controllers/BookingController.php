@@ -63,19 +63,20 @@ class BookingController extends Controller
         ->whereDate("start_date_time",date("Y-m-d"))
         ->get();
 
-        $slotsDataTommorow = TimeSlot::where("company_id",$id)
-        ->whereDate("start_date_time",date("Y-m-d",strtotime("+1 day")))
-        ->get();
+        // $slotsDataTommorow = TimeSlot::where("company_id",$id)
+        // ->whereDate("start_date_time",date("Y-m-d",strtotime("+1 day")))
+        // ->get();
 
-        $slotsDataThreeDay = TimeSlot::where("company_id",$id)
-        ->whereDate("start_date_time",date("Y-m-d",strtotime("+3 day")))
-        ->get();
+        // $slotsDataThreeDay = TimeSlot::where("company_id",$id)
+        // ->whereDate("start_date_time",date("Y-m-d",strtotime("+3 day")))
+        // ->get();
 
-        $slotsDataFourDay = TimeSlot::where("company_id",$id)
-        ->whereDate("start_date_time",date("Y-m-d",strtotime("+4 day")))
-        ->get();
+        // $slotsDataFourDay = TimeSlot::where("company_id",$id)
+        // ->whereDate("start_date_time",date("Y-m-d",strtotime("+4 day")))
+        // ->get();
         $week = "";
         $slotsData = [];
+        $allSlots = ["8AM - 9AM","10AM - 1PM","12PM - 3PM","12PM - 3PM"];
         if($request->has("week")){
             $week = $request->week;
             if($request->week == "current"){
@@ -171,7 +172,7 @@ class BookingController extends Controller
         }
         
         //echo "<pre>";print_r($slotsDataArr);die;
-        return view('booking.add',compact('slotsData',"id","slotsDataFourDay","slotsDataThreeDay","slotsDataTommorow","dateStrings","dates","slotsDataArr","week"));
+        return view('booking.add',compact('slotsData',"id","dateStrings","dates","slotsDataArr","week","allSlots"));
     }
 
     public function storeBooking(request $request){

@@ -42,7 +42,7 @@ class CompanyController extends Controller
                 ->addColumn('action', function ($user) {
                 $btn = '';
                 //$btn = '<a href="' . route('users.show',encrypt($user->id)) . '" title="View"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;';
-               // $btn .= '<a href="' . route('users.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
+                $btn .= '<a href="' . route('company.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
                 $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
 
                 return $btn;
@@ -95,5 +95,40 @@ class CompanyController extends Controller
         }
 
         return redirect()->route('company.index')->with('success', 'Company created successfully.');
+    }
+
+    public function editCompany($id,request $request){
+        
+        $companyObj = Company::find(decrypt($id));
+        if(!$companyObj){
+            return redirect()->back()->with('error', 'This company does not exist');
+        }
+        return view('company.edit', compact('companyObj'));
+    }
+
+    public function updateCompany($id,request $request){
+        $rules = array(
+            'name' => 'required',
+       );
+
+       $validator = Validator::make($request->all(), $rules);
+       if ($validator->fails()) {
+           return Redirect::back()->withInput()->withErrors($validator);
+       }  
+
+       $model = Company::find($id);
+       if(!$model){
+           return redirect()->back()->with('error', 'This company does not exist');
+       }
+
+       
+       $model = Company::where("id",$id)->first();
+       $model->name = $request->name;
+
+       if($model->save()){
+           return redirect()->route('company.index')->with('success', 'Company updated successfully.');
+       }
+
+       return redirect()->back()->with('error', 'Unable to update Company. Please try again later.');
     }
 }

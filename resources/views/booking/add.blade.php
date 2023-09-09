@@ -47,11 +47,18 @@
                             <div class="card bg-info">
                             <div class="card-body text-white">
                                     <h5 class="card-title">{{$dateString}} @if($week == "current") ({{$key}}) @endif</h5>
-                                    @forelse($slotsDataArr[$key] as $sKey => $sVal)
-                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
-                                    @empty
-                                        <p class="card-text"><span>No slots available</span></p>
-                                    @endforelse
+                                    @foreach($allSlots as $allSlotKey => $allSlotValue)
+                                        @php $hasValue = 0; @endphp
+                                        @foreach($slotsDataArr[$key] as $sKey => $sVal)
+                                            @if($allSlotValue == $sVal->slot)
+                                                @php $hasValue = 1; @endphp
+                                                <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
+                                            @endif
+                                        @endforeach
+                                        @if($hasValue == 0)
+                                            <p class="card-text"><span>{{$allSlotValue}} (No slots)</span></p>
+                                        @endif
+                                    @endforeach
                                     
                                 </div>
                             </div>
@@ -59,57 +66,7 @@
                         @endforeach
                     </div>
 
-                    <!-- <div class="row">
-                        <div class="col-3">
-                            <div class="card bg-info">
-                            <div class="card-body text-white">
-                                    <h5 class="card-title">Today</h5>
-                                    @forelse($slotsData as $sKey => $sVal)
-                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
-                                    @empty
-                                    <p class="card-text"><span>No Slots added</p>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card bg-info">
-                                <div class="card-body text-white">
-                                    <h5 class="card-title">Tomorrow</h5>
-                                    @forelse($slotsDataTommorow as $sKey => $sVal)
-                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
-                                        @empty
-                                    <p class="card-text"><span>No Slots added</p>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card bg-info">
-                                <div class="card-body text-white">
-                                    <h5 class="card-title">3 Days Out</h5>
-                                    @forelse($slotsDataThreeDay as $sKey => $sVal)
-                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
-                                        @empty
-                                    <p class="card-text"><span>No Slots added</p>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card bg-info">
-                                <div class="card-body text-white">
-                                    <h5 class="card-title">4 Days Out</h5>
-                                    @forelse($slotsDataFourDay as $sKey => $sVal)
-                                        <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
-                                        @empty
-                                    <p class="card-text"><span>No Slots added</p>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
+                    
             
            
        

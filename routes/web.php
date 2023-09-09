@@ -27,6 +27,8 @@ Route::middleware('prevent-back-history')->group(function (){
     Auth::routes();
 
     Route::middleware('auth')->group(function(){
+        Route::get('/company/edit/{id}', 'CompanyController@editCompany')->name('company.edit');
+        Route::put('/company/update/{id}', 'CompanyController@updateCompany')->name('company.update');
         Route::delete('/company/{id}', 'CompanyController@deleteCompany')->name('company.delete');
         Route::get('/company', 'CompanyController@index')->name('company.index');
         Route::get('/company/add', 'CompanyController@add')->name('company.add');
