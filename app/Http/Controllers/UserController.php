@@ -49,6 +49,7 @@ class UserController extends Controller
                 $btn = '';
                 $btn = '<a href="' . route('users.show',encrypt($user->id)) . '" title="View"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;';
                 $btn .= '<a href="' . route('users.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
+                $btn .= '<a href="' . route('user.changeUserPassword',encrypt($user->id)) . '" title="Change Password">Change password</a>&nbsp;&nbsp;';
                 $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
 
                 return $btn;
@@ -242,6 +243,51 @@ class UserController extends Controller
 
 
     }
+
+    
+    public function changeUserPasswordView($id)
+    {
+        return view('user.user-change-password',compact('id'));
+    }
+
+    public function changeUserPassword($id,Request $request)
+    {
+        //echo "<pre>";print_r($request->all());die;
+        $rules = array(
+            'password' => 'required',
+            'confirm_password'=>'required|same:password'                        
+        );
+        $message = ['confirm_password.same'=>'Password and confirm password should be same.'];
+        $validator = Validator::make($request->all(), $rules,$message);
+        if ($validator->fails()) {
+            //echo "<pre>";print_r($validator->messages()->first());die;
+            return Redirect::back()->withInput()->withErrors($validator);
+        } 
+
+        $model = User::find(decrypt($id));
+
+        // if(!Hash::check($request->old_password, $model->password)){
+
+        //     return Redirect::back()->withInput()->with('error', 'Old password didnot match');
+
+        // }
+ 
+
+        if(!empty($model)){
+            $model->password = $request->input('password');
+        
+            if($model->save()){
+
+                return redirect()->route('users.index')->with('success', 'Password updated successfully');
+
+            }
+        }
+
+        return Redirect::back()->withInput()->with('error', 'Some error occured. Please try again later');
+
+
+    }
+
 
     public function changePasswordView()
     {
