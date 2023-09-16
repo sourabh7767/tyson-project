@@ -43,7 +43,7 @@ class TimeSlotController extends Controller
                 ->addColumn('action', function ($user) {
                 $btn = '';
                 // $btn = '<a href="' . route('users.show',encrypt($user->id)) . '" title="View"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;';
-                // $btn .= '<a href="' . route('users.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
+                 $btn .= '<a href="' . route('time_slot.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
                  $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
 
                 return $btn;
@@ -70,6 +70,44 @@ class TimeSlotController extends Controller
         TimeSlot::where("id",$id)->delete();
 
         return returnSuccessResponse('Time Slot deleted successfully');
+    }
+
+    public function edit($id){
+        $company = Company::pluck("name","id")->toArray();
+        $timeSlot = TimeSlot::where("id",decrypt($id))->first();
+        return view('time_slot.edit',compact('company','timeSlot'));
+    }
+
+    public function update(request $request){
+        $rules = array(
+           'company_id' => 'required',
+           'date' => 'required',
+           'slot' => 'required',
+           'no_of_slots' => 'required',
+           'id' =>  'required'              
+       );
+
+       $message = ['company_id.required'=>'Company is required'];
+       $validator = Validator::make($request->all(), $rules,$message);
+       if ($validator->fails()) {
+           return Redirect::back()->withInput()->withErrors($validator);
+       }
+
+        $obj = TimeSlot::where("id",$request->id)->first();
+        if($obj){
+            $obj->company_id = $request->company_id;
+            $obj->start_date_time = $request->date;
+            $obj->end_date_time = $request->date;
+            $obj->slot = $request->slot[0];
+            $obj->no_of_slots = $request->no_of_slots[0];
+            $obj->remaining_slots = $request->no_of_slots[0];
+            $obj->save();
+    
+        }else{
+            return redirect()->back()->with('error', 'Unable to create slot. Please try again later.');
+        }
+        
+        return redirect()->route('time_slot.index')->with('success', 'Time Slot created successfully.');
     }
 
     public function create(request $request){

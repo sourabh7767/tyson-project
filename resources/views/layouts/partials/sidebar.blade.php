@@ -5,7 +5,7 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item me-auto"><a class="navbar-brand" href="../../../html/ltr/vertical-menu-template/index.html"><!--<span class="brand-logo">
+            <li class="nav-item me-auto"><a class="" href="{{route('user.home')}}"><!--<span class="brand-logo">
                          <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                             <defs>
                                 <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
@@ -29,9 +29,10 @@
                                 </g>
                             </g>
                         </svg></span> -->
-                    <h2 class="brand-text">Tune-Up Scheduling</h2>
+                    <!-- <h2 class="brand-text">Tune-Up Scheduling</h2> -->
+                    <img style="height:65px;width:165px;" src="{{ asset('images/theme/pages/login-v2.png') }}">
                 </a></li>
-            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+            <!-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li> -->
         </ul>
     </div>
     <div class="shadow-bottom"></div>

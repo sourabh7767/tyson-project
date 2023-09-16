@@ -47,6 +47,8 @@ Route::middleware('prevent-back-history')->group(function (){
         Route::get('/time_slot', 'TimeSlotController@index')->name('time_slot.index');
         Route::get('/time_slot/create', 'TimeSlotController@create')->name('time_slot.create');
         Route::post('/time_slot/store', 'TimeSlotController@store')->name('time_slot.store');
+        Route::get('/time_slot/edit/{id}', 'TimeSlotController@edit')->name('time_slot.edit');
+        Route::post('/time_slot/update', 'TimeSlotController@update')->name('time_slot.update');
         Route::get('/', 'HomeController@index')->name('user.home');
         Route::resource('users', 'UserController');
         Route::resource('role', 'RoleController');

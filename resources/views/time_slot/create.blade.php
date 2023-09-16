@@ -120,7 +120,7 @@
 
 
 @push('page_script')
-<script>
+<!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
         const templateRow = document.getElementById("templateRow");
         const addRowButton = document.getElementById("addRow");
@@ -149,7 +149,92 @@
             submitButton.parentElement.insertBefore(newRow, submitButton);
         });
     });
+</script> -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const templateRow = document.getElementById("templateRow");
+        const addRowButton = document.getElementById("addRow");
+        const submitButton = document.querySelector('button[type="Submit"]');
+        document.addEventListener("click", function (event) {
+            if (event.target.classList.contains("deleteRow")) {
+                // Remove the clicked row
+                event.target.closest(".row").remove();
+            }
+        });
+        addRowButton.addEventListener("click", function () {
+            const newRow = templateRow.cloneNode(true);
+
+            // Clear the input fields in the new row
+            newRow.querySelectorAll("select").forEach(function (element) {
+                element.value = "9AM - 11PM";
+            });
+
+            // Get the existing button div within the new row
+            const buttonDiv = newRow.querySelector(".mt-2");
+            const existingButton = newRow.querySelector("#addRow");
+            existingButton.style.width = "30px"; 
+            existingButton.addEventListener("click", handleAddButtonClick);
+            // // Add a "+" button
+            // const addButton = document.createElement("button");
+            // addButton.textContent = "+";
+            // addButton.className = "form-control btn btn-primary me-1 waves-effect waves-float waves-light";
+            // addButton.classList.add("addRow"); // Add a unique class for identification
+            // addButton.type = "button";
+
+            // Add a "-" button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "-";
+            deleteButton.className = "form-control btn btn-danger deleteRow";
+            deleteButton.type = "button";
+            deleteButton.style.width = "30px";
+            // Append both buttons to the existing button div
+            //buttonDiv.appendChild(addButton);
+            buttonDiv.appendChild(deleteButton);
+            
+            // Insert the new row just before the Submit button
+            submitButton.parentElement.insertBefore(newRow, submitButton);
+        });
+
+        function handleAddButtonClick(){
+            const templateRow = document.getElementById("templateRow");
+            const addRowButton = document.getElementById("addRow");
+            const submitButton = document.querySelector('button[type="Submit"]');
+            const newRow = templateRow.cloneNode(true);
+
+            // Clear the input fields in the new row
+            newRow.querySelectorAll("select").forEach(function (element) {
+                element.value = "9AM - 11PM";
+            });
+
+            // Get the existing button div within the new row
+            const buttonDiv = newRow.querySelector(".mt-2");
+            const existingButton = newRow.querySelector("#addRow");
+            existingButton.style.width = "30px"; 
+            existingButton.addEventListener("click", handleAddButtonClick);
+            // // Add a "+" button
+            // const addButton = document.createElement("button");
+            // addButton.textContent = "+";
+            // addButton.className = "form-control btn btn-primary me-1 waves-effect waves-float waves-light";
+            // addButton.classList.add("addRow"); // Add a unique class for identification
+            // addButton.type = "button";
+
+            // Add a "-" button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "-";
+            deleteButton.className = "form-control btn btn-danger deleteRow";
+            deleteButton.type = "button";
+            deleteButton.style.width = "30px";
+            // Append both buttons to the existing button div
+            //buttonDiv.appendChild(addButton);
+            buttonDiv.appendChild(deleteButton);
+            
+            // Insert the new row just before the Submit button
+            submitButton.parentElement.insertBefore(newRow, submitButton);
+        }
+    });
 </script>
+
 <!-- 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

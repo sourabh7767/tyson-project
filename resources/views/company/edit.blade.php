@@ -32,7 +32,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Edit User</h4>
+                                    <h4 class="card-title">Edit Company</h4>
                                 </div>
                                 <div class="card-body">
                                    <form method="POST" action="{{ route('company.update', $companyObj->id) }}">
@@ -56,6 +56,7 @@
                                         
                                             <div class="col-12">
                                                 <button type="Submit" class="btn btn-primary me-1">Submit</button>
+                                                <a id="tool-btn-manage"  class="btn btn-primary text-right" href="{{route('company.index')}}" title="Back">Cancel</a>
                                             </div>
                                         </div>
                                     </form>

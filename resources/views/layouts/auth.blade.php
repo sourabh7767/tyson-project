@@ -66,7 +66,7 @@
                             <!-- Brand logo-->
                             <a class="brand-logo" href="index.html">
                                 <img style="height:50px;width:100px;" src="{{ asset('images/theme/pages/login-v2.png') }}">
-                                <h2 class="brand-text text-primary ms-1">Tune-Up Scheduling</h2>
+                                <h2 class="brand-text text-primary ms-1"></h2>
                             </a>
                             <!-- /Brand logo-->
                             <!-- Left Text-->
