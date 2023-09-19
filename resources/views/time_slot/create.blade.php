@@ -44,13 +44,13 @@
                                                     <label class="form-label" for="full_name">Select Company <span class="text-danger asteric-sign">&#42;</span></label>
                                                     <select class="form-control" required name="company_id">
                                                         @foreach($company as $key => $val)
-                                                        <option value={{$key}}>{{$val}}</option>
+                                                        <option {{ old('company_id') == $key ? 'selected' : '' }}  value={{$key}}>{{$val}}</option>
                                                         @endforeach
                                                         
                                                     </select>
                                                       
                                                         @if ($errors->has('company_id'))
-                                                            <span class="invalid-feedback" role="alert">
+                                                            <span class="invalid-feedback d-block" role="alert">
                                                                 <strong>{{ $errors->first('company_id') }}</strong>
                                                             </span>
                                                         @endif
@@ -60,37 +60,39 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="role">Date <span class="text-danger asteric-sign">&#42;</span></label>
-                                                    <input class="form-control" required type="date" name="date" placeholder="Slot Date" />
+                                                    <input class="form-control" required type="date" name="date" placeholder="Slot Date" value="{{ old('date') }}" />
                                                     @if ($errors->has('date'))
-                                                        <span class="invalid-feedback" role="alert">
+                                                        <span class="invalid-feedback d-block" role="alert">
                                                             <strong>{{ $errors->first('date') }}</strong>
                                                         </span>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="row clone_row" id="templateRow">
-                                                <div class="col-md-5 col-12">
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="email">Select Slot <span class="text-danger asteric-sign">&#42;</span></label>
-                                                        <select class="form-select" required name="slot[]">
-                                                            <option value="8AM - 9AM">8AM - 9AM</option>
-                                                            <option value="10AM - 1PM">10AM - 1PM</option>
-                                                            <option value="12PM - 3PM">12PM - 3PM</option>
-                                                            <option value="2PM - 5PM">2PM - 5PM</option>
-                                                        </select>
-                                                        @if ($errors->has('slot'))
-                                                            <span class="invalid-feedback" role="alert">
+                                            @if ($errors->has('slot'))
+                                                            <span class="invalid-feedback d-block" role="alert">
                                                                 <strong>{{ $errors->first('slot') }}</strong>
                                                             </span>
                                                         @endif
+                                            <div class="row clone_row" id="templateRow">
+                                                <div class="col-md-5 col-12">
+                                                
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="email">Select Slot <span class="text-danger asteric-sign">&#42;</span></label>
+                                                        <select class="form-select" required name="slot[]">
+                                                            <option {{ old('slot.0') == '8AM - 9AM' ? 'selected' : '' }} value="8AM - 9AM">8AM - 9AM</option>
+                                                            <option {{ old('slot.0') == '10AM - 1PM' ? 'selected' : '' }} value="10AM - 1PM">10AM - 1PM</option>
+                                                            <option {{ old('slot.0') == '12PM - 3PM' ? 'selected' : '' }} value="12PM - 3PM">12PM - 3PM</option>
+                                                            <option {{ old('slot.0') == '2PM - 5PM' ? 'selected' : '' }} value="2PM - 5PM">2PM - 5PM</option>
+                                                        </select>
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-12">
                                                     <div class="mb-1">
                                                         <label class="form-label" for="phone_number">No of Slots <span class="text-danger asteric-sign">&#42;</span></label>
-                                                        <input id="no_of_slots" required type="text" class="form-control {{ $errors->has('no_of_slots') ? ' is-invalid' : '' }}" name="no_of_slots[]" placeholder="No of slots">
+                                                        <input id="no_of_slots" required type="text" class="form-control {{ $errors->has('no_of_slots') ? ' is-invalid' : '' }}"    name="no_of_slots[]" placeholder="No of slots" value={{ old("no_of_slots.0") }} >
                                                         @if ($errors->has('no_of_slots'))
-                                                            <span class="invalid-feedback" role="alert">
+                                                            <span class="invalid-feedback d-block" role="alert">
                                                                 <strong>{{ $errors->first('no_of_slots') }}</strong>
                                                             </span>
                                                         @endif
@@ -153,6 +155,18 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+        const oldSlots = {!! json_encode(old('slot')) !!};
+        const oldNoOfSlots = {!! json_encode(old('no_of_slots')) !!};
+        console.log("oldSlots",oldSlots)
+        console.log("oldNoOfSlots",oldNoOfSlots)
+        if (oldSlots && oldNoOfSlots) {
+            for (let i = 1; i < oldSlots.length; i++) {
+                // Add rows and populate them with old data
+                addRowWithOldData(oldSlots[i], oldNoOfSlots[i]);
+            }
+        }
+
         const templateRow = document.getElementById("templateRow");
         const addRowButton = document.getElementById("addRow");
         const submitButton = document.querySelector('button[type="Submit"]');
@@ -232,7 +246,47 @@
             // Insert the new row just before the Submit button
             submitButton.parentElement.insertBefore(newRow, submitButton);
         }
+
+        function addRowWithOldData(slotValue, noOfSlotsValue) {
+            const templateRow = document.getElementById("templateRow");
+            const submitButton = document.querySelector('button[type="Submit"]');
+            const newRow = templateRow.cloneNode(true);
+
+            // Clear the input fields in the new row
+            newRow.querySelectorAll("select").forEach(function (element) {
+                element.value = slotValue; // Set the slot value
+            });
+
+            newRow.querySelectorAll("input").forEach(function (element) {
+                element.value = noOfSlotsValue; // Set the no_of_slots value
+            });
+
+            // Get the existing button div within the new row
+            const buttonDiv = newRow.querySelector(".mt-2");
+            const existingButton = newRow.querySelector("#addRow");
+            existingButton.style.width = "30px";
+            existingButton.addEventListener("click", handleAddButtonClick);
+
+            // Add a "-" button for deleting this row
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "-";
+            deleteButton.className = "form-control btn btn-danger deleteRow";
+            deleteButton.type = "button";
+            deleteButton.style.width = "30px";
+            deleteButton.addEventListener("click", function () {
+                newRow.remove(); // Remove the row when the delete button is clicked
+            });
+
+            // Append the delete button to the button div
+            buttonDiv.appendChild(deleteButton);
+
+            // Insert the new row just before the Submit button
+            submitButton.parentElement.insertBefore(newRow, submitButton);
+        }
     });
+
+    
+
 </script>
 
 <!-- 

@@ -95,10 +95,10 @@ class TimeSlotController extends Controller
 
         $obj = TimeSlot::where("id",$request->id)->first();
         if($obj){
-            $obj->company_id = $request->company_id;
-            $obj->start_date_time = $request->date;
-            $obj->end_date_time = $request->date;
-            $obj->slot = $request->slot[0];
+            //$obj->company_id = $request->company_id;
+            //$obj->start_date_time = $request->date;
+            //$obj->end_date_time = $request->date;
+            //$obj->slot = $request->slot[0];
             $obj->no_of_slots = $request->no_of_slots[0];
             $obj->remaining_slots = $request->no_of_slots[0];
             $obj->save();
@@ -127,8 +127,23 @@ class TimeSlotController extends Controller
        $message = ['company_id.required'=>'Company is required'];
        $validator = Validator::make($request->all(), $rules,$message);
        if ($validator->fails()) {
+        // $errors = $validator->errors();
+        // echo "<pre>";print_r($errors);die;            
            return Redirect::back()->withInput()->withErrors($validator);
        }
+        foreach($request->slot as $key => $value){
+            if(array_key_exists($key,$request->no_of_slots) && $request->no_of_slots[$key] != ""){
+                $res = TimeSlot::where("company_id",$request->company_id)
+                            ->whereDate("start_date_time",$request->date)
+                            ->where("slot",$value)->first();
+                if($res){
+                    $validator->getMessageBag()->add("slot", "$value Slot already exits");
+                    //  $errors = $validator->errors();
+                    //  echo "<pre>";print_r($errors);die;            
+                    return Redirect::back()->withInput()->withErrors($validator);
+                }
+            }
+        }
        foreach($request->slot as $key => $value){
             if(array_key_exists($key,$request->no_of_slots) && $request->no_of_slots[$key] != ""){
                 $obj = new TimeSlot();
