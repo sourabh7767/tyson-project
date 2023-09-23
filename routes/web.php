@@ -37,6 +37,7 @@ Route::middleware('prevent-back-history')->group(function (){
         Route::get('/booking/{id}', 'BookingController@showBooking')->name('booking.index');
         Route::get('booking/add/{id}', 'BookingController@addBooking')->name('booking.add');
         Route::post('booking/store', 'BookingController@storeBooking')->name('booking.store');
+        Route::post('booking/update', 'BookingController@updateBooking')->name('booking.update');
         
         Route::get('/booking/csr/{id}', 'BookingController@showBookingCsr')->name('csr.booking.index');
         // Route::get('booking/store/{id}', 'BookingController@storeBooking')->name('booking.store');

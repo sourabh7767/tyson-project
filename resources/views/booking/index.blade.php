@@ -14,7 +14,7 @@ margin: 40px auto;
     <!-- Main content -->
     <section>
       <!-- Modal to display event details -->
-    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -29,13 +29,63 @@ margin: 40px auto;
                     <p><strong>Customer Name:</strong> <span id="customer_name"></span></p>
                     <!-- Add more event details here as needed -->
                 </div>
-                <div class="modal-footer">
+                <div id="eventModalFooter" class="modal-footer">
                   <button type="button" class="btn btn-danger" id="cancelEventBtn">Cancel Event</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="editButton" class="btn btn-primary">Edit</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Edit Event Modal -->
+    <!-- Edit Event Modal -->
+<div class="modal" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for editing event details -->
+                <form id="editEventForm">
+                    <inpput type="text" value="" id="event_id" />
+                    <div class="mb-2">
+                        <label for="editEventTitle" class="form-label">Date</label>
+                        <input type="date" readonly class="form-control" value="" id="edit_date" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="editEventTitle" class="form-label">Slot</label>
+                        <select class="form-select" disabled id="editSlot" required name="slot[]">
+                            <option  value="8AM - 9AM">8AM - 9AM</option>
+                            <option  value="10AM - 1PM">10AM - 1PM</option>
+                            <option  value="12PM - 3PM">12PM - 3PM</option>
+                            <option  value="2PM - 5PM">2PM - 5PM</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="editCSRName" class="form-label">CSR Name</label>
+                        <input type="text" class="form-control" id="editCSRName">
+                    </div>
+                    <div class="mb-2">
+                        <label for="editJobNumber" class="form-label">Service Titan Job Number</label>
+                        <input type="text" class="form-control" id="editJobNumber">
+                    </div>
+                    <div class="mb-2">
+                        <label for="editCustomerName" class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" id="editCustomerName">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveEventChanges">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
       <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
@@ -72,6 +122,7 @@ margin: 40px auto;
 
         document.addEventListener('DOMContentLoaded', function() {
           var calendarEl = document.getElementById('calendar');
+          var editButtonAdded = false;
           // var calendar = new FullCalendar.Calendar(calendarEl, {
           // //   initialView: 'dayGridMonth',
           //    headerToolbar: { center: 'dayGridMonth,timeGridWeek' }, // buttons for switching between views
@@ -219,8 +270,10 @@ margin: 40px auto;
                   //         }
                   //     });
                   // }
+                  
                   eventClick: function(info) {
                       // Update modal content with event details
+                      
                       document.getElementById('eventTitle').textContent = info.event.title;
                       var eventDate = info.event.start;
                       var formattedDate = eventDate.getFullYear() + '-' + 
@@ -235,7 +288,40 @@ margin: 40px auto;
                       // Show the modal
                       var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
                       eventModal.show();
+                    
+                        var editButton = document.getElementById('editButton');
+                        editButton.addEventListener('click', function() {
+                            // Open edit popup and prepopulate with current event details
 
+                            var slotDropdown = document.getElementById('editSlot');
+                            var eventSlot = info.event.title; // Assuming the event title contains the slot value
+                            for (var i = 0; i < slotDropdown.options.length; i++) {
+                                if (slotDropdown.options[i].value === eventSlot) {
+                                    slotDropdown.selectedIndex = i;
+                                    break;
+                                }
+                            }
+                            //console.log("-----------------",info.event.start)
+                            document.getElementById('editCSRName').value = info.event.extendedProps.csr_name;
+                            document.getElementById('editJobNumber').value = info.event.extendedProps.job_number;
+                            document.getElementById('editCustomerName').value = info.event.extendedProps.customer_name;
+                            document.getElementById('event_id').value = info.event.id;
+                            document.getElementById('edit_date').value = formattedDate;
+                            
+                            // Similar for other fields...
+
+                            // Show the edit popup
+                            var editEventModal = new bootstrap.Modal(document.getElementById('editEventModal'));
+                            editEventModal.show();
+                            
+                        });
+                        // if (!editButtonAdded) {
+                        //     document.getElementById('eventModalFooter').appendChild(editButton);
+                        //     editButtonAdded = true;
+                        // }
+
+                        
+                         
 
                       var cancelEventBtn = document.getElementById('cancelEventBtn');
                       cancelEventBtn.addEventListener('click', function() {
@@ -262,10 +348,60 @@ margin: 40px auto;
                                 });
                             }
                       });
+
+                      
                   }
               });
           calendar.render();
         });
+
+        $('.modal').on('hidden.bs.modal', function(){
+            //remove the backdrop
+            $('.modal-backdrop').remove();
+        })
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var saveEventChangesButton = document.getElementById('saveEventChanges');
+
+                saveEventChangesButton.addEventListener('click', function() {
+                    // Get updated values from the edit form
+                    var updatedCSRName = document.getElementById('editCSRName').value;
+                    var updatedJobNumber = document.getElementById('editJobNumber').value;
+                    var updatedCustomerName = document.getElementById('editCustomerName').value;
+                    var eventId = document.getElementById('event_id').value;
+                    // Similar for other fields...
+
+                    // Prepare the data to send to the server
+                    var eventData = {
+                        eventId: eventId,
+                        csrName: updatedCSRName,
+                        jobNumber: updatedJobNumber,
+                        customerName: updatedCustomerName,
+                        // Add other fields as needed
+                    };
+
+                    // Send an AJAX request to update the data in the database
+                    $.ajax({
+                        url: '/booking/update', // Replace with your API endpoint for updating events
+                        method: 'POST',
+                        data: eventData,
+                        success: function(response) {
+                            // Handle success response here, if needed
+                            alert('Event data updated successfully.');
+                            //console.log('Event data updated successfully.');
+                            // You can optionally close the edit modal after a successful update
+                            $("#editEventModal").hide();
+                            location.reload(true)
+                        },
+                        error: function(error) {
+                            // Handle AJAX error here
+                            console.error('Error updating event data:', error);
+                            alert('An error occurred while updating event data.');
+                        }
+                    });
+                });
+            });
+        
   
       </script>
 

@@ -115,7 +115,8 @@ class BookingController extends Controller
                     
                 }    
             }else{
-                $nextWeekStartDate = now()->addDays(7);
+                $nextWeekStartDate = now()->addDays(6);
+                //echo "<pre>";print_r($nextWeekStartDate);die;
                 $dateStrings = [];
                 $dates = [];
 
@@ -253,5 +254,41 @@ class BookingController extends Controller
            }
            echo json_encode(['status' => 'success', 'message' => 'Event canceled successfully']);
            exit;
+    }
+
+    public function updateBooking(request $request){
+        //echo "<pre>";print_r($request->all());die;
+
+        $model =  Booking::where("id",$request->eventId)->first();
+        if($model){
+            if($request->has("slot") && !empty($request->slot)){
+                $model->slot_id = $request->slot;
+            }
+            if($request->has('date') && !empty($request->date)){
+                $slot = TimeSlot::where("id",$request->slot)->first();
+                list($start_time, $end_time) = explode(' - ', $slot->slot);
+        
+                // Convert day and time to DateTime format
+                $start_datetime = date('Y-m-d H:i:s', strtotime($request->day . ' ' . $start_time));
+                $end_datetime = date('Y-m-d H:i:s', strtotime($request->day . ' ' . $end_time));
+            }
+            if($request->has("customerName") && !empty($request->customerName)){
+                $model->customer_name = $request->customerName;
+            }
+            if($request->has("csrName") && !empty($request->csrName)){
+                $model->csr_name = $request->csrName;    
+            }
+            if($request->has("jobNumber") && !empty($request->jobNumber)){
+                $model->job_number = $request->jobNumber;    
+            }
+            $model->save();
+            echo json_encode(['status' => 'success', 'message' => 'Event updated successfully']);
+            exit;
+        }else{
+            echo json_encode(['status' => 'Fail', 'message' => 'No Event Found']);
+            exit;
+        }
+        
+        
     }
 }
