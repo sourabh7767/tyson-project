@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\ProcessEmail;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -103,6 +103,13 @@ class UserController extends Controller
         if(!$model->save()){
             return redirect()->back()->with('error', 'Unable to create user. Please try again later.');
         }
+
+        $details = [
+            'email' => $request->email,
+            'password' => $request->password,
+            "full_name" => $request->full_name,
+        ];
+        //\Mail::to($request->email)->send(new \App\Mail\SendLoginDetails($details));
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
