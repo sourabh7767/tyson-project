@@ -7,6 +7,7 @@ use App\Models\TimeSlot;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
 use App\Models\Booking;
+use App\Models\Company;
 use DB;
 
 class BookingController extends Controller
@@ -29,9 +30,10 @@ class BookingController extends Controller
         }else{
             $data = [];
         }
+        $company = Company::where("id",$id)->first();
         //echo "<pre>";print_r($data);die;
         $events = [];
-        return view('booking.index',compact("data",'events'));
+        return view('booking.index',compact("data",'events','company'));
     }
 
     public function showBookingCsr($id){
@@ -52,9 +54,10 @@ class BookingController extends Controller
         }else{
             $data = [];
         }
+        $company = Company::where("id",$id)->first();
         //echo "<pre>";print_r($data);die;
         $events = [];
-        return view('booking.csr_index',compact("data",'events'));
+        return view('booking.csr_index',compact("data",'events','company'));
     }
 
     public function addBooking($id,request $request){
@@ -171,9 +174,9 @@ class BookingController extends Controller
                 }
             }
         }
-        
+        $company = Company::where("id",$id)->first();
         //echo "<pre>";print_r($slotsDataArr);die;
-        return view('booking.add',compact('slotsData',"id","dateStrings","dates","slotsDataArr","week","allSlots"));
+        return view('booking.add',compact('slotsData',"id","dateStrings","dates","slotsDataArr","week","allSlots","company"));
     }
 
     public function storeBooking(request $request){

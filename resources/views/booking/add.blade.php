@@ -28,6 +28,9 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                        <h3>{{$company->name}}</h3> 
+                </div>
 
                  <!-- Boxes for Today, Tomorrow, 3 Days Out, and 4 Days Out -->
                     <div class="row">

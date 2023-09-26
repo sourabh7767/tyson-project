@@ -52,7 +52,9 @@ margin: 40px auto;
                         </div>
                     </div>
       </div>
-       
+       <div>
+            <h3>{{$company->name}}</h3> 
+       </div>
       <div>
 
         <div class="row">
