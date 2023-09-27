@@ -109,7 +109,7 @@ class UserController extends Controller
             'password' => $request->password,
             "full_name" => $request->full_name,
         ];
-        //\Mail::to($request->email)->send(new \App\Mail\SendLoginDetails($details));
+        \Mail::to($request->email)->send(new \App\Mail\SendLoginDetails($details));
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
