@@ -79,6 +79,7 @@ class TimeSlotController extends Controller
     }
 
     public function update(request $request){
+        echo "<pre>";print_r($request->all());die;
         $rules = array(
            'company_id' => 'required',
            'date' => 'required',
