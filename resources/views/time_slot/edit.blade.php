@@ -43,13 +43,13 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="full_name">Select Company <span class="text-danger asteric-sign">&#42;</span></label>
-                                                    <select disabled class="form-control" required name="company_id">
+                                                    <select disabled class="form-control" required >
                                                         @foreach($company as $key => $val)
                                                         <option @if($timeSlot->company_id == $key) selected @endif value={{$key}}>{{$val}}</option>
                                                         @endforeach
                                                         
                                                     </select>
-                                                      
+                                                    <input type="hidden" name="company_id" value="{{$timeSlot->company_id}}" />
                                                         @if ($errors->has('company_id'))
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $errors->first('company_id') }}</strong>
@@ -73,12 +73,13 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="mb-1">
                                                         <label class="form-label" for="email">Select Slot <span class="text-danger asteric-sign">&#42;</span></label>
-                                                        <select disabled class="form-select" required name="slot[]">
+                                                        <select disabled class="form-select" required >
                                                             <option @if($timeSlot->slot == "8AM - 9AM") Selected @endif value="8AM - 9AM">8AM - 9AM</option>
                                                             <option @if($timeSlot->slot == "10AM - 1PM") Selected @endif value="10AM - 1PM">10AM - 1PM</option>
                                                             <option @if($timeSlot->slot == "12PM - 3PM") Selected @endif  value="12PM - 3PM">12PM - 3PM</option>
                                                             <option @if($timeSlot->slot == "2PM - 5PM") Selected @endif value="2PM - 5PM">2PM - 5PM</option>
                                                         </select>
+                                                        <input type="hidden" name="slot[]" value="{{$timeSlot->slot}}" />
                                                         @if ($errors->has('slot'))
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $errors->first('slot') }}</strong>
