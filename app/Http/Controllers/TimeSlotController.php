@@ -79,7 +79,7 @@ class TimeSlotController extends Controller
     }
 
     public function update(request $request){
-        echo "<pre>";print_r($request->all());die;
+        
         $rules = array(
            'company_id' => 'required',
            'date' => 'required',
@@ -91,7 +91,7 @@ class TimeSlotController extends Controller
        $message = ['company_id.required'=>'Company is required'];
        $validator = Validator::make($request->all(), $rules,$message);
        if ($validator->fails()) {
-            echo "<pre>";print_r( $validator->messages());die;
+           // echo "<pre>";print_r( $validator->messages());die;
            return Redirect::back()->withInput()->withErrors($validator);
        }
 
