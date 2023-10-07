@@ -28,6 +28,53 @@
        
       <div>
 
+            <div class="row">
+                        <div class="col-md-12 d-flex justify-content-end">
+                            <form class="mb-2" action="{{ route('time_slot.index') }}" method="get">
+                                <div class="form-group">
+                                    <label for="week">Select Company:</label>
+                                    <select class="form-select"  style="width: 200px;" name="company_id" id="company_id" onchange="this.form.submit()">
+                                      @foreach($company as $cKey => $cValue)
+                                          <option @if($company_id == $cKey) selected @endif  value="{{$cKey}}">{{$cValue}}</option>
+                                      @endforeach    
+                                    </select>
+                                </div>
+                            </form>
+                        </div>    
+                        @foreach($dateStrings as $key => $dateString)
+                        <div class="col-3">
+                            <div class="card bg-info">
+                            <div class="card-body text-white">
+                                    <h5 class="card-title">{{$dateString}} @if($week == "current") ({{$key}}) @endif</h5>
+                                    @foreach($allSlots as $allSlotKey => $allSlotValue)
+                                        @php $hasValue = 0; @endphp
+                                        @foreach($slotsDataArr[$key] as $sKey => $sVal)
+                                            @if($allSlotValue == $sVal->slot)
+                                                @php $hasValue = 1; @endphp
+                                                <p class="card-text"><span>{{$sVal->slot}} ({{$sVal->remaining_slots}} slots available)</span></p>
+                                            @endif
+                                        @endforeach
+                                        @if($hasValue == 0)
+                                            <p class="card-text"><span>{{$allSlotValue}} (No slots)</span></p>
+                                        @endif
+                                    @endforeach
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        <!-- <div class="col-3">
+                            <div class="card bg-info">
+                            <div class="card-body text-white">
+                                    <h5 class="card-title">jkdfhdkfhd</h5>
+                                    <p class="card-text"><span>5 slots available</span></p>
+                                    <p class="card-text"><span>5 (No slots)</span></p>
+                                </div>
+                            </div>
+                        </div> -->
+                        
+                    </div>
+
         <div class="row">
           <div class="col-12">
             <div class="card data-table">

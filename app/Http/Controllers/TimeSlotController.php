@@ -54,8 +54,47 @@ class TimeSlotController extends Controller
             ])->setTotalRecords($totalSlots)->setFilteredRecords($setFilteredRecords)->skipPaging()
                 ->make(true);
         }
+        $dateStrings = $dates = $slotsDataArr = $week = $allSlots = $company_id = "";
+        $company = Company::pluck("name","id")->toArray();
+        $allSlots = ["8AM - 9AM","10AM - 1PM","12PM - 3PM","12PM - 3PM"];
+        if($company){
+            if($request->has("company_id")){
+                $company_id = $request->company_id;
+            }else{
+                $company_id = reset($company);
+            }
+            
+            $week = "current";
+            $today = now();
+            $dateStrings = [];
+            $slotsDataArr = $dates = [];
 
-        return view('time_slot.index');
+            for ($i = 0; $i <= 6; $i++) {
+                if ($i == 0) {
+                    $dates[] = $dateToCheck = $today->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = 'Today';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$company_id)
+                                        ->whereDate("start_date_time",$today)
+                                            ->get();
+                    $slotsData = TimeSlot::where("company_id",$company_id)
+                                            ->whereDate("start_date_time",date("Y-m-d"))
+                                            ->get();                                                
+                } elseif ($i == 1) {
+                    $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = 'Tomorrow';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$company_id)
+                                        ->whereDate("start_date_time",$dateToCheck)
+                                            ->get();
+                } else {
+                    $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = '+' . $i . ' days';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$company_id)
+                                        ->whereDate("start_date_time",$dateToCheck)
+                                            ->get();
+                }
+            }
+        }
+        return view('time_slot.index',compact('company',"dateStrings","dates","slotsDataArr","week","allSlots","company_id"));
     }
 
     public function deleteTimeSlot($id,request $request){
