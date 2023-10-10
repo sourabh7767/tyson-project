@@ -1,0 +1,1 @@
+[10-Oct-2023 09:55:07 EST] PHP Fatal error:  Class App\Imports\ImportTimeSlots contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Maatwebsite\Excel\Concerns\WithValidation::rules) in /home/h761ay9aa4wf/public_html/booking.minisquaretechnologies.com/laravel_setup/app/Imports/ImportTimeSlots.php on line 11

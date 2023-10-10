@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('prevent-back-history')->group(function (){
+//Route::middleware('prevent-back-history')->group(function (){
 
     Route::get('/clear-cache', function () {
         Artisan::call('cache:clear');
@@ -50,6 +50,9 @@ Route::middleware('prevent-back-history')->group(function (){
         Route::post('/time_slot/store', 'TimeSlotController@store')->name('time_slot.store');
         Route::get('/time_slot/edit/{id}', 'TimeSlotController@edit')->name('time_slot.edit');
         Route::post('/time_slot/update', 'TimeSlotController@update')->name('time_slot.update');
+        Route::get('/export', 'ImportExportController@exportIndex')->name('exportIndex');
+        Route::post('/export', 'ImportExportController@export')->name('exportSheet');
+        Route::post('/import', 'ImportExportController@import')->name('importSheet');
         Route::get('/', 'HomeController@index')->name('user.home');
         Route::resource('users', 'UserController');
         Route::resource('role', 'RoleController');
@@ -66,4 +69,4 @@ Route::middleware('prevent-back-history')->group(function (){
         Route::resource('email-queue', 'EmailQueueController');
 
     });
-});
+//});

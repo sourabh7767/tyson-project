@@ -16,7 +16,7 @@ class TimeSlotController extends Controller
 
             $slots = $timeSlots->getAllSlots($request);
 
-            $totalSlots = TimeSlot::count();
+            $totalSlots = $slots->count();
 
              $search = $request['search']['value'];
 
@@ -61,7 +61,7 @@ class TimeSlotController extends Controller
             if($request->has("company_id")){
                 $company_id = $request->company_id;
             }else{
-                $company_id = reset($company);
+                $company_id = array_key_first($company);
             }
             
             $week = "current";

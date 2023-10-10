@@ -9,6 +9,10 @@ class TimeSlot extends Model
 {
     use HasFactory; 
 
+    protected $fillable = [
+        'company_id', 'no_of_slots', 'remaining_slots', 'start_date_time', 'end_date_time', 'slot'
+    ];
+
     public static function getColumnForSorting($value){
 
         $list = [

@@ -6,3 +6,6 @@ table.dataTable>thead .sorting:after, table.dataTable>thead .sorting_asc:after, 
     content: "" !important;
     right: 0.5em !important;
 }
+.import-sheet{
+	width: 267px;
+}

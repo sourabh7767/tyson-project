@@ -76,6 +76,13 @@
                             
                         </ul>
                 </li>
+
+                <li class=" navigation-header">Sheet Management<i data-feather="more-horizontal"></i></li>
+                
+                <li class=" nav-item {{request()->is('exportIndex') || request()->is('exportIndex/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('exportIndex')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Download Sheet</span></a>
+                
+                </li>
+
             @else
             
                 <li class=" navigation-header">Slot Management<i data-feather="more-horizontal"></i></li>

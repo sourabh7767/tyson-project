@@ -80,6 +80,14 @@
             <div class="card data-table">
                <div class="card-header">
                   <h4 class="m-0"><i class="fas fa-users mr-2"></i>&nbsp;{{ __('Time Slots') }}</h4>
+                  <div>
+                    <form class="d-flex justify-content-between align-items-center" action="{{ route('importSheet') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                      <label for="file" style="margin-right: 10px">Choose Excel File:</label>
+                      <input type="file" name="file" id="file" class="form-control import-sheet" style="width: 258px;margin-right: 14px;" required>
+                      <button type="submit" class="btn btn-primary" style="margin-left: 10px">Import</button>   
+                  </form>
+                </div>
                 <a href="{{ route('time_slot.create') }}" class="dt-button create-new btn btn-primary"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add Time Slot</a>
               </div>
             
