@@ -56,7 +56,7 @@ class TimeSlotController extends Controller
         }
         $dateStrings = $dates = $slotsDataArr = $week = $allSlots = $company_id = "";
         $company = Company::pluck("name","id")->toArray();
-        $allSlots = ["8AM - 9AM","10AM - 1PM","12PM - 3PM","12PM - 3PM"];
+        $allSlots = ["8AM - 9AM","10AM - 1PM","12PM - 3PM","2PM - 5PM"];
         if($company){
             if($request->has("company_id")){
                 $company_id = $request->company_id;
