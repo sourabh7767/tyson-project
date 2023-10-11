@@ -30,6 +30,8 @@
                 </div>
                 <div>
                         <h3>{{$company->name}}</h3> 
+                        <h6>Demands/Tune-Ups to book for today and tomorrow need to be 7 years and older. </h6>
+                        <h6>Parts Warranty needs to be 1 year and under for the same day. 2 years and under for Next Day.</h6>
                 </div>
 
                  <!-- Boxes for Today, Tomorrow, 3 Days Out, and 4 Days Out -->
