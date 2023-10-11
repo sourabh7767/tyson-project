@@ -79,7 +79,7 @@ class BookingController extends Controller
         // ->get();
         $week = "";
         $slotsData = [];
-        $allSlots = ["8AM - 9AM","10AM - 1PM","12PM - 3PM","12PM - 3PM"];
+        $allSlots = ["8AM - 9AM","10AM - 1PM","12PM - 3PM","2PM - 5PM"];
         if($request->has("week")){
             $week = $request->week;
             if($request->week == "current"){
@@ -177,7 +177,7 @@ class BookingController extends Controller
         $company = Company::where("id",$id)->first();
         //echo "<pre>";print_r($slotsDataArr);die;
         return view('booking.add',compact('slotsData',"id","dateStrings","dates","slotsDataArr","week","allSlots","company"));
-    }
+    } 
 
     public function storeBooking(request $request){
       //  echo "<pre>";print_r($request->all());die;

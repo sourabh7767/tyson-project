@@ -22,7 +22,7 @@ class ExportTimeSlots implements FromCollection, WithHeadings
     public function collection()
     {
     	$companies = Company::all();
-    	$slots = ["8AM - 9AM", "10AM - 1PM", "12PM - 3PM", "12PM - 3PM"];
+    	$slots = ["8AM - 9AM", "10AM - 1PM", "12PM - 3PM", "2PM - 5PM"];
     	$timeSlotdata = $companies->map(function ($company) use($slots) {
     		$count = 0;
     		foreach($slots as $slot){
