@@ -16,7 +16,7 @@ class TimeSlotController extends Controller
 
             $slots = $timeSlots->getAllSlots($request);
 
-            $totalSlots = $slots->count();
+            $totalSlots = $timeSlots->getAllSlots($request,true);
 
              $search = $request['search']['value'];
 
