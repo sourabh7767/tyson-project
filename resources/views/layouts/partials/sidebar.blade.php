@@ -60,7 +60,11 @@
 
                 <li class=" navigation-header">Slot Management<i data-feather="more-horizontal"></i></li>
                 
-                <li class=" nav-item {{request()->is('time_slot') || request()->is('time_slot/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('time_slot.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Slots</span></a>
+                <li class=" nav-item {{request()->is('time_slot') ?'active':''}}"><a class="d-flex align-items-center" href="{{route('time_slot.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Slots</span></a>
+
+                <li class=" nav-item {{request()->is('archieve_time_slot') ?'active':''}}"><a class="d-flex align-items-center" href="{{route('time_slot.archieveSlots')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Archieve Slots</span></a>
+                
+                </li>
                 
                 </li>
                 

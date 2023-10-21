@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::prefix('v1')->namespace('Api')->group(function () {
+Route::prefix('v1')->namespace('Api')->group(function () {
    
 
 //     // Authentication Routes
@@ -28,17 +28,17 @@ use Illuminate\Support\Facades\Route;
 
 
 //         // User Login Route
-//         Route::post('/login', 'AuthController@login')->name('login');
+        Route::post('/login', 'AuthController@login')->name('login');
 // 		Route::post('/resendOtp', 'AuthController@resendOtp')->name('resendOtp');
 // 		 Route::post('/forgotPassword', 'AuthController@forgotPassword')->name('forgotPassword');
 // 		Route::post('/resetPassword', 'AuthController@resetPassword')->name('resetPassword');
 // 	    Route::get('/getPage', 'HomeController@getPage')->name('getPage');
 
 		
-// 		Route::middleware(['auth:sanctum'])->group(function () {
+	Route::middleware(['auth:sanctum'])->group(function () {
 			
-// 			Route::get('/logout', 'AuthController@logout')->name('logout');
-// 			Route::post('/changePassword', 'AccountController@changePassword')->name('changePassword');
+		Route::get('/logout', 'AuthController@logout')->name('logout');
+ 		Route::post('/changePassword', 'AccountController@changePassword')->name('changePassword');
 // 			Route::get('/profile', 'AccountController@getProfile')->name('profile');
 // 			Route::post('/updateProfile', 'AccountController@updateProfile')->name('updateProfile');
 // 			Route::get('/notification', 'AccountController@notification')->name('notification');
@@ -67,7 +67,7 @@ use Illuminate\Support\Facades\Route;
 // 		    Route::post('/subscriptionHistory', 'TransactionController@subscriptionHistory')->name('subscriptionHistory');
 		
 // 		});
-//     });
+	});
 
 
-// });
+});

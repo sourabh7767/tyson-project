@@ -126,8 +126,6 @@ class AuthController extends Controller
     	$rules = [
     		'email' => 'required',
             'password' => 'required',
-            'device_type' => 'required',
-            'fcm_token' => 'required'
 
         ];
 
@@ -143,6 +141,9 @@ class AuthController extends Controller
         if(empty($userObj))
             return returnNotFoundResponse('User Not found.');
 
+        if(!in_array($userObj->role, ['3','4','5']))
+            return returnNotFoundResponse('User Not found.');
+
         if($userObj->status == User::STATUS_INACTIVE)
             return returnErrorResponse("Your account is inactive please contact with admin.");
 
@@ -155,8 +156,6 @@ class AuthController extends Controller
             return returnNotFoundResponse('Invalid credentials');
         }
         
-        $userObj->device_type = $inputArr['device_type'];
-        $userObj->fcm_token = $inputArr['fcm_token'];
         $userObj->save();
 
         $userObj->tokens()->delete();
@@ -167,7 +166,7 @@ class AuthController extends Controller
         return returnSuccessResponse('User logged in successfully', $returnArr);
     }
 
-     public function logout(Request $request)
+    public function logout(Request $request)
     {
         $userObj = $request->user();
         if (!$userObj) {

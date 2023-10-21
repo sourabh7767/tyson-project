@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Route;
         
         Route::delete('/time_slot/{id}', 'TimeSlotController@deleteTimeSlot')->name('time_slot.delete');
         Route::get('/time_slot', 'TimeSlotController@index')->name('time_slot.index');
+        Route::get('/archieve_time_slot', 'TimeSlotController@archieveTimeSlots')->name('time_slot.archieveSlots');
         Route::get('/time_slot/create', 'TimeSlotController@create')->name('time_slot.create');
         Route::post('/time_slot/store', 'TimeSlotController@store')->name('time_slot.store');
         Route::get('/time_slot/edit/{id}', 'TimeSlotController@edit')->name('time_slot.edit');

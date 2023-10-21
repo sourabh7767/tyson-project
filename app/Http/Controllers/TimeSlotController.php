@@ -16,7 +16,7 @@ class TimeSlotController extends Controller
 
             $slots = $timeSlots->getAllSlots($request);
 
-            $totalSlots = $slots->count();
+            $totalSlots = TimeSlot::whereDate('start_date_time', '>=', date('Y-m-d'))->count();
 
              $search = $request['search']['value'];
 
@@ -95,6 +95,92 @@ class TimeSlotController extends Controller
             }
         }
         return view('time_slot.index',compact('company',"dateStrings","dates","slotsDataArr","week","allSlots","company_id"));
+    }
+
+    public function archieveTimeSlots(request $request,TimeSlot $timeSlots){
+        if ($request->ajax()) {
+
+            $slots = $timeSlots->getArchievSlots($request);
+
+            $totalSlots = TimeSlot::whereDate('start_date_time', '<', date("Y-m-d"))->count();
+
+             $search = $request['search']['value'];
+
+             $setFilteredRecords = $totalSlots;
+
+            if(!empty($search)){
+
+            $setFilteredRecords = $timeSlots->getArchievSlots($request,true);
+
+           }
+
+            return datatables()->of($slots)
+                ->addIndexColumn()
+                // ->addColumn('status', function ($user) {
+                //       return  '<span class="badge badge-light-'.$user->getStatusBadge().'">'.$user->getStatus().'</span>';
+                // })
+                // ->addColumn('company_name', function ($slots) {
+                //     echo "<pre>";print_r($slots);die;
+                // })
+                ->addColumn('start_date_time', function ($slots) {
+                    return date("Y-m-d",strtotime($slots->start_date_time));
+                })
+
+                ->addColumn('action', function ($user) {
+                $btn = '';
+                // $btn = '<a href="' . route('users.show',encrypt($user->id)) . '" title="View"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;';
+                 $btn .= '<a href="' . route('time_slot.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
+                 $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
+
+                return $btn;
+            })
+                ->rawColumns([
+                'action',
+                //'status'
+            ])->setTotalRecords($totalSlots)->setFilteredRecords($setFilteredRecords)->skipPaging()
+                ->make(true);
+        }
+        $dateStrings = $dates = $slotsDataArr = $week = $allSlots = $company_id = "";
+        $company = Company::pluck("name","id")->toArray();
+        $allSlots = ["8AM - 9AM","10AM - 1PM","12PM - 3PM","2PM - 5PM"];
+        if($company){
+            if($request->has("company_id")){
+                $company_id = $request->company_id;
+            }else{
+                $company_id = array_key_first($company);
+            }
+            
+            $week = "current";
+            $today = now();
+            $dateStrings = [];
+            $slotsDataArr = $dates = [];
+
+            for ($i = 0; $i <= 6; $i++) {
+                if ($i == 0) {
+                    $dates[] = $dateToCheck = $today->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = 'Today';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$company_id)
+                                        ->whereDate("start_date_time",$today)
+                                            ->get();
+                    $slotsData = TimeSlot::where("company_id",$company_id)
+                                            ->whereDate("start_date_time",date("Y-m-d"))
+                                            ->get();                                                
+                } elseif ($i == 1) {
+                    $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = 'Tomorrow';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$company_id)
+                                        ->whereDate("start_date_time",$dateToCheck)
+                                            ->get();
+                } else {
+                    $dates[] = $dateToCheck = $today->addDay()->format('Y-m-d');
+                    $dateStrings[$dateToCheck] = '+' . $i . ' days';
+                    $slotsDataArr[$dateToCheck] = TimeSlot::where("company_id",$company_id)
+                                        ->whereDate("start_date_time",$dateToCheck)
+                                            ->get();
+                }
+            }
+        }
+        return view('time_slot.archieve',compact('company',"dateStrings","dates","slotsDataArr","week","allSlots","company_id"));
     }
 
     public function deleteTimeSlot($id,request $request){
