@@ -25,9 +25,34 @@
                         </div>
                     </div>
       </div>
-       
+           
       <div>
 
+      <div class="modal" id="editRecordModal" tabindex="-1" aria-labelledby="editRecordModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="editRecordModalLabel">Edit Record</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <!-- Form for editing event details -->
+                      <form id="editEventForm">
+                          <inpput type="text" value="" id="event_id" />
+                          
+                          <div class="mb-2">
+                              <label for="editCustomerName" class="form-label">No Of Slots</label>
+                              <input type="text" class="form-control" id="editNumberOfSlots">
+                          </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>
+                  </div>
+              </div>
+          </div>
+      </div>
             <div class="row">
                         <div class="col-md-12 d-flex justify-content-end">
                             <form class="mb-2" action="{{ route('time_slot.index') }}" method="get">
@@ -126,7 +151,10 @@
       @include('include.dataTableScripts')   
 
       <script src="{{ asset('js/pages/time_slots/index.js') }}"></script>
-
+      <script>
+      
+        
+      </script>
   @endpush
 
 	     

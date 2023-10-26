@@ -82,10 +82,19 @@
                                     <h4 class="card-title">Add Booking</h4>
                                 </div>
                                 <div class="card-body">
-                                  <form method="POST" action="{{ route('booking.store') }}">
+                                  <form id="mainForm" method="POST" action="{{ route('booking.store') }}">
                                     <input type="hidden" name="company_id" value={{$id}} />
                                     @csrf
                                         <div class="row">
+                                            <div class="col-md-12 col-12 first_div">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="day">Select Type <span class="text-danger asteric-sign">&#42;</span></label>
+                                                    <select class="form-select" id="typeSelect" name="type">
+                                                        <option value="1">Tune ups</option>
+                                                        <option value="2">Parts Warranty</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="col-md-6 col-12 first_div">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="day">Select Day <span class="text-danger asteric-sign">&#42;</span></label>
@@ -171,6 +180,18 @@
                                                     @endif
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6 col-12 old-age d-none">
+                                                <div class="mb-1" id="slotjobnumber">
+                                                    <label class="form-label" for="customer_name">How old is the Furnace or Air Conditioner?</label>
+                                                    <input id="customer_name" type="number" required class="form-control {{ $errors->has('customer_name') ? ' is-invalid' : '' }} age_check" name="customer_name" placeholder="How old is the Furnace or Air Conditioner?">
+                                                    @if ($errors->has('customer_name'))
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $errors->first('customer_name') }}</strong>
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                           
                                             <div class="col-12 btn_sub d-none">
                                                 <button type="Submit" class="btn btn-primary me-1">Submit</button>
@@ -204,6 +225,8 @@
                     $('.slotOptions').addClass('d-none');
                     $('.slotnumber').addClass('d-none');
                     $('.slotjobnumber').addClass('d-none');
+                    $('.old-age').addClass('d-none');
+                    
                     $('.slotcsr').addClass('d-none');
                     $('.btn_sub').addClass('d-none');
                     
@@ -214,6 +237,7 @@
                     $('.slotjobnumber').addClass('d-none');
                     $('.slotcsr').addClass('d-none');
                     $('.btn_sub').addClass('d-none');
+                    $('.old-age').addClass('d-none');
                    // var slotData = $(data);
                    // $('.first_div').after(slotData);
                     $('#slotOptions').html(data).show();
@@ -232,13 +256,14 @@
                     $('#slotjobnumber').hide();
                     $('#slotcsr').hide();   
                     $('.btn_sub').addClass('d-none');
+                    $('.old-age').addClass('d-none');
                     alert("No slots available")
                 } else {
                     $('.slotnumber').removeClass('d-none');
                     $('.slotjobnumber').removeClass('d-none');
                     $('.slotcsr').removeClass('d-none')
                     $('.btn_sub').removeClass('d-none');
-
+                    $('.old-age').removeClass('d-none');
                     $('#slotnumber').show();
                     $('#slotjobnumber').show();
                     $('#slotcsr').show();   
@@ -247,6 +272,59 @@
                 }
             });
         });
+
+        
+        $(document).on('submit','#mainForm',function(){
+            var type = $("#typeSelect").val();
+            var date = $("#daySelect").val();
+            var age = $(".age_check").val();
+            var today =  "<?php echo date("Y-m-d");?>";     
+            var tommorow =  "<?php echo date("Y-m-d",strtotime("+1 day"));?>";     
+            if(age < 1){
+                swal("Error!", "Age cannot be less then 0!", "error");
+                
+                return false;
+            }
+            if(type == 1){
+                if(age < 7){
+                    console.log("hereeeee",today)
+                    console.log("hereeeee",tommorow)
+                    console.log("hereeeee",date)
+                    if(date == today || date == tommorow){
+                        swal("Error!", "Cannot select today or tommorow!", "error");
+                        return false;
+                    }
+                }
+            }else{
+                if(age == 1){
+                    if(date != today){
+                        swal("Error!", "It will be booked for today only!", "error");
+                        return false;
+                    }
+                }else if(age == 2){
+                    if(date != tommorow){
+                        swal("Error!", "It will be booked for tommorow only!", "error");
+                        return false;
+                    }
+                }else{
+                    if(date == today || date == tommorow){
+                        swal("Error!", "It cannot be booked for today or tommorow!", "error");
+                        return false;
+                    }
+                }
+            }
+           
+        });
+        // $('#typeSelect').change(function () {
+        //     var selectedOption = $(this).find(':selected');
+        //     var value = selectedOption.val();
+        //     if(value == 1){
+               
+        //     }
+        //     if(value == 2){
+                
+        //     }
+        // });
     });
     </script>
 @endpush

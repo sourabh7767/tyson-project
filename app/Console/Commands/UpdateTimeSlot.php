@@ -39,16 +39,23 @@ class UpdateTimeSlot extends Command
      */
     public function handle()
     {
-        $currentTime = now();
-        $slots = TimeSlot::whereDate('start_date_time', $currentTime)->get();
 
+        $currentTime = now()->setTimezone('Asia/Kolkata');
+        
+        $slots = TimeSlot::whereDate('start_date_time', $currentTime->toDateString())->get();
+        $todayDate = $currentTime->toDateString();
         foreach ($slots as $slot) {
-            
+            // echo "<pre>";print_r($slot);die;    
             $slotTimes = explode(' - ', $slot->slot);
-            $startTime = Carbon::createFromFormat('hA', $slotTimes[1]);
-            $comparisonTime = $currentTime->subMinutes(30);
-            
-            if ($startTime->lessThanOrEqualTo($currentTime) && $startTime->greaterThan($comparisonTime)) {
+            //echo $todayDate." ".$slotTimes[0];die;
+            //$startTime = Carbon::createFromFormat('Y-m-d hA', $todayDate." ".$slotTimes[0]);
+            $startTime = Carbon::parse($slotTimes[0], "Asia/Kolkata");
+            //echo "<pre>";print_r($startTime);die;
+
+           
+            $comparisonTime = $startTime->subMinutes(30);
+               
+            if ($startTime->lessThanOrEqualTo($currentTime) || $currentTime->greaterThan($comparisonTime)) {
                 $slot->update([
                     'no_of_slots' => 0,
                     'remaining_slots' => 0

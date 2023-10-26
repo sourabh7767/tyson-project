@@ -42,6 +42,7 @@ class TimeSlotController extends Controller
 
                 ->addColumn('action', function ($user) {
                 $btn = '';
+                $btn ='<button class="edit-button" data-id="' . $user->id . '">Edit Here</button>&nbsp;&nbsp;';
                 // $btn = '<a href="' . route('users.show',encrypt($user->id)) . '" title="View"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;';
                  $btn .= '<a href="' . route('time_slot.edit',encrypt($user->id)) . '" title="Edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;';
                  $btn .= '<a href="javascript:void(0);" delete_form="delete_customer_form"  data-id="' .$user->id. '" class="delete-datatable-record text-danger delete-users-record" title="Delete"><i class="fas fa-trash"></i></a>';
@@ -296,5 +297,19 @@ class TimeSlotController extends Controller
     {
         $model = TimeSlot::find(decrypt($id));
         return view('time_slot.view',compact("model"));
+    }
+
+    public function updateSlot(request $request){
+        $id = $request->id;
+        $slot = TimeSlot::find($id);
+
+        if(!$slot){
+            return returnNotFoundResponse('This time slot does not exist');
+        }
+
+        
+        TimeSlot::where("id",$id)->update(["no_of_slots"=>$request->no_of_slots,"remaining_slots" => $request->no_of_slots]);
+
+        return returnSuccessResponse('Time Slot updated successfully');        
     }
 }

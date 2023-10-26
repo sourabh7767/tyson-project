@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
     Auth::routes();
 
     Route::middleware('auth')->group(function(){
+
         Route::get('/company/edit/{id}', 'CompanyController@editCompany')->name('company.edit');
         Route::put('/company/update/{id}', 'CompanyController@updateCompany')->name('company.update');
         Route::delete('/company/{id}', 'CompanyController@deleteCompany')->name('company.delete');
@@ -52,6 +53,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/time_slot/edit/{id}', 'TimeSlotController@edit')->name('time_slot.edit');
         Route::get('/jobs', 'MobileApp\JobController@index')->name('jobs.index');
         Route::post('/time_slot/update', 'TimeSlotController@update')->name('time_slot.update');
+        Route::post('/update-slot', 'TimeSlotController@updateSlot')->name('time_slot.update.slot');
         Route::get('/export', 'ImportExportController@exportIndex')->name('exportIndex');
         Route::post('/export', 'ImportExportController@export')->name('exportSheet');
         Route::post('/import', 'ImportExportController@import')->name('importSheet');
