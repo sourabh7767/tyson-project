@@ -50,6 +50,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/time_slot/create', 'TimeSlotController@create')->name('time_slot.create');
         Route::post('/time_slot/store', 'TimeSlotController@store')->name('time_slot.store');
         Route::get('/time_slot/edit/{id}', 'TimeSlotController@edit')->name('time_slot.edit');
+        Route::get('/jobs', 'MobileApp\JobController@index')->name('jobs.index');
         Route::post('/time_slot/update', 'TimeSlotController@update')->name('time_slot.update');
         Route::get('/export', 'ImportExportController@exportIndex')->name('exportIndex');
         Route::post('/export', 'ImportExportController@export')->name('exportSheet');
