@@ -21,6 +21,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          //$schedule->command('expire_subscription')->hourly();
+         $schedule->command('time-slots:update')
+                ->everyMinute();
     }
 
     /**

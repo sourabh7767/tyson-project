@@ -40,7 +40,7 @@ class UpdateTimeSlot extends Command
     public function handle()
     {
 
-        $currentTime = now()->setTimezone('Asia/Kolkata');
+        $currentTime = now()->setTimezone('America/Denver');
         
         $slots = TimeSlot::whereDate('start_date_time', $currentTime->toDateString())->get();
         $todayDate = $currentTime->toDateString();
@@ -49,7 +49,7 @@ class UpdateTimeSlot extends Command
             $slotTimes = explode(' - ', $slot->slot);
             //echo $todayDate." ".$slotTimes[0];die;
             //$startTime = Carbon::createFromFormat('Y-m-d hA', $todayDate." ".$slotTimes[0]);
-            $startTime = Carbon::parse($slotTimes[0], "Asia/Kolkata");
+            $startTime = Carbon::parse($slotTimes[0], "America/Denver");
             //echo "<pre>";print_r($startTime);die;
 
            

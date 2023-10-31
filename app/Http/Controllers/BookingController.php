@@ -196,6 +196,9 @@ class BookingController extends Controller
        }  
 
        $slot = TimeSlot::where("id",$request->slot)->first();
+       if($slot->remaining_slots <= 0){
+        return redirect()->back()->with('error', 'Slot Not available.');
+       }
        list($start_time, $end_time) = explode(' - ', $slot->slot);
 
         // Convert day and time to DateTime format
