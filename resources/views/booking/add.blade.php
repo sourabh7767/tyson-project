@@ -92,6 +92,7 @@
                                                     <select class="form-select" id="typeSelect" name="type">
                                                         <option value="1">Tune ups</option>
                                                         <option value="2">Parts Warranty</option>
+                                                        <option value="3">Demain</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -285,11 +286,9 @@
                 
                 return false;
             }
-            if(type == 1){
+            if(type == 1 || type == 3){
                 if(age < 7){
-                    console.log("hereeeee",today)
-                    console.log("hereeeee",tommorow)
-                    console.log("hereeeee",date)
+                    
                     if(date == today || date == tommorow){
                         swal("Error!", "Cannot select today or tommorow!", "error");
                         return false;
