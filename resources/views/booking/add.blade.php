@@ -288,28 +288,35 @@
             }
             if(type == 1 || type == 3){
                 if(age < 7){
-                    
-                    if(date == today || date == tommorow){
-                        swal("Error!", "Cannot select today or tommorow!", "error");
-                        return false;
+                    if(type != 3){
+                        if(date == today || date == tommorow){
+                            swal("Error!", "Cannot select today or tommorow!", "error");
+                            return false;
+                        }    
                     }
                 }
             }else{
                 if(age == 1){
-                    if(date != today){
-                        swal("Error!", "It will be booked for today only!", "error");
-                        return false;
+                    if(type != 3){
+                        if(date != today){
+                            swal("Error!", "It will be booked for today only!", "error");
+                            return false;
+                        }    
                     }
+                    
                 }else if(age == 2){
                     if(date != tommorow){
                         swal("Error!", "It will be booked for tommorow only!", "error");
                         return false;
                     }
                 }else{
-                    if(date == today || date == tommorow){
-                        swal("Error!", "It cannot be booked for today or tommorow!", "error");
-                        return false;
-                    }
+                     if(type != 3){
+                        if(date == today || date == tommorow){
+                            swal("Error!", "It cannot be booked for today or tommorow!", "error");
+                            return false;
+                        }     
+                     }
+                    
                 }
             }
            
