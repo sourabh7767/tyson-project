@@ -39,6 +39,10 @@ Route::prefix('v1')->namespace('Api')->group(function () {
 			
 		Route::get('/logout', 'AuthController@logout')->name('logout');
  		Route::post('/changePassword', 'AccountController@changePassword')->name('changePassword');
+ 		Route::post('/add-job', 'JobController@addjob')->name('addJob');
+ 		Route::put('/update-job/{jobId}', 'JobController@updateJob')->name('updateJob');
+ 		Route::post('/add-update-job-form', 'JobController@addjobForm')->name('addJobForm');
+ 		Route::get('job-history', 'JobController@jobHistory')->name('jobHistory');
 // 			Route::get('/profile', 'AccountController@getProfile')->name('profile');
 // 			Route::post('/updateProfile', 'AccountController@updateProfile')->name('updateProfile');
 // 			Route::get('/notification', 'AccountController@notification')->name('notification');
