@@ -42,6 +42,8 @@ Route::prefix('v1')->namespace('Api')->group(function () {
  		Route::post('/add-job', 'JobController@addjob')->name('addJob');
  		Route::put('/update-job/{jobId}', 'JobController@updateJob')->name('updateJob');
  		Route::post('/add-update-job-form', 'JobController@addjobForm')->name('addJobForm');
+ 		Route::post('/add-update-job-form-plumbing', 'JobController@addjobFormPlumbing')->name('addJobFormPlumbing');
+ 		Route::post('/add-update-job-form-technician', 'JobController@addjobFormTechnician')->name('addJobFormTechnician');
  		Route::get('job-history', 'JobController@jobHistory')->name('jobHistory');
 // 			Route::get('/profile', 'AccountController@getProfile')->name('profile');
 // 			Route::post('/updateProfile', 'AccountController@updateProfile')->name('updateProfile');

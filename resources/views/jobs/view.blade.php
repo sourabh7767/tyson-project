@@ -81,6 +81,11 @@
                                      
                                     </tr>
                                     <tr>
+                                    <th>Dispatch Address</th>
+                                      <td colspan="1">{{ $model->dispatch_address }}</td>
+                                    </tr>
+                                    
+                                    <tr>
                                     <th>Arrival Time</th>
                                       <td colspan="1">{{ $model->arrival_time }}</td>
                                     
@@ -94,6 +99,12 @@
                                       
                                      
                                     </tr>
+                                    
+                                    <tr>
+                                    <th>Arrival Address</th>
+                                      <td colspan="1">{{ $model->arrival_address }}</td>
+                                    </tr>
+                                    
                                     <tr>
                                     <th>Checkout Time</th>
                                       <td colspan="1">{{ $model->checkout_time }}</td>
@@ -107,7 +118,10 @@
                                       
                                      
                                     </tr>
-                                     
+                                     <tr>
+                                    <th>Checkout Address</th>
+                                      <td colspan="1">{{ $model->checkout_address }}</td>
+                                    </tr>
 
                           
 

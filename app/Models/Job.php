@@ -13,7 +13,10 @@ class Job extends Model
         'customer_name',
         'service_titan_number',
         'dispatch_time',
-        'user_id'
+        'user_id',
+        "dispatch_address",
+        "dispatch_lat",
+        "dispatch_long"
     ];
 
     public static function getColumnForSorting($value){

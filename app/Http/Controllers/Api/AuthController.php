@@ -141,7 +141,7 @@ class AuthController extends Controller
         if(empty($userObj))
             return returnNotFoundResponse('User Not found.');
 
-        if(!in_array($userObj->role, ['3','4','5']))
+        if(!in_array($userObj->role, ['3','4','5','6']))
             return returnNotFoundResponse('User Not found.');
 
         if($userObj->status == User::STATUS_INACTIVE)
