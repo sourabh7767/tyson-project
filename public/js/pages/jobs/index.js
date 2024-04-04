@@ -15,19 +15,72 @@ $(document).ready(function() {
                 d.status = $('#job_status').val()
             }
         },
+        
         //ajax: site_url + "/jobs/",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
             { data: 'customer_name', name: 'customer_name' },
             { data: 'service_titan_number', name: 'service_titan_number' },
             { data: 'total_amount', name: 'total_amount' },
-            { data: 'dispatch_time', name: 'dispatch_time' },
-            { data: 'checkout_time', name: 'checkout_time' },
+            { 
+                data: 'dispatch_time', 
+                name: 'dispatch_time',
+                render: function(data, type, full, meta) {
+                    var dispacheAddress = full.dispatch_address;
+                    if(dispacheAddress == null){
+                        dispacheAddress = "Not added";
+                    }
+                    if(data.length != 0){
+                        return '<span title="'+dispacheAddress +'" data-id="' + full.id + '">' + data + '</span>';
+                    }else{
+                        return "--";
+                    }
+                }
+            },
+            { 
+                data: 'checkout_time', 
+                name: 'checkout_time',
+                render: function(data, type, full, meta) {
+                    var checkoutAddress = full.checkout_address;
+                    if(checkoutAddress == null){
+                        checkoutAddress = "Not added";
+                    }
+                    if(data != null){
+                        return '<span title="'+checkoutAddress +'" data-id="' + full.id + '">' + data + '</span>';
+                    }else{
+                        return "--";
+                    }
+                }
+            },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable: false, searchable: false},
             
-        ]
+        ],
+       
     });
+    $('#filterBtn').click(function() {
+        var startDate = $('#start_date').val();
+        var endDate = $('#end_date').val();
+        var selected_users = $("#selected_users").val();
+
+        // Reload DataTable with new date range
+        table.ajax.url(site_url + "/jobs/?start_date=" + startDate + "&end_date=" + endDate+ "&selected_id=" + selected_users).load();
+        $('#exportBtn').show();
+    });
+    $("#exportBtn").click(function(){
+        $.ajax({
+            url: '/exportToExcel', // Replace with your export route URL
+            type: 'GET', // Or 'POST' depending on your route definition
+            success: function(response) {
+                // Handle successful export response, if needed
+                alert('Export successful');
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                console.error('Export failed:', error);
+            }
+        });
+    })
 
     $('#job_status').change(function(){
         table.draw();

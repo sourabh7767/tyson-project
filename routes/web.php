@@ -73,6 +73,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('user/change-password/{id}','UserController@changeUserPassword')->name('user.changeUserPassword.submit');
         
         Route::resource('email-queue', 'EmailQueueController');
+        Route::get('exportToExcel', 'MobileApp\JobController@exportToExcel')->name('exportToExcel');
 
     });
 //});

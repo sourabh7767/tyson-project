@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\JobForm;
 
+use App\Exports\JobsExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class JobController extends Controller
 {
     public function index(Request $request, Job $job)
@@ -26,7 +29,12 @@ class JobController extends Controller
             $setFilteredRecords = $job->getAllJobs($request,true);
 
            }
-
+           if ($request->filled('selected_id')){
+            $setFilteredRecords = $job->getAllJobs($request,true);
+           }
+           if ($request->filled('start_date') && $request->filled('end_date') && $request->filled('selected_id')) {
+            $setFilteredRecords = $job->getAllJobs($request,true);
+           }
             return datatables()->of($users)
                 ->addIndexColumn()
                 // ->addColumn('status', function ($user) {
@@ -83,8 +91,12 @@ class JobController extends Controller
         return view('jobs.index');
     }
 
-    public function show($jobId)
+    public function show(Request $request,$jobId)
     {
+        if($request->ajax()){
+            $model = Job::with('jobForm')->where('id', $jobId)->first();
+            return response()->json(['job_data' => $model]);
+        }
         $model = Job::with('jobForm')->where('id', decrypt($jobId) )->first();
         //echo"<pre>";print_r($model->jobForm);die;
         return view('jobs.view',compact("model"));
@@ -103,4 +115,11 @@ class JobController extends Controller
 
         return returnSuccessResponse('Status updated successfully');
     }
+
+public function exportToExcel(Request $request)
+{
+    $export = new JobsExport();
+
+    return Excel::download($export, 'jobs.xlsx');
+}
 }

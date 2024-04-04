@@ -66,6 +66,23 @@
             <div class="card data-table">
                <div class="card-header">
                   <h4 class="m-0"><i class="fas fa-users mr-2"></i>&nbsp;{{ __('Jobs') }}</h4>
+                  <div class="form-group">
+                    @php
+                        $users = app\Models\User::where('role', '!=', 1)->where('role', '!=', 2)->get();
+                    @endphp
+                    <label for="dateRange">Select Date Range:</label>
+                    <select name="user_id" id="selected_users">
+                      <option value=""></option>
+                      @foreach ($users as $user)
+                      <option value="{{$user->id}}">{{$user->full_name}}</option>
+                      @endforeach
+                    </select>
+                    <input type="date" name="start_date" id="start_date">
+                    <input type="date" name="end_date" id="end_date">
+                    &nbsp;&nbsp;<button class="btn btn-success" id="filterBtn">Filter</button>
+                    {{-- <button class="btn btn-success" id="exportBtn" style="display: none;">Export</button> --}}
+
+                </div>
                   <div>
                     <label>Status </label>
                     <select id="job_status">
@@ -116,7 +133,7 @@
       @include('include.dataTableScripts')   
 
       <script src="{{ asset('js/pages/jobs/index.js') }}"></script>
-
+     
   @endpush
 
 	     

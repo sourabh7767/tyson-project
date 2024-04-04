@@ -44,7 +44,7 @@ class Job extends Model
         if(empty($column)){
             $column = 'id';
         }
-        $query = self::select("jobs.id","jobs.customer_name","jobs.service_titan_number","jobs.dispatch_time","jobs.checkout_time","job_forms.total_amount","job_forms.status")->leftJoin('job_forms', 'job_forms.job_id', '=', 'jobs.id')->orderBy($column, $order);
+        $query = self::select("jobs.id","jobs.customer_name","jobs.service_titan_number","jobs.dispatch_time","jobs.dispatch_address","jobs.checkout_address","jobs.checkout_time","job_forms.total_amount","job_forms.status")->leftJoin('job_forms', 'job_forms.job_id', '=', 'jobs.id')->orderBy($column, $order);
 
         if(!empty($request)){
 
@@ -60,17 +60,33 @@ class Job extends Model
                  if($flag)
                     return $query->count();
             }
+            if($request->filled('selected_id')){
+                $query->where("job_forms.user_id",$request->selected_id);
+                if($flag)
+                    return $query->count();
+            }
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $startDate = $request->input('start_date');
+                $endDate = $request->input('end_date');
+                // Apply date range filter to your query
+                $query->whereBetween('jobs.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+                ->where("job_forms.user_id",$request->selected_id);
+                if($flag)
+                    return $query->count();
+            }
+
 
             if($request->has("status") && !empty($request->status)){
                 $query->where("job_forms.status",$request->status);
             }
+           
 
             $start =  $request['start'];
             $length = $request['length'];
             $query->offset($start)->limit($length);
         }
 
-        $query = $query->get();
+        $query = $query->with('jobForm')->get();
 
         return $query;
     }
