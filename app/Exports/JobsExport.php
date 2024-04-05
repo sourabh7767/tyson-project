@@ -17,8 +17,7 @@ class JobsExport implements FromQuery, WithHeadings
         return Job::query()
     ->join('users', 'jobs.user_id', '=', 'users.id')
     ->select(
-        'users.first_name as first_name',
-        'users.last_name as last_name',
+        'users.full_name as full_name',
         'jobs.service_titan_number',
         \DB::raw("DATE(jobs.dispatch_time) as start_date"),
         \DB::raw("TIME(jobs.dispatch_time) as in_time"),
@@ -40,8 +39,7 @@ class JobsExport implements FromQuery, WithHeadings
     {
         return [
             // 'ID',
-            'First name',
-            "Last name",
+            'Full name',
             'Job',
             'Start Date',
             'In',
