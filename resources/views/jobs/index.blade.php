@@ -71,7 +71,7 @@
                         $users = app\Models\User::where('role', '!=', 1)->where('role', '!=', 2)->get();
                     @endphp
                     <select name="user_id" id="selected_users">
-                      <option>Select Employee</option>
+                      <option value="">Select Employee</option>
                       @foreach ($users as $user)
                       <option value="{{$user->id}}">{{$user->full_name}}</option>
                       @endforeach
