@@ -84,7 +84,7 @@ class JobController extends Controller
                 ->rawColumns([
                 'action',
                 'status'
-            ])->setTotalRecords($totalJobs)->setFilteredRecords($setFilteredRecords)->skipPaging()
+            ])->setTotalRecords($setFilteredRecords)->setFilteredRecords($setFilteredRecords)->skipPaging()
                 ->make(true);
         }
 

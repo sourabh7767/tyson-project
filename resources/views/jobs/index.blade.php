@@ -70,9 +70,8 @@
                     @php
                         $users = app\Models\User::where('role', '!=', 1)->where('role', '!=', 2)->get();
                     @endphp
-                    <label for="dateRange">Select Date Range:</label>
                     <select name="user_id" id="selected_users">
-                      <option value=""></option>
+                      <option>Select Employee</option>
                       @foreach ($users as $user)
                       <option value="{{$user->id}}">{{$user->full_name}}</option>
                       @endforeach
@@ -80,7 +79,7 @@
                     <input type="date" name="start_date" id="start_date">
                     <input type="date" name="end_date" id="end_date">
                     &nbsp;&nbsp;<button class="btn btn-success" id="filterBtn">Filter</button>
-                    {{-- <button class="btn btn-success" id="exportBtn" style="display: none;">Export</button> --}}
+                    <a href="{{route("exportToExcel")}}"><button class="btn btn-success" id="exportBtn" type="button" style="display: none;">Export</button></a>
 
                 </div>
                   <div>
