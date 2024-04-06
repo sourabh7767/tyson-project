@@ -32,7 +32,7 @@ class JobController extends Controller
            if ($request->filled('selected_id')){
             $setFilteredRecords = $job->getAllJobs($request,true);
            }
-           if ($request->filled('start_date') && $request->filled('end_date') && $request->filled('selected_id')) {
+           if ($request->filled('start_date') && $request->filled('end_date')) {
             $setFilteredRecords = $job->getAllJobs($request,true);
            }
             return datatables()->of($users)
@@ -118,7 +118,10 @@ class JobController extends Controller
 
 public function exportToExcel(Request $request)
 {
-    $export = new JobsExport();
+    $startDate = $request->input('startDate');
+    $endDate = $request->input('endDate');
+    $selectedUsers = $request->input('selectedUsers');
+    $export = new JobsExport($startDate, $endDate, $selectedUsers);
 
     return Excel::download($export, 'jobs.xlsx');
 }

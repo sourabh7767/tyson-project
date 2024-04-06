@@ -65,22 +65,15 @@ $(document).ready(function() {
 
         // Reload DataTable with new date range
         table.ajax.url(site_url + "/jobs/?start_date=" + startDate + "&end_date=" + endDate+ "&selected_id=" + selected_users).load();
-        $('#exportBtn').show();
+        // $('#exportBtn').show();
     });
-    $("#exportBtn").click(function(){
-        $.ajax({
-            url: '/exportToExcel', // Replace with your export route URL
-            type: 'GET', // Or 'POST' depending on your route definition
-            success: function(response) {
-                // Handle successful export response, if needed
-                alert('Export successful');
-            },
-            error: function(xhr, status, error) {
-                // Handle error
-                console.error('Export failed:', error);
-            }
-        });
-    })
+    $("#exportBtn").on('click', function() {
+        var startDate = $('#start_date').val();
+        var endDate = $('#end_date').val();
+        var selectedUsers = $("#selected_users").val();
+        window.location = '/exportToExcel?startDate=' + startDate + '&endDate=' + endDate + '&selectedUsers=' + selectedUsers;
+    });
+    
 
     $('#job_status').change(function(){
         table.draw();

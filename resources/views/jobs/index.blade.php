@@ -79,7 +79,7 @@
                     <input type="date" name="start_date" id="start_date">
                     <input type="date" name="end_date" id="end_date">
                     &nbsp;&nbsp;<button class="btn btn-success" id="filterBtn">Filter</button>
-                    <a href="{{route("exportToExcel")}}"><button class="btn btn-success" id="exportBtn" type="button" style="display: none;">Export</button></a>
+              <button class="btn btn-success" id="exportBtn" type="button" >Export</button>
 
                 </div>
                   <div>

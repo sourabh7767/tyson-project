@@ -61,7 +61,7 @@ class Job extends Model
                     return $query->count();
             }
             if($request->filled('selected_id')){
-                $query->where("job_forms.user_id",$request->selected_id);
+                $query->where("jobs.user_id",$request->selected_id);
                 if($flag)
                     return $query->count();
             }
@@ -70,7 +70,7 @@ class Job extends Model
                 $endDate = $request->input('end_date');
                 // Apply date range filter to your query
                 $query->whereBetween('jobs.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
-                ->where("job_forms.user_id",$request->selected_id);
+                ->where("jobs.user_id",$request->selected_id);
                 if($flag)
                     return $query->count();
             }
