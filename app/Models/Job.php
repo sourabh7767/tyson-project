@@ -60,26 +60,27 @@ class Job extends Model
                  if($flag)
                     return $query->count();
             }
-            if($request->filled('selected_id')){
+            if($request->has('selected_id') && !empty($request->selected_id)){
                 $query->where("jobs.user_id",$request->selected_id);
-                if($flag)
-                    return $query->count();
+                // if($flag)
+                //     return $query->count();
             }
             if ($request->filled('start_date') && $request->filled('end_date')) {
                 $startDate = $request->input('start_date');
                 $endDate = $request->input('end_date');
                 // Apply date range filter to your query
-                $query->whereBetween('jobs.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
-                ->where("jobs.user_id",$request->selected_id);
-                if($flag)
-                    return $query->count();
+                $query->whereBetween('jobs.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+                //->where("jobs.user_id",$request->selected_id);
+                // if($flag)
+                //     return $query->count();
             }
 
 
             if($request->has("status") && !empty($request->status)){
                 $query->where("job_forms.status",$request->status);
             }
-           
+            if($flag)
+                    return $query->count();
 
             $start =  $request['start'];
             $length = $request['length'];
@@ -90,7 +91,6 @@ class Job extends Model
 
         return $query;
     }
-
     public function jobForm()
     {
         return $this->hasMany(JobForm::class);

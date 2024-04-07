@@ -30,7 +30,7 @@ $(document).ready(function() {
                     if(dispacheAddress == null){
                         dispacheAddress = "Not added";
                     }
-                    if(data.length != 0){
+                    if(data != null && data.length != 0){
                         return '<span title="'+dispacheAddress +'" data-id="' + full.id + '">' + data + '</span>';
                     }else{
                         return "--";
@@ -45,7 +45,7 @@ $(document).ready(function() {
                     if(checkoutAddress == null){
                         checkoutAddress = "Not added";
                     }
-                    if(data != null){
+                    if(data != null &&  data.length != 0){
                         return '<span title="'+checkoutAddress +'" data-id="' + full.id + '">' + data + '</span>';
                     }else{
                         return "--";

@@ -29,6 +29,9 @@ class JobController extends Controller
             $setFilteredRecords = $job->getAllJobs($request,true);
 
            }
+           if ($request->has("status") && !empty($request->status)){
+                $setFilteredRecords = $job->getAllJobs($request,true);
+            }
            if ($request->filled('selected_id')){
             $setFilteredRecords = $job->getAllJobs($request,true);
            }
