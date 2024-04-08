@@ -68,6 +68,7 @@ class Job extends Model
             if ($request->filled('start_date') && $request->filled('end_date')) {
                 $startDate = $request->input('start_date');
                 $endDate = $request->input('end_date');
+                $endDate = date('Y-m-d', strtotime($endDate . ' +1 day'));
                 // Apply date range filter to your query
                 $query->whereBetween('jobs.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
                 //->where("jobs.user_id",$request->selected_id);

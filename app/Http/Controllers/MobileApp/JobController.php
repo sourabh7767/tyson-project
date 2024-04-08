@@ -124,6 +124,7 @@ public function exportToExcel(Request $request)
     $startDate = $request->input('startDate');
     $endDate = $request->input('endDate');
     $selectedUsers = $request->input('selectedUsers');
+    $endDate = date('Y-m-d', strtotime($endDate . ' +1 day'));
     $export = new JobsExport($startDate, $endDate, $selectedUsers);
 
     return Excel::download($export, 'jobs.xlsx');

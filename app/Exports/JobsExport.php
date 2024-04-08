@@ -44,12 +44,12 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
 
             // $startDate = $startDate;
             // $endDate = $this->filter['endDate'];
-            $query->whereBetween('jobs.created_at', [$this->startDate, $this->endDate]);
+            $query->whereBetween('jobs.created_at', [$this->startDate . ' 00:00:00', $this->endDate . ' 23:59:59']);
         }
         if(!empty($this->selectedUsers)){
             $query->where("jobs.user_id",$this->selectedUsers);
         }
-        return  $query->get();
+        return $query->get();
 
     }
 
