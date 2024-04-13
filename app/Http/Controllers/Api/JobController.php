@@ -239,8 +239,19 @@ class JobController extends Controller
 
     public function jobHistory(Request $request){
         $userId = $request->user()->id;
+        if($request->has("status") && !empty($request->status)){
+            $status = $request->status;
+            $jobs = Job::where('user_id', $userId)->with('jobForm')
+            ->whereHas('jobForm', function ($query) use($status){
 
-        $jobs = Job::where('user_id', $userId)->with('jobForm')->orderBy("id","desc")->get();
+                $query->where('status', $status);
+
+            })
+            ->orderBy("id","desc")->get();
+        }else{
+            $jobs = Job::where('user_id', $userId)->with('jobForm')->orderBy("id","desc")->get();
+        }
+        
 
         return returnSuccessResponse('Job history found.', $jobs);
     }
