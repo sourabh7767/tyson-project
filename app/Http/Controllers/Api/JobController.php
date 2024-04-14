@@ -93,6 +93,7 @@ class JobController extends Controller
             'service_titan_number' => 'required',
             'total_amount'         => 'required|numeric',
             'comission'            => 'required|numeric',
+            "comission_amount"     => 'sometimes|numeric',
             'job_id'               => 'required|numeric',   
         ];
 
@@ -114,7 +115,9 @@ class JobController extends Controller
             $jobForm->update([
                 'service_titan_number' => $request->service_titan_number,
                 'total_amount'         => $request->total_amount,
-                'comission'           => $request->comission,
+                'comission'            => $request->comission,
+                'comission_amount'     => $request->comission_amount,
+                'job_form_type'        => $request->job_form_type
             ]);
             return returnSuccessResponse('JobForm updated successfully.', $jobForm);
             
@@ -125,7 +128,9 @@ class JobController extends Controller
                 'total_amount'         => $request->total_amount,
                 'comission'           => $request->comission,
                 'job_id'               => $request->job_id,
-                'user_id'             => $request->user()->id
+                'user_id'             => $request->user()->id,
+                'comission_amount'     => $request->comission_amount,
+                'job_form_type'        => $request->job_form_type
             ]);
             return returnSuccessResponse('JobForm created successfully.', $jobForm);
             
