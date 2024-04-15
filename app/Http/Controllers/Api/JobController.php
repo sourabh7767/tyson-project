@@ -258,7 +258,9 @@ class JobController extends Controller
         }
         
         if($request->has("start_date") && !empty($request->start_date)){
-            $jobs = $jobs->whereBetween('dispatch_time',[$request->start_date,$request->end_date]);
+            
+            $endDate = date('Y-m-d', strtotime($request->end_date . ' +1 day'));
+            $jobs = $jobs->whereBetween('dispatch_time',[$request->start_date,$endDate]);
         }
         $jobs = $jobs->get();
         return returnSuccessResponse('Job history found.', $jobs);
