@@ -252,12 +252,15 @@ class JobController extends Controller
                 $query->where('status', $status);
 
             })
-            ->orderBy("id","desc")->get();
+            ->orderBy("id","desc");
         }else{
-            $jobs = Job::where('user_id', $userId)->with('jobForm')->orderBy("id","desc")->get();
+            $jobs = Job::where('user_id', $userId)->with('jobForm')->orderBy("id","desc");
         }
         
-
+        if($request->has("start_date") && !empty($request->start_date)){
+            $jobs = $jobs->whereBetween('dispatch_time',[$request->start_date,$request->end_date]);
+        }
+        $jobs = $jobs->get();
         return returnSuccessResponse('Job history found.', $jobs);
     }
 }
