@@ -23,6 +23,7 @@ class PageController extends Controller
 		]);
 		$inputArr = $request->except(['_token']);
 
+        
 		$inputArr['slug'] = 'about-us';
 
 		$arrayData = $abouts->getPages("about-us");
