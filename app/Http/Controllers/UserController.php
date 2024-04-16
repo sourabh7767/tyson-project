@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
@@ -338,6 +339,25 @@ class UserController extends Controller
 
 
     }
+    public function userTermCondition(Page $terms)
+	{
+		$data['title'] = 'Terms & Conditions';
+		$data['data'] = $terms->getPages('terms-condition');
+		return view('pages.terms', $data);
+	}
+
+	public function userPrivacy(Page $terms)
+	{
+		$data['title'] = 'Privacy Policy';
+		$data['data'] = $terms->getPages('privacy-policy');
+		return view('pages.terms', $data);
+	}
+    public function userAboutUs(Page $terms)
+	{
+		$data['title'] = 'About us';
+		$data['data'] = $terms->getPages('about-us');
+		return view('pages.terms', $data);
+	}
 
 
 }

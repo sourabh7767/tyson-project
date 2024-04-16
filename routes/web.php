@@ -23,6 +23,9 @@ use Illuminate\Support\Facades\Route;
         
         return Redirect::back()->with('success', 'All cache cleared successfully.');
     });
+    Route::get('/terms/and/condition', 'UserController@userTermCondition');
+    Route::get('/privacy/policy', 'UserController@userPrivacy');
+    Route::get('about/us', 'UserController@userAboutUs');
 
     Auth::routes();
 
@@ -74,6 +77,15 @@ use Illuminate\Support\Facades\Route;
         
         Route::resource('email-queue', 'EmailQueueController');
         Route::get('exportToExcel', 'MobileApp\JobController@exportToExcel')->name('exportToExcel');
+
+        Route::get('/pages/abouts', 'PageController@abouts')->name('admin.abouts.index');
+        Route::post('/pages/abouts/store', 'PageController@abouts_store')->name('admin.abouts.store');
+
+        Route::get('/pages/privacy', 'PageController@privacy')->name('admin.privacy.index');
+        Route::post('/pages/privacy/store', 'PageController@privacy_store')->name('admin.privacy.store');
+        Route::get('/pages/term-condition', 'PageController@term_condition')->name('admin.term.index');
+        Route::post('/pages/term-condition/store', 'PageController@term_condition_store')->name('admin.term.store');
+        Route::post('upload', 'PageController@upload')->name('upload');   
 
     });
 //});

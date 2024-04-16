@@ -116,8 +116,19 @@
                             
                         </ul>
                 </li>
-            @endif    
+            @endif   
+            <li class=" navigation-header">Pages<i data-feather="more-horizontal"></i></li>
 
+            <li class=" nav-item {{request()->is('pages/abouts') || request()->is('pages/abouts/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('admin.abouts.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">About Us</span></a>
+                
+            </li>
+
+            <li class=" nav-item {{request()->is('pages/privacy') || request()->is('pages/privacy/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('admin.privacy.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Privacy Policy</span></a>
+            
+            </li>
+            <li class=" nav-item {{request()->is('pages/term-condition') || request()->is('pages/term-condition/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('admin.term.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Terms & Conditions</span></a>
+            
+            </li>
             <!--<li class=" nav-item {{request()->is('role') || request()->is('role/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('role.index')}}"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Kanban">Roles</span></a>-->
             <!--    </li>-->
             <!-- <li class=" nav-item"><a class="d-flex align-items-center" href="app-file-manager.html"><i data-feather="save"></i><span class="menu-title text-truncate" data-i18n="File Manager">File Manager</span></a>
