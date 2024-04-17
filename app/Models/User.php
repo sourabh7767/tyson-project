@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -99,6 +100,80 @@ class User extends Authenticatable
             $column = 'id';
         }
         $query = self::select("users.*","roles.title as user_role")->leftJoin('roles', 'roles.id', '=', 'users.role')->orderBy($column, $order)->where('users.created_by','!=', 0);
+
+        if(!empty($request)){
+
+            $search = $request['search']['value'];
+
+            if(!empty($search)){
+                 $query->where(function ($query) use($request,$search){
+                        $query->orWhere( 'full_name', 'LIKE', '%'. $search .'%')
+                            ->orWhere( 'email', 'LIKE', '%'. $search .'%')
+                            ->orWhere( 'roles.title', 'LIKE', '%'. $search .'%')
+                            ->orWhere('users.created_at', 'LIKE', '%' . $search . '%');
+
+                    });
+
+                 if(empty(strcasecmp("Inactive",$search))){
+                    $query->orWhere( 'status',  0);
+
+                 }
+                if(empty(strcasecmp("Active",$search))){
+                    $query->orWhere( 'status',  1);
+
+                 }
+
+                  // if(is_int(stripos("Inactive", $search))){
+                  //           $query->orWhere( 'status',  0);
+
+                  //       }
+                 // if(is_int(stripos("Active", $search))){
+                 //            $query->orWhere( 'status',  1);
+
+                 //        }
+                       
+
+                 if($flag)
+                    return $query->count();
+            }
+
+            $start =  $request['start'];
+            $length = $request['length'];
+            $query->offset($start)->limit($length);
+
+
+        }
+
+        
+
+
+        $query = $query->get();
+
+        // print_r($query);
+        // die();
+
+        return $query;
+    }
+
+    public function getAllEmployee($request = null,$flag = false)
+    {
+        $columnNumber = $request['order'][0]['column'];
+        $order = $request['order'][0]['dir'];
+
+        $column = self::getColumnForSorting($columnNumber);
+
+        if($columnNumber == 0){
+            $order = "desc";
+        }
+
+        if(empty($column)){
+            $column = 'id';
+        }
+        $query =self::select("users.*", "roles.title as user_role")
+        ->leftJoin('roles', 'roles.id', '=', 'users.role')
+        ->orderBy($column, $order)
+        ->where('users.created_by', '!=', 0)
+        ->whereIn('roles.title', ['Comfort adviser', 'Technicians', 'Selling technicians', 'Plumbing', 'Install']);
 
         if(!empty($request)){
 
@@ -277,6 +352,20 @@ class User extends Authenticatable
         return $json;
 
 
+    }
+    public function getTodayClockStatus(){
+        $status = Job::where('user_id',$this->id)->whereDate('created_at',Carbon::today())->latest()->first();
+        if(!empty($status->dispatch_time)){
+            $statusTitle = "clock in";
+         }elseif(!empty($status->arrival_time)){
+             $statusTitle = "Arrival";
+         }
+         elseif(!empty($status->checkout_time)){
+             $statusTitle = "Clock out";
+         }else{
+             $statusTitle = "No activity";
+         }
+        return $statusTitle;
     }
 
 }

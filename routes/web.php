@@ -65,6 +65,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/', 'HomeController@index')->name('user.home');
         Route::resource('users', 'UserController');
         Route::resource('role', 'RoleController');
+        Route::resource('employee', 'MobileApp\EmployeeController');
         Route::get('/user/changeStatus/{id}','UserController@changeStatus')->name('user.changeStatus');
         Route::get('user/profile','UserController@profile')->name('user.profile');
         Route::get('user/update-profile','UserController@showUpdateProfileForm')->name('user.updateProfile');

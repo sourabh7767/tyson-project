@@ -129,8 +129,8 @@
             <li class=" nav-item {{request()->is('pages/term-condition') || request()->is('pages/term-condition/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('admin.term.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Terms & Conditions</span></a>
             
             </li>
-            <!--<li class=" nav-item {{request()->is('role') || request()->is('role/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('role.index')}}"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Kanban">Roles</span></a>-->
-            <!--    </li>-->
+            <li class=" nav-item {{request()->is('employee') || request()->is('employee/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('employee.index')}}"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Kanban">Employee</span></a>
+            </li>
             <!-- <li class=" nav-item"><a class="d-flex align-items-center" href="app-file-manager.html"><i data-feather="save"></i><span class="menu-title text-truncate" data-i18n="File Manager">File Manager</span></a>
             </li>
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="shield"></i><span class="menu-title text-truncate" data-i18n="Roles &amp; Permission">Roles &amp; Permission</span></a>
