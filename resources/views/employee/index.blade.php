@@ -18,8 +18,7 @@
                                     </li>
                                     <li class="breadcrumb-item"><a href="{{route('users.index')}}">Users</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Users List
-                                    </li>
+                                    <li class="breadcrumb-item active">Employee status                                    </li>
                                 </ol>
                             </div>
                         </div>
@@ -32,7 +31,7 @@
           <div class="col-12">
             <div class="card data-table">
                <div class="card-header">
-                  <h4 class="m-0"><i class="fas fa-users mr-2"></i>&nbsp;{{ __('Users') }}</h4>
+                  <h4 class="m-0"><i class="fas fa-users mr-2"></i>&nbsp;{{ __('Employee Status') }}</h4>
                 <a href="{{ route('users.create') }}" class="dt-button create-new btn btn-primary"><i class="fas fa-plus"></i>&nbsp;&nbsp;Create New User</a>
               </div>
             
