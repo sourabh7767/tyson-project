@@ -46,7 +46,7 @@
                     <th>Role</th>
                     <th>Clock status</th>
                      <!-- <th>Status</th> -->
-                    <th>Created At</th>
+                    <!-- <th>Created At</th> -->
                     {{-- <th data-orderable="false">Action</th> --}}
                   </tr>
                   </thead>
