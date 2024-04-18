@@ -356,12 +356,12 @@ class User extends Authenticatable
     public function getTodayClockStatus(){
         $status = Job::where('user_id',$this->id)->whereDate('created_at',Carbon::today())->latest()->first();
         if(!empty($status->dispatch_time)){
-            $statusTitle = "clock in";
+            $statusTitle = "clock in - ".$status->dispatch_time;
          }elseif(!empty($status->arrival_time)){
-             $statusTitle = "Arrival";
+             $statusTitle = "Arrival - ".$status->arrival_time;
          }
          elseif(!empty($status->checkout_time)){
-             $statusTitle = "Clock out";
+             $statusTitle = "Clock out - ".$status->checkout_time;
          }else{
              $statusTitle = "No activity";
          }
