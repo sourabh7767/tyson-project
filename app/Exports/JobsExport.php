@@ -25,6 +25,7 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
     {
         $query = Job::query()
             ->join('users', 'jobs.user_id', '=', 'users.id')
+            ->join('job_forms', 'jobs.id', '=', 'job_forms.job_id')
             ->select(
                 'users.full_name as full_name',
                 'jobs.service_titan_number',
@@ -38,6 +39,9 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
                 \DB::raw("TIME(jobs.checkout_time) as out_time"),
                 'jobs.checkout_address as end_location',
                 'jobs.total_hours',
+                'job_forms.comission',
+                'job_forms.comission_amount',
+                'job_forms.total_amount',
             );
         // Apply filters if they are provided
         if (!empty($this->startDate) && !empty($this->endDate)) {
@@ -69,6 +73,9 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
             'Out',
             'End location',
             'Shift Hours',
+            'Commision',
+            'Commision Ammount',
+            'Total Ammount',
         ];
     }
     public function registerEvents(): array
