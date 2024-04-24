@@ -15,11 +15,11 @@ class CreateEditJobsTable extends Migration
     {
         Schema::create('edit_jobs', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('job_id');
-            $table->json('old_data');
-            $table->json('new_data');
-            $table->text('comment');
+            $table->integer('user_id')->nullable();
+            $table->integer('job_id')->nullable();
+            $table->json('old_data')->nullable();
+            $table->json('new_data')->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

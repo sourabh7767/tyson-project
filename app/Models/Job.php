@@ -96,4 +96,8 @@ class Job extends Model
     {
         return $this->hasMany(JobForm::class);
     }
+    public function editJobs()
+    {
+        return $this->hasMany(EditJob::class);
+    }
 }

@@ -122,6 +122,77 @@
                                     <th>Checkout Address</th>
                                       <td colspan="1">{{ $model->checkout_address }}</td>
                                     </tr>
+                                    <tr>
+                                      <th colspan="4" style="text-align: center;">
+                                        Old Data
+                                      </th>
+                                    </tr>
+                                    <tr>
+                                      <th>
+                                        Total Amount
+                                      </th>
+                                      @php
+                                          $oldDataJson = json_decode(!empty($model->editJobs[0]) ? $model->editJobs[0]->old_data : $model, true);
+                                      @endphp
+                                      <td>
+                                        {{$oldDataJson['total_amount']}}
+                                      </td>
+                                      <th>
+                                        Comission
+                                      </th>
+                                      <td>
+                                        {{$oldDataJson['comission']}}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>
+                                        Comission Amount
+                                      </th>
+                                      <td>
+                                        {{$oldDataJson['comission_amount']}}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th colspan="4" style="text-align: center;">
+                                        New Data
+                                      </th>
+                                    </tr>
+                                    <tr>
+                                      <th>
+                                        Total Amount
+                                      </th>
+                                      @php
+                                          $newDataJson = json_decode(!empty($model->editJobs[0]) ? $model->editJobs[0]->new_data : $model, true);
+                                      @endphp
+                                      <td>
+                                        {{$newDataJson['total_amount']}}
+                                      </td>
+                                      <th>
+                                        Comission
+                                      </th>
+                                      <td>
+                                        {{$newDataJson['comission_per']}}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>
+                                        Comission Amount
+                                      </th>
+                                      <td>
+                                        {{$newDataJson['comission_amount']}}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <tr>
+                                        <th colspan="4" style="text-align: center;">
+                                          Comment
+                                        </th>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="4" style="text-align: center;">
+                                          {{!empty($model->editJobs[0]) ? $model->editJobs[0]->comment : "N/A"}}
+                                        </td>
+                                      </tr>
 
                           
 

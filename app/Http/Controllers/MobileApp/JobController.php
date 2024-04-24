@@ -101,7 +101,7 @@ class JobController extends Controller
             $model = Job::with('jobForm')->where('id', $jobId)->first();
             return response()->json(['job_data' => $model]);
         }
-        $model = Job::with('jobForm')->where('id', decrypt($jobId) )->first();
+        $model = Job::with('jobForm','editJobs')->where('id', decrypt($jobId) )->first();
         //echo"<pre>";print_r($model->jobForm);die;
         return view('jobs.view',compact("model"));
     }
@@ -142,6 +142,10 @@ public function update(Request $request){
             "comission_amount" => $request->comission_amount
         ];
         $existingRecord = JobForm::find($request->job_id);
+        if(empty($existingRecord)){
+            session()->flash('error',"Job Form not added");
+            return response()->json('error');
+        }
         $editJobObj = new EditJob();
         $editJobObj->user_id = auth()->user()->id;
         $editJobObj->job_id = $request->job_id;
@@ -149,6 +153,11 @@ public function update(Request $request){
         $editJobObj->old_data = json_encode($existingRecord);
         $editJobObj->comment = $request->comment;
         if($editJobObj->save()){
+            $existingRecord->comission = $request->comission_per;
+            $existingRecord->total_amount = $request->total_amount;
+            $existingRecord->comission_amount = $request->comission_amount;
+            $existingRecord->job_form_type = auth()->user()->role;
+            $existingRecord->save();
             session()->flash('success',"Job Updated");
             return response()->json('success');
         }
