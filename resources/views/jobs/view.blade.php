@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title') Job @endsection
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 @section('content')
 
@@ -116,7 +117,6 @@
                                       </td>
                                       
                                       
-                                     
                                     </tr>
                                      <tr>
                                     <th>Checkout Address</th>
@@ -132,6 +132,59 @@
                            <div class="row"> 
                             <div class="col-md-6">
                             <a id="tool-btn-manage"  class="btn btn-primary text-right" href="{{route('jobs.index')}}" title="Back">Back</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                              Launch demo modal
+                            </button>
+                            </div>
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form action="" method="post" id="comissionFrom">
+                                      @csrf
+                                      <input type="hidden" name="job_id" value="{{$model->id}}">
+                                      <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
+                                      <div class="form-group">
+                                        <label for="total-amount" class="col-form-label">Total Amount:</label>
+                                        <input type="text" class="form-control" name="total_amount" id="total-amount" value="{{!empty($model->jobForm[0]) ? $model->jobForm[0]->total_amount : "N/A"}}">
+                                      </div>
+                                      <strong class="total_amountError strong" style="color: red;"></strong>
+                                      {{-- <input type="text" name="commision_amount" value="" id=""> --}}
+                                      <div class="form-group">
+                                        <label for="comission-perecentage" class="col-form-label">Comission Perecentage:</label>
+                                        @php
+                                            $comissionArr = getCommission(2);
+                                        @endphp
+                                        <select name="comission_per" class="form-control" id="commission-percentage">
+                                          @foreach ($comissionArr as $item)
+                                          <option value="{{$item}}">{{$item}} %</option>
+                                          @endforeach
+                                        </select>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="comission-amount" class="col-form-label">Comission Amount:</label>
+                                        <input type="text" class="form-control" name="comission_amount" id="comission_amount" value="">
+                                      </div>
+                                      <strong class="comission_perError strong" style="color: red;"></strong>
+                                      <div class="form-group">
+                                        <label for="comment" class="col-form-label">Comment:</label>
+                                        <input class="form-control" type="text" name="comment" id="">
+                                      </div>
+                                      <strong class="commentError strong" style="color: red;"></strong>
+                                  </form>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" id="updateJobs">Update</button>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                 </div>
 
@@ -148,14 +201,59 @@
             <!-- /.card -->
         </div>
        </div>   
-
-
-
-
-      
  
 </section>
 
+@push('page_script')
 
+<script>
+        // $('#comissionFrom').submit(function(event) {
+          $(document).on("click","#updateJobs",function(){
+            // Prevent default form submission
+            event.preventDefault();
+            $(".strong").text("");
+
+            // Serialize form data
+            var formData = $("#comissionFrom").serialize();
+
+            // Send AJAX request
+            $.ajax({
+                url: site_url + '/jobs/update', // Replace with your Laravel route
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                  window.location.reload()
+                    // Handle success response
+                    // console.log(response);
+                    // You can update UI or perform any action here
+                },
+                error: function(response) {
+                    // Handle error response
+                    let errors = response.responseJSON.errors;
+                Object.keys(errors).forEach(function (key,value) {
+                 console.log(key);
+                   // $("#" + key + "Input").addClass("is-invalid");
+                    $("." + key + "Error").text(errors[key][0]);
+                });
+                }
+            });
+        });
+
+        
+</script>
+<script>
+  $(document).ready(function() {
+    $('#commission-percentage').on('change', function(e) {
+        var totalAmount = parseFloat($('#total-amount').val());
+        var commissionPercentage = parseFloat($(this).val());
+        if (!isNaN(totalAmount) && !isNaN(commissionPercentage)) {
+            var commissionAmount = (totalAmount * commissionPercentage) / 100;
+            $('#comission_amount').val(commissionAmount.toFixed(2));
+        }
+    });
+  })
+</script>
+  
+@endpush
 
 @endsection

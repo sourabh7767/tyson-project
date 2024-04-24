@@ -73,7 +73,7 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
             'Out',
             'End location',
             'Shift Hours',
-            'Commision',
+            'Commision Percentage',
             'Commision Ammount',
             'Total Ammount',
         ];

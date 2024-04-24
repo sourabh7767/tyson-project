@@ -8,6 +8,33 @@ function saveUploadedFile($file, $folder = "images")
     Storage::disk($folder)->putFileAs('/', $file, $fileName);
     return Storage::disk($folder)->url($fileName);
 }
+function getCommission($role) {
+    $commissions = array();
+
+    switch ($role) {
+        case 3:
+            $commissions = array(5, 7, 8, 10);
+            break;
+        case 5:
+            $commissions = array(3, 4, 5);
+            break;
+        case 2:
+            $commissions = array(5, 7, 8, 10, 3, 9, 18);
+            break;
+        case 6:
+            $commissions = array(2, 5, 3, 5, 15, 18);
+            break;
+        case 4:
+            $commissions = array(2.5, 3, 25);
+            break;
+        default:
+            // Handle invalid role
+            $commissions = array("Invalid role");
+            break;
+    }
+
+    return $commissions;
+}
 
 
 if (! function_exists('returnNotFoundResponse')) {

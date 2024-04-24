@@ -56,6 +56,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/time_slot/edit/{id}', 'TimeSlotController@edit')->name('time_slot.edit');
         Route::get('/jobs', 'MobileApp\JobController@index')->name('jobs.index');
         Route::get('/jobs/{id}', 'MobileApp\JobController@show')->name('jobs.show');
+        Route::post('/jobs/update', 'MobileApp\JobController@update')->name('jobs.update');
         Route::post('/update-job-status', 'MobileApp\JobController@updateJobStatus')->name('jobs.update.status');
         Route::post('/time_slot/update', 'TimeSlotController@update')->name('time_slot.update');
         Route::post('/update-slot', 'TimeSlotController@updateSlot')->name('time_slot.update.slot');

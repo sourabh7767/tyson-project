@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MobileApp;
 
 use App\Http\Controllers\Controller;
+use App\Models\EditJob;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\JobForm;
@@ -128,5 +129,28 @@ public function exportToExcel(Request $request)
     $export = new JobsExport($startDate, $endDate, $selectedUsers);
 
     return Excel::download($export, 'jobs.xlsx');
+}
+public function update(Request $request){
+    $request->validate([
+        'comment' => 'required',
+        'total_amount' => 'required',
+        'comission_per' => "required",
+        ]);
+        $newData = [
+            "total_amount" => $request->total_amount,
+            "comission_per" => $request->comission_per,
+            "comission_amount" => $request->comission_amount
+        ];
+        $existingRecord = JobForm::find($request->job_id);
+        $editJobObj = new EditJob();
+        $editJobObj->user_id = auth()->user()->id;
+        $editJobObj->job_id = $request->job_id;
+        $editJobObj->new_data = json_encode($newData);
+        $editJobObj->old_data = json_encode($existingRecord);
+        $editJobObj->comment = $request->comment;
+        if($editJobObj->save()){
+            session()->flash('success',"Job Updated");
+            return response()->json('success');
+        }
 }
 }
