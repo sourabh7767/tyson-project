@@ -205,14 +205,14 @@
                                       <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
                                       <div class="form-group">
                                         <label for="total-amount" class="col-form-label">Total Amount:</label>
-                                        <input type="text" class="form-control" name="total_amount" id="total-amount" value="{{!empty($model->jobForm[0]) ? $model->jobForm[0]->total_amount : "N/A"}}">
+                                        <input type="text" class="form-control" name="total_amount" id="total-amount" value="{{isset($model->jobForm[0]) ? $model->jobForm[0]->total_amount : ""}}">
                                       </div>
                                       <strong class="total_amountError strong" style="color: red;"></strong>
                                       {{-- <input type="text" name="commision_amount" value="" id=""> --}}
                                       <div class="form-group">
                                         <label for="comission-perecentage" class="col-form-label">Comission Perecentage:</label>
                                         @php
-                                            $comissionArr = getCommission($model->jobForm[0]->job_form_type);
+                                            $comissionArr = getCommission(isset($model->jobForm[0]) ? $model->jobForm[0]->job_form_type : "");
                                         @endphp
                                         <select name="comission_per" class="form-control" id="commission-percentage">
                                           <option value="">Select</option>
