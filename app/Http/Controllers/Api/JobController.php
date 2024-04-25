@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\EditJob;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\JobForm;
@@ -246,7 +247,7 @@ class JobController extends Controller
         $userId = $request->user()->id;
         if($request->has("status") && !empty($request->status)){
             $status = $request->status;
-            $jobs = Job::where('user_id', $userId)->with('jobForm')
+            $jobs = Job::where('user_id', $userId)->with('jobForm','editJobs')
             ->whereHas('jobForm', function ($query) use($status){
 
                 $query->where('status', $status);
@@ -254,7 +255,7 @@ class JobController extends Controller
             })
             ->orderBy("id","desc");
         }else{
-            $jobs = Job::where('user_id', $userId)->with('jobForm')->orderBy("id","desc");
+            $jobs = Job::where('user_id', $userId)->with('jobForm','editJobs')->orderBy("id","desc");
         }
         
         if($request->has("start_date") && !empty($request->start_date)){
@@ -264,5 +265,24 @@ class JobController extends Controller
         }
         $jobs = $jobs->get();
         return returnSuccessResponse('Job history found.', $jobs);
+    }
+    public function addComment(Request $request){
+        $rules = [
+            'job_id' => 'required',
+            'comment' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $errorMessages = $validator->errors()->all();
+            throw new HttpResponseException(returnValidationErrorResponse($errorMessages[0]));
+        }
+        $model = new EditJob();
+        $model->job_id = $request->job_id;
+        $model->user_id = $request->user()->id;
+        $model->comment = $request->comment;
+        $model->save();
+        return returnSuccessResponse('Comment added successfully.', $model);
     }
 }

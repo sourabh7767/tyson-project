@@ -18,14 +18,14 @@ function getCommission($role) {
         case 5:
             $commissions = array(3, 4, 5);
             break;
-        case 2:
+        case 7:
             $commissions = array(5, 7, 8, 10, 3, 9, 18);
             break;
         case 6:
-            $commissions = array(2, 5, 3, 5, 15, 18);
+            $commissions = array(2.5, 3, 5, 15, 18);
             break;
         case 4:
-            $commissions = array(2.5, 3, 25);
+            $commissions = array(2.5, 3.25);
             break;
         default:
             // Handle invalid role

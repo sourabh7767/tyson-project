@@ -156,10 +156,11 @@ public function update(Request $request){
             $existingRecord->comission = $request->comission_per;
             $existingRecord->total_amount = $request->total_amount;
             $existingRecord->comission_amount = $request->comission_amount;
-            $existingRecord->job_form_type = auth()->user()->role;
+            // $existingRecord->job_form_type = auth()->user()->role;
             $existingRecord->save();
             session()->flash('success',"Job Updated");
             return response()->json('success');
         }
 }
+
 }

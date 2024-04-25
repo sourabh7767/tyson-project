@@ -12,4 +12,7 @@ class EditJob extends Model
     {
         return $this->belongsTo(Job::class, 'job_id');
     }
+    public function getUser(){
+        return User::find($this->user_id);
+    }
 }

@@ -124,80 +124,59 @@
                                     </tr>
                                     <tr>
                                       <th colspan="4" style="text-align: center;">
-                                        Old Data
+                                        {{-- {{dd($model->editJobs)}} --}}
+                                        Comments
                                       </th>
                                     </tr>
                                     <tr>
-                                      <th>
-                                        Total Amount
-                                      </th>
-                                      @php
-                                          $oldDataJson = json_decode(!empty($model->editJobs[0] ) ? $model->editJobs[0]->old_data : $model, true);
-                                      @endphp
-                                      <td>
-                                        {{isset($oldDataJson['total_amount']) ? $oldDataJson['total_amount'] : 'N/A'}}
-                                        
-                                      </td>
-                                      <th>
-                                        Comission
-                                      </th>
-                                      <td>
-                                        {{ isset($oldDataJson['comission']) ? $oldDataJson['comission'] : 'N/A'}}
-                                       
-                                      </td>
+                                      <th>Change by</th>
+                                      <th>Old Data</th>
+                                      <th>New Data</th>
+                                      <th >Comment</th>
                                     </tr>
+                                    @forelse ($model->editJobs as $key => $item)
+                                    @php
+                                        $decondedOldData = json_decode($item->old_data ,true);
+                                        $decondedNewData = json_decode($item->new_data , true);
+                                        // dd($decondedOldData);
+                                    @endphp
                                     <tr>
-                                      <th>
-                                        Comission Amount
-                                      </th>
+                                      <td>{{!empty($item->getUser()) ? $item->getUser()->full_name : "N/A"}}</td>
                                       <td>
-                                        {{isset($oldDataJson['comission_amount']) ? $oldDataJson['comission_amount'] : 'N/A'}}
-                                        
+                                        {{-- @foreach ($decondedOldData as $key => $value)
+                                        {{ $key }}: {{ $value }}@if (!$loop->last), @endif
+                                        @endforeach   --}}
+                                        @if (isset($decondedOldData['total_amount']))
+                                            Total Amount: {{ $decondedOldData['total_amount'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['comission']))
+                                            Comission% : {{ $decondedOldData['comission'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['comission_amount']))
+                                            Comission Amount: {{ $decondedOldData['comission_amount'] }},
+                                        @endif
                                       </td>
+                                      <td>
+                                        {{-- @foreach ($decondedNewData as $key => $value)
+                                          {{ $key }}: {{ $value }}@if (!$loop->last), @endif
+                                        @endforeach --}}
+                                        @if (isset($decondedNewData['total_amount']))
+                                        Total Amount: {{ $decondedNewData['total_amount'] }},
+                                        @endif
+                                        @if (isset($decondedNewData['comission_per']))
+                                        Comission% : {{ $decondedNewData['comission_per'] }},
+                                        @endif
+                                        @if (isset($decondedNewData['comission_amount']))
+                                        Comission Amount: {{ $decondedNewData['comission_amount'] }},
+                                        @endif
+                                      </td>
+                                      <td>{{$item->comment}}</td>
                                     </tr>
-                                    <tr>
-                                      <th colspan="4" style="text-align: center;">
-                                          New Data
-                                      </th>
-                                  </tr>
-                                  <tr>
-                                      <th>
-                                          Total Amount
-                                      </th>
-                                      @php
-                                          $newDataJson = json_decode(!empty($model->editJobs[0]) ? $model->editJobs[0]->new_data : $model, true);
-                                      @endphp
-                                      <td>
-                                          {{ isset($newDataJson['total_amount']) ? $newDataJson['total_amount'] : 'N/A' }}
-                                      </td>
-                                      <th>
-                                          Commission
-                                      </th>
-                                      <td>
-                                          {{ isset($newDataJson['comission_per']) ? $newDataJson['comission_per'] : 'N/A' }}
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <th>
-                                          Commission Amount
-                                      </th>
-                                      <td>
-                                          {{ isset($newDataJson['comission_amount']) ? $newDataJson['comission_amount'] : 'N/A' }}
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <th colspan="4" style="text-align: center;">
-                                          Comment
-                                      </th>
-                                  </tr>
-                                  <tr>
-                                      <td colspan="4" style="text-align: center;">
-                                          {{ isset($model->editJobs[0]->comment) ? $model->editJobs[0]->comment : 'N/A' }}
-                                      </td>
-                                  </tr>
-                                  
+                                      @empty
+                                        <tr colspan="4">No Data Found</tr>  
+                                      @endforelse
+                                      
 
-                          
 
                                     
                                </tbody>
@@ -233,14 +212,17 @@
                                       <div class="form-group">
                                         <label for="comission-perecentage" class="col-form-label">Comission Perecentage:</label>
                                         @php
-                                            $comissionArr = getCommission(2);
+                                            $comissionArr = getCommission($model->jobForm[0]->job_form_type);
                                         @endphp
                                         <select name="comission_per" class="form-control" id="commission-percentage">
                                           @foreach ($comissionArr as $item)
+                                          <option value="">Select</option>
                                           <option value="{{$item}}">{{$item}} %</option>
                                           @endforeach
                                         </select>
                                       </div>
+                                      
+                                      
                                       <div class="form-group">
                                         <label for="comission-amount" class="col-form-label">Comission Amount:</label>
                                         <input type="text" class="form-control" name="comission_amount" id="comission_amount" value="">

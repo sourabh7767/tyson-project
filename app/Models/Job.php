@@ -100,4 +100,5 @@ class Job extends Model
     {
         return $this->hasMany(EditJob::class);
     }
+    
 }
