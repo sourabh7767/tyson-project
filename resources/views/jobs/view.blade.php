@@ -215,8 +215,8 @@
                                             $comissionArr = getCommission($model->jobForm[0]->job_form_type);
                                         @endphp
                                         <select name="comission_per" class="form-control" id="commission-percentage">
-                                          @foreach ($comissionArr as $item)
                                           <option value="">Select</option>
+                                          @foreach ($comissionArr as $item)
                                           <option value="{{$item}}">{{$item}} %</option>
                                           @endforeach
                                         </select>
