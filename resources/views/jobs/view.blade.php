@@ -132,16 +132,18 @@
                                         Total Amount
                                       </th>
                                       @php
-                                          $oldDataJson = json_decode(!empty($model->editJobs[0]) ? $model->editJobs[0]->old_data : $model, true);
+                                          $oldDataJson = json_decode(!empty($model->editJobs[0] ) ? $model->editJobs[0]->old_data : $model, true);
                                       @endphp
                                       <td>
-                                        {{$oldDataJson['total_amount']}}
+                                        {{isset($oldDataJson['total_amount']) ? $oldDataJson['total_amount'] : 'N/A'}}
+                                        
                                       </td>
                                       <th>
                                         Comission
                                       </th>
                                       <td>
-                                        {{$oldDataJson['comission']}}
+                                        {{ isset($oldDataJson['comission']) ? $oldDataJson['comission'] : 'N/A'}}
+                                       
                                       </td>
                                     </tr>
                                     <tr>
@@ -149,50 +151,51 @@
                                         Comission Amount
                                       </th>
                                       <td>
-                                        {{$oldDataJson['comission_amount']}}
+                                        {{isset($oldDataJson['comission_amount']) ? $oldDataJson['comission_amount'] : 'N/A'}}
+                                        
                                       </td>
                                     </tr>
                                     <tr>
                                       <th colspan="4" style="text-align: center;">
-                                        New Data
+                                          New Data
                                       </th>
-                                    </tr>
-                                    <tr>
+                                  </tr>
+                                  <tr>
                                       <th>
-                                        Total Amount
+                                          Total Amount
                                       </th>
                                       @php
                                           $newDataJson = json_decode(!empty($model->editJobs[0]) ? $model->editJobs[0]->new_data : $model, true);
                                       @endphp
                                       <td>
-                                        {{$newDataJson['total_amount']}}
+                                          {{ isset($newDataJson['total_amount']) ? $newDataJson['total_amount'] : 'N/A' }}
                                       </td>
                                       <th>
-                                        Comission
+                                          Commission
                                       </th>
                                       <td>
-                                        {{$newDataJson['comission_per']}}
+                                          {{ isset($newDataJson['comission_per']) ? $newDataJson['comission_per'] : 'N/A' }}
                                       </td>
-                                    </tr>
-                                    <tr>
+                                  </tr>
+                                  <tr>
                                       <th>
-                                        Comission Amount
+                                          Commission Amount
                                       </th>
                                       <td>
-                                        {{$newDataJson['comission_amount']}}
+                                          {{ isset($newDataJson['comission_amount']) ? $newDataJson['comission_amount'] : 'N/A' }}
                                       </td>
-                                    </tr>
-                                    <tr>
-                                      <tr>
-                                        <th colspan="4" style="text-align: center;">
+                                  </tr>
+                                  <tr>
+                                      <th colspan="4" style="text-align: center;">
                                           Comment
-                                        </th>
-                                      </tr>
-                                      <tr>
-                                        <td colspan="4" style="text-align: center;">
-                                          {{!empty($model->editJobs[0]) ? $model->editJobs[0]->comment : "N/A"}}
-                                        </td>
-                                      </tr>
+                                      </th>
+                                  </tr>
+                                  <tr>
+                                      <td colspan="4" style="text-align: center;">
+                                          {{ isset($model->editJobs[0]->comment) ? $model->editJobs[0]->comment : 'N/A' }}
+                                      </td>
+                                  </tr>
+                                  
 
                           
 
