@@ -14,6 +14,8 @@ class JobForm extends Model
         'service_titan_number',
         'comission',
         'job_id',
-        'user_id'
+        'user_id',
+        'job_form_type',
+        'comission_amount'
     ];
 }
