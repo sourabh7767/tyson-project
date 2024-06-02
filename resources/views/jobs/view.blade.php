@@ -131,7 +131,7 @@
                                       <th>Admin Comission %</th>
                                       <td colspan="1">
                                         @if($model->jobForm->count())
-                                          {{$model->jobForm[0]->admin_comission_per}} %
+                                          {{!empty($model->jobForm[0]->admin_comission_per) ? $model->jobForm[0]->admin_comission_per." %" : ""}} 
                                         @endif
                                       </td>
                                       <th>Admin Comission amount</th>
