@@ -16,7 +16,7 @@ class AddExtraColumnsToJobFormsTable extends Migration
         Schema::table('job_forms', function (Blueprint $table) {
             $table->tinyInteger('is_lead')->default(0)->comment('0 => NO, 1 => YES');
             $table->double('admin_comission_per')->nullable();
-            $table->double('admin_comission_amount_per_per')->nullable();
+            $table->double('admin_comission_amount_per')->nullable();
         });
     }
 
@@ -30,7 +30,7 @@ class AddExtraColumnsToJobFormsTable extends Migration
         Schema::table('job_forms', function (Blueprint $table) {
             $table->dropColumn('status');
             $table->dropColumn('admin_comission_per');
-            $table->dropColumn('admin_comission_amount_per_per');
+            $table->dropColumn('admin_comission_amount_per');
         });
     }
 }
