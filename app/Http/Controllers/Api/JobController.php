@@ -95,7 +95,8 @@ class JobController extends Controller
             'total_amount'         => 'required|numeric',
             'comission'            => 'required|numeric',
             "comission_amount"     => 'sometimes|numeric',
-            'job_id'               => 'required|numeric',   
+            'job_id'               => 'required|numeric',
+            'is_lead'              => 'required_with:id'  
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -118,7 +119,8 @@ class JobController extends Controller
                 'total_amount'         => $request->total_amount,
                 'comission'            => $request->comission,
                 'comission_amount'     => $request->comission_amount,
-                'job_form_type'        => $request->job_form_type
+                'job_form_type'        => $request->job_form_type,
+                'is_lead'              => $request->is_lead
             ]);
             return returnSuccessResponse('JobForm updated successfully.', $jobForm);
             

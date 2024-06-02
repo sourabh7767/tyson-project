@@ -84,6 +84,11 @@
                                     <tr>
                                     <th>Dispatch Address</th>
                                       <td colspan="1">{{ $model->dispatch_address }}</td>
+                                      <th>Is Lead</th>
+                                      @if($model->jobForm->count())
+                                            <td colspan="1">{{ $model->jobForm[0]->is_lead }}</td>
+                                          @endif
+                                      
                                     </tr>
                                     
                                     <tr>
@@ -150,7 +155,7 @@
                                             Total Amount: {{ $decondedOldData['total_amount'] }},
                                         @endif
                                         @if (isset($decondedOldData['comission']))
-                                            Comission% : {{ $decondedOldData['comission'] }},
+                                            Comission% : {{ $decondedOldData['comission'] }} %,
                                         @endif
                                         @if (isset($decondedOldData['comission_amount']))
                                             Comission Amount: {{ $decondedOldData['comission_amount'] }},
@@ -164,7 +169,7 @@
                                         Total Amount: {{ $decondedNewData['total_amount'] }},
                                         @endif
                                         @if (isset($decondedNewData['comission_per']))
-                                        Comission% : {{ $decondedNewData['comission_per'] }},
+                                        Comission% : {{ $decondedNewData['comission_per'] }} %,
                                         @endif
                                         @if (isset($decondedNewData['comission_amount']))
                                         Comission Amount: {{ $decondedNewData['comission_amount'] }},
@@ -175,10 +180,6 @@
                                       @empty
                                         <tr colspan="4">No Data Found</tr>  
                                       @endforelse
-                                      
-
-
-                                    
                                </tbody>
                            </table>
                            <br>
