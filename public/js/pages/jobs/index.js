@@ -103,7 +103,7 @@ $(document).ready(function() {
         var text = $( "#editStatus option:selected" ).text();
         var selected_id = $('#editStatus').val();
         var admin_comission_per = $("#admin_comission_per").val();
-        var admin_comission_amount = $("#admin_comission_amount").val();
+        var admin_comission_amount_per = $("#admin_comission_amount_per").val();
         var rowData = selectedRow.data();
         $.ajax({
             url: site_url + '/update-job-status',
@@ -112,7 +112,7 @@ $(document).ready(function() {
                 id: selectedRow.data().id, // Include the row ID for server-side identification
                 job_status: selected_id,
                 admin_comission_per : admin_comission_per,
-                admin_comission_amount : admin_comission_amount
+                admin_comission_amount_per : admin_comission_amount_per
                 // Include other fields as needed
             },
             success: function (response) {
@@ -135,7 +135,7 @@ $(document).ready(function() {
                     swal("Error!", response.errors.admin_comission_per[0], "error");
                     // swal("Error!", "The admin comission Percentage field is required!", "error");
                     
-                } else if(response.errors && response.errors.admin_comission_amount) {
+                } else if(response.errors && response.errors.admin_comission_amount_per) {
                         swal("Error!", "The admin comission amount field is required!", "error");
                 } else {
                     swal("Error!", "Changes are not saved!", "error");

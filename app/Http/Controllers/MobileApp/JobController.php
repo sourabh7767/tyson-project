@@ -117,15 +117,15 @@ class JobController extends Controller
                 'required_if:job_status,6',
                 'regex:/^\d+(\.\d{1,2})?$/'
             ],
-            'admin_comission_amount' => [
+            'admin_comission_amount_per' => [
                 'required_if:job_status,6',
                 'regex:/^\d+(\.\d{1,2})?$/'
             ],
             ],[
               "admin_comission_per.required_if" => "The admin comission Percentage field is required"  ,
-              "admin_comission_amount.required_if" => "The admin comission Amount field is required!",
+              "admin_comission_amount_per.required_if" => "The admin comission Amount field is required!",
               "admin_comission_per.regex" => "The admin comission Percentage field must be a number or decimal",
-              "admin_comission_amount.regex" => "The admin comission Amount field must be a number or decimal"
+              "admin_comission_amount_per.regex" => "The admin comission Amount field must be a number or decimal"
             ]);
         $job = Job::find($id);
 
@@ -137,7 +137,7 @@ class JobController extends Controller
         JobForm::where("job_id",$request->id)->update([
             "status"=>$request->job_status,
             "admin_comission_per" => $request->admin_comission_per,
-            "admin_comission_amount" => $request->admin_comission_amount
+            "admin_comission_amount_per" => $request->admin_comission_amount_per
         ]);
 
         return returnSuccessResponse('Status updated successfully');

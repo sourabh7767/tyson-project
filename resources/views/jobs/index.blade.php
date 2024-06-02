@@ -55,7 +55,7 @@
                             <label for="editCustomerName" class="form-label">Admin Commision %</label>
                             <input type="text" class="form-control" name="admin_comission_per" id="admin_comission_per">
                             <label for="editCustomerName" class="form-label">Admin commision amount</label>
-                            <input type="text" class="form-control" name="admin_comission_amount" id="admin_comission_amount">
+                            <input type="text" class="form-control" name="admin_comission_amount_per" id="admin_comission_amount_per">
                           </div>
                       </form>
                   </div>
