@@ -44,7 +44,7 @@ class Job extends Model
         if(empty($column)){
             $column = 'id';
         }
-        $query = self::select("jobs.id","jobs.customer_name","jobs.service_titan_number","jobs.dispatch_time","jobs.dispatch_address","jobs.checkout_address","jobs.checkout_time","job_forms.total_amount","job_forms.status")->leftJoin('job_forms', 'job_forms.job_id', '=', 'jobs.id')->orderBy($column, $order);
+        $query = self::select("jobs.id","jobs.customer_name","jobs.service_titan_number","jobs.dispatch_time","jobs.dispatch_address","jobs.checkout_address","jobs.checkout_time","job_forms.total_amount","job_forms.status","job_forms.is_lead")->leftJoin('job_forms', 'job_forms.job_id', '=', 'jobs.id')->orderBy($column, $order);
 
         if(!empty($request)){
 
