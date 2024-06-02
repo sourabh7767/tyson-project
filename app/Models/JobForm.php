@@ -16,6 +16,7 @@ class JobForm extends Model
         'job_id',
         'user_id',
         'job_form_type',
-        'comission_amount'
+        'comission_amount',
+        "is_lead"
     ];
 }
