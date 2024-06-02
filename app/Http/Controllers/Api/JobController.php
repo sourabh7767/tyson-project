@@ -120,7 +120,7 @@ class JobController extends Controller
                 'comission'            => $request->comission,
                 'comission_amount'     => $request->comission_amount,
                 'job_form_type'        => $request->job_form_type,
-                'is_lead'              => empty($request->is_lead) ? $jobForm->is_lead : $request->is_lead,
+                'is_lead'              => empty($request->is_lead) ? 0 : $request->is_lead,
 
             ]);
             return returnSuccessResponse('JobForm updated successfully.', $jobForm);
