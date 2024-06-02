@@ -51,6 +51,12 @@
                                 <option value="6">Sold</option>
                               </select>
                           </div>
+                          <div class="mb-2 d-none" id="extrafeilds">
+                            <label for="editCustomerName" class="form-label">Admin Commision %</label>
+                            <input type="text" class="form-control" name="admin_comission_per" id="admin_comission_per">
+                            <label for="editCustomerName" class="form-label">Admin commision amount</label>
+                            <input type="text" class="form-control" name="admin_comission_amount" id="admin_comission_amount">
+                          </div>
                       </form>
                   </div>
                   <div class="modal-footer">
@@ -108,6 +114,7 @@
                     <th>Dispatch Time</th>
                     <th>Clock Out Time</th>
                     <th>Status</th>
+                    <th>Is Lead</th>
                     <th>Actions</th>
                      
                   </tr>

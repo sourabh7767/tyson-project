@@ -71,6 +71,9 @@ class JobController extends Controller
                 ->addColumn('status_val', function ($user) {
                     return $user->status;
                 })
+                ->addColumn('is_lead', function ($user) {
+                    return $user->is_lead == 0 ?  "No" : "YES";
+                })
 
                 ->addColumn('action', function ($user) {
                 $btn = '';
@@ -87,7 +90,8 @@ class JobController extends Controller
                 })
                 ->rawColumns([
                 'action',
-                'status'
+                'status',
+                'is_lead'
             ])->setTotalRecords($setFilteredRecords)->setFilteredRecords($setFilteredRecords)->skipPaging()
                 ->make(true);
         }
@@ -108,6 +112,21 @@ class JobController extends Controller
 
     public function updateJobStatus(request $request){
         $id = $request->id;
+        $request->validate([
+            'admin_comission_per' => [
+                'required_if:job_status,6',
+                'regex:/^\d+(\.\d{1,2})?$/'
+            ],
+            'admin_comission_amount' => [
+                'required_if:job_status,6',
+                'regex:/^\d+(\.\d{1,2})?$/'
+            ],
+            ],[
+              "admin_comission_per.required_if" => "The admin comission Percentage field is required"  ,
+              "admin_comission_amount.required_if" => "The admin comission Amount field is required!",
+              "admin_comission_per.regex" => "The admin comission Percentage field must be a number or decimal",
+              "admin_comission_amount.regex" => "The admin comission Amount field must be a number or decimal"
+            ]);
         $job = Job::find($id);
 
         if(!$job){
@@ -115,7 +134,11 @@ class JobController extends Controller
         }
 
         
-        JobForm::where("job_id",$request->id)->update(["status"=>$request->job_status]);
+        JobForm::where("job_id",$request->id)->update([
+            "status"=>$request->job_status,
+            "admin_comission_per" => $request->admin_comission_per,
+            "admin_comission_amount" => $request->admin_comission_amount
+        ]);
 
         return returnSuccessResponse('Status updated successfully');
     }

@@ -53,6 +53,7 @@ $(document).ready(function() {
                 }
             },
             { data: 'status', name: 'status' },
+            {data : 'is_lead' , name :'is_lead'},
             { data: 'action', name: 'action', orderable: false, searchable: false},
             
         ],
@@ -83,16 +84,26 @@ $(document).ready(function() {
     $(document).on('click', '.edit-button', function () {
         selectedRow = table.row($(this).closest('tr'));
         var row = selectedRow.data(); 
-        console.log("row--------------",row);
+        console.log("row--------------",row.status_val);
         //$('#editNumberOfSlots').val(row.status_val);
         $('#editStatus').val(row.status_val);
        
         eventModal = new bootstrap.Modal(document.getElementById('editRecordModal'));
         eventModal.show();
     });
+    $(document).on('change',"#editStatus",function () {
+        var status = $(this).val();
+        console.log(status);
+        if(status == 6){
+            $("#extrafeilds").removeClass("d-none");
+            // $("#admin_comission_per").removeClass("d-none");
+        }
+    })
     $('#saveChanges').on('click', function () {
         var text = $( "#editStatus option:selected" ).text();
         var selected_id = $('#editStatus').val();
+        var admin_comission_per = $("#admin_comission_per").val();
+        var admin_comission_amount = $("#admin_comission_amount").val();
         var rowData = selectedRow.data();
         $.ajax({
             url: site_url + '/update-job-status',
@@ -100,6 +111,8 @@ $(document).ready(function() {
             data: {
                 id: selectedRow.data().id, // Include the row ID for server-side identification
                 job_status: selected_id,
+                admin_comission_per : admin_comission_per,
+                admin_comission_amount : admin_comission_amount
                 // Include other fields as needed
             },
             success: function (response) {
@@ -114,10 +127,20 @@ $(document).ready(function() {
                     eventModal.hide(); // Hide the edit popup after saving
                 }
             },
-            error: function (error) {
-                console.log(error);
+            error: function (xhr, status, error) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response.errors.admin_comission_per[0]);
+
+                if(response.errors && response.errors.admin_comission_per) {
+                    swal("Error!", response.errors.admin_comission_per[0], "error");
+                    // swal("Error!", "The admin comission Percentage field is required!", "error");
+                    
+                } else if(response.errors && response.errors.admin_comission_amount) {
+                        swal("Error!", "The admin comission amount field is required!", "error");
+                } else {
+                    swal("Error!", "Changes are not saved!", "error");
+                }
                 // Handle errors
-                swal("Error!", "Changes are not Saved!", "error");
                 
             }
         });

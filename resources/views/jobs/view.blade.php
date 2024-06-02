@@ -128,6 +128,20 @@
                                       <td colspan="1">{{ $model->checkout_address }}</td>
                                     </tr>
                                     <tr>
+                                      <th>Admin Comission %</th>
+                                      <td colspan="1">
+                                        @if($model->jobForm->count())
+                                          {{$model->jobForm[0]->admin_comission_per}} %
+                                        @endif
+                                      </td>
+                                      <th>Admin Comission amount</th>
+                                      <td colspan="1">
+                                        @if($model->jobForm->count())
+                                          {{$model->jobForm[0]->admin_comission_amount}}
+                                        @endif
+                                      </td>
+                                    </tr>
+                                    <tr>
                                       <th colspan="4" style="text-align: center;">
                                         {{-- {{dd($model->editJobs)}} --}}
                                         Comments
