@@ -134,7 +134,8 @@ class JobController extends Controller
                 'job_id'               => $request->job_id,
                 'user_id'             => $request->user()->id,
                 'comission_amount'     => $request->comission_amount,
-                'job_form_type'        => $request->job_form_type
+                'job_form_type'        => $request->job_form_type,
+                'is_lead'              => empty($request->is_lead) ? 0 : $request->is_lead,
             ]);
             return returnSuccessResponse('JobForm created successfully.', $jobForm);
             
