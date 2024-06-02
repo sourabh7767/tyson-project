@@ -86,7 +86,12 @@
                                       <td colspan="1">{{ $model->dispatch_address }}</td>
                                       <th>Is Lead</th>
                                       @if($model->jobForm->count())
-                                            <td colspan="1">{{ $model->jobForm[0]->is_lead }}</td>
+                                            <td colspan="1">@if($model->jobForm[0]->is_lead == 1)
+                                              Yes
+                                              @else
+                                                    No
+                                              @endif
+                                            </td>
                                           @endif
                                       
                                     </tr>

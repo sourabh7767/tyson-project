@@ -50,7 +50,7 @@
                 
                 </li>
 
-                <li class=" nav-item {{request()->is('jobs') || request()->is('jobs/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('jobs.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Admins</span></a>
+                <li class=" nav-item {{request()->is('jobs') || request()->is('jobs/*')?'active':''}}"><a class="d-flex align-items-center" href="{{route('jobs.index')}}"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Customer Jobs</span></a>
                 
                 </li>
 
