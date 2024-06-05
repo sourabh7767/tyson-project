@@ -156,8 +156,8 @@ public function exportToExcel(Request $request)
 public function update(Request $request){
     $request->validate([
         'comment' => 'required',
-        'total_amount' => 'required',
-        'comission_per' => "required",
+        // 'total_amount' => 'required',
+        // 'comission_per' => "required",
         ]);
         $newData = [
             "total_amount" => $request->total_amount,
