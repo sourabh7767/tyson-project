@@ -25,7 +25,7 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
     {
         $query = Job::query()
             ->join('users', 'jobs.user_id', '=', 'users.id')
-            ->join('job_forms', 'jobs.id', '=', 'job_forms.job_id')
+            ->leftJoin('job_forms', 'jobs.id', '=', 'job_forms.job_id')
             ->select(
                 'users.full_name as full_name',
                 'jobs.service_titan_number',
