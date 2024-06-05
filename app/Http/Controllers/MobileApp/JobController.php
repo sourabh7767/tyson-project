@@ -176,9 +176,9 @@ public function update(Request $request){
         $editJobObj->old_data = json_encode($existingRecord);
         $editJobObj->comment = $request->comment;
         if($editJobObj->save()){
-            $existingRecord->comission = $request->comission_per;
-            $existingRecord->total_amount = $request->total_amount;
-            $existingRecord->comission_amount = $request->comission_amount;
+            $existingRecord->comission = !empty($request->comission_per) ? $request->comission_per : $existingRecord->comission;
+            $existingRecord->total_amount = !empty($request->total_amount) ? $request->total_amount : $existingRecord->total_amount;
+            $existingRecord->comission_amount = !empty($request->comission_amount) ? $request->comission_amount : $existingRecord->comission_amount;
             // $existingRecord->job_form_type = auth()->user()->role;
             $existingRecord->save();
             session()->flash('success',"Job Updated");
