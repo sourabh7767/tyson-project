@@ -89,6 +89,8 @@ $(document).ready(function() {
         $('#editStatus').val(row.status_val);
         if(row.status_val == 6){
             $("#extrafeilds").removeClass("d-none");
+        }else{
+            $("#extrafeilds").addClass("d-none");
         }
        
         eventModal = new bootstrap.Modal(document.getElementById('editRecordModal'));
