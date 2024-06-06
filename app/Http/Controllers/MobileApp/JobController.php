@@ -171,14 +171,14 @@ public function update(Request $request){
             "checkout_time"=>$request->checkout_time,
         ];
         $existingRecord = JobForm::find($request->job_id);
-        if(empty($existingRecord)){
-            session()->flash('error',"Job Form not added");
-            return response()->json('error');
-        }
+        // if(empty($existingRecord)){
+        //     session()->flash('error',"Job Form not added");
+        //     return response()->json('error');
+        // }
         $jobObj = Job::find($request->job_id);
         $editJobObj = new EditJob();
         $oldData = [
-            'jobForm' => $existingRecord->toArray(),
+            'jobForm' => !empty($existingRecord) ? $existingRecord->toArray() : "",
             'job' => [
                 'dispatch_time' => $jobObj->dispatch_time,
                 'arrival_time' => $jobObj->arrival_time,
@@ -191,12 +191,13 @@ public function update(Request $request){
         $editJobObj->old_data = json_encode($oldData);
         $editJobObj->comment = $request->comment;
         if($editJobObj->save()){
-            $existingRecord->comission = !empty($request->comission_per) ? $request->comission_per : $existingRecord->comission;
-            $existingRecord->total_amount = !empty($request->total_amount) ? $request->total_amount : $existingRecord->total_amount;
-            $existingRecord->comission_amount = !empty($request->comission_amount) ? $request->comission_amount : $existingRecord->comission_amount;
-            // $existingRecord->save();
-            if($existingRecord->save()){
-                
+            if(!empty($existingRecord)){
+                $existingRecord->comission = !empty($request->comission_per) ? $request->comission_per : $existingRecord->comission;
+                $existingRecord->total_amount = !empty($request->total_amount) ? $request->total_amount : $existingRecord->total_amount;
+                $existingRecord->comission_amount = !empty($request->comission_amount) ? $request->comission_amount : $existingRecord->comission_amount;
+                $existingRecord->save();
+            }
+            
                 $jobObj->dispatch_time = !empty($request->dispatch_time) ? $request->dispatch_time : $jobObj->dispatch_time;
                 $jobObj->arrival_time = !empty($request->arrival_time) ? $request->arrival_time : $jobObj->arrival_time;
                 $jobObj->checkout_time = !empty($request->checkout_time) ? $request->checkout_time : $jobObj->checkout_time;
@@ -207,11 +208,6 @@ public function update(Request $request){
                     session()->flash('error',"Job not Updated");
                     return response()->json('error');
                 }
-            }else{
-                session()->flash('error',"JobForm not Updated");
-                return response()->json('error');
-            }
-            
             session()->flash('success',"Job Updated");
             return response()->json('success');
         }

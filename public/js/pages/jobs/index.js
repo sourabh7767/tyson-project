@@ -87,6 +87,9 @@ $(document).ready(function() {
         console.log("row--------------",row.status_val);
         //$('#editNumberOfSlots').val(row.status_val);
         $('#editStatus').val(row.status_val);
+        if(row.status_val == 6){
+            $("#extrafeilds").removeClass("d-none");
+        }
        
         eventModal = new bootstrap.Modal(document.getElementById('editRecordModal'));
         eventModal.show();
@@ -97,6 +100,8 @@ $(document).ready(function() {
         if(status == 6){
             $("#extrafeilds").removeClass("d-none");
             // $("#admin_comission_per").removeClass("d-none");
+        }else{
+            $("#extrafeilds").addClass("d-none");
         }
     })
     $('#saveChanges').on('click', function () {
@@ -121,8 +126,12 @@ $(document).ready(function() {
                     rowData.status = text;
                     selectedRow.invalidate();
                     //Swal.fire('Saved!', '', 'success')
-                    swal("Saved!", "Changes are Saved!", "success");
-                    eventModal.hide(); // Hide the edit popup after saving
+                    swal("Saved!", "Changes are Saved!", "success").then((value) => {
+                        if (value) {
+                          location.reload();
+                        }
+                      });
+                   eventModal.hide(); // Hide the edit popup after saving
                 }else{
                     eventModal.hide(); // Hide the edit popup after saving
                 }

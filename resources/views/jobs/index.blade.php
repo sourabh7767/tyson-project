@@ -114,7 +114,7 @@
                     <th>Dispatch Time</th>
                     <th>Clock Out Time</th>
                     <th>Status</th>
-                    <th>Is Lead</th>
+                    <th>Set a Lead ?</th>
                     <th>Actions</th>
                      
                   </tr>

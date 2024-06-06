@@ -74,8 +74,8 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
             'End location',
             'Shift Hours',
             'Commision Percentage',
-            'Commision Ammount',
-            'Total Ammount',
+            'Commision Amount',
+            'Total Amount',
         ];
     }
     public function registerEvents(): array

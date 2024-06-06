@@ -84,7 +84,7 @@
                                     <tr>
                                     <th>Dispatch Address</th>
                                       <td colspan="1">{{ $model->dispatch_address }}</td>
-                                      <th>Set a Lead</th>
+                                      <th>Set a Lead ?</th>
                                       @if($model->jobForm->count())
                                             <td colspan="1">@if($model->jobForm[0]->is_lead == 1)
                                               Yes
@@ -272,7 +272,7 @@
                                         <select name="comission_per" class="form-control" id="commission-percentage">
                                           <option value="">Select</option>
                                           @foreach ($comissionArr as $item)
-                                          <option value="{{$item}}">{{$item}} %</option>
+                                          <option value="2">{{$item}} %</option>
                                           @endforeach
                                         </select>
                                       </div>
@@ -290,18 +290,18 @@
                                       <strong class="commentError strong" style="color: red;"></strong>
                                       <div class="form-group">
                                         <label for="comment" class="col-form-label">Dispatch Time:</label>
-                                        <input class="form-control" type="datetime-local" name="dispatch_time" id="">
+                                        <input class="form-control" type="datetime-local" name="dispatch_time" id="" value="{{$model->dispatch_time}}">
                                         {{-- <input type="datetime-local" name="" id=""> --}}
                                       </div>
                                       <strong class="dispatch_timeError strong" style="color: red;"></strong>
                                       <div class="form-group">
                                         <label for="comment" class="col-form-label">Arrival Time:</label>
-                                        <input class="form-control" type="datetime-local" name="arrival_time" id="">
+                                        <input class="form-control" type="datetime-local" name="arrival_time" id="" value="{{$model->arrival_time}}">
                                       </div>
                                       <strong class="arrival_timeError strong" style="color: red;"></strong>
                                       <div class="form-group">
                                         <label for="comment" class="col-form-label">Checkout Time:</label>
-                                        <input class="form-control" type="datetime-local" name="checkout_time" id="">
+                                        <input class="form-control" type="datetime-local" name="checkout_time" id="" value="{{$model->checkout_time}}">
                                       </div>
                                       <strong class="checkout_timeError strong" style="color: red;"></strong>
                                   </form>
