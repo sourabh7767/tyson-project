@@ -167,9 +167,6 @@
                                     <tr>
                                       <td>{{!empty($item->getUser()) ? $item->getUser()->full_name : "N/A"}}</td>
                                       <td>
-                                        {{-- @foreach ($decondedOldData as $key => $value)
-                                        {{ $key }}: {{ $value }}@if (!$loop->last), @endif
-                                        @endforeach   --}}
                                         @if (isset($decondedOldData['jobForm']['total_amount']))
                                             Total Amount: {{ $decondedOldData['jobForm']['total_amount'] }},
                                         @endif
@@ -187,6 +184,26 @@
                                         @endif
                                         @if (isset($decondedOldData['job']['checkout_time']))
                                         Checkout Time: {{ $decondedOldData['job']['checkout_time'] }},
+                                        @endif
+
+                                        {{-- //new  --}}
+                                        @if (isset($decondedOldData['total_amount']))
+                                            Total Amount: {{ $decondedOldData['total_amount'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['comission']))
+                                            Comission% : {{ $decondedOldData['comission'] }} %,
+                                        @endif
+                                        @if (isset($decondedOldData['comission_amount']))
+                                            Comission Amount: {{ $decondedOldData['comission_amount'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['dispatch_time']))
+                                        Dispatch Time: {{ $decondedOldData['dispatch_time'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['arrival_time']))
+                                        Arrival Time: {{ $decondedOldData['arrival_time'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['checkout_time']))
+                                        Checkout Time: {{ $decondedOldData['checkout_time'] }},
                                         @endif
                                       </td>
                                       <td>
