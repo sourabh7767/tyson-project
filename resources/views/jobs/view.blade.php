@@ -84,7 +84,7 @@
                                     <tr>
                                     <th>Dispatch Address</th>
                                       <td colspan="1">{{ $model->dispatch_address }}</td>
-                                      <th>Is Lead</th>
+                                      <th>Set a Lead</th>
                                       @if($model->jobForm->count())
                                             <td colspan="1">@if($model->jobForm[0]->is_lead == 1)
                                               Yes
@@ -170,14 +170,23 @@
                                         {{-- @foreach ($decondedOldData as $key => $value)
                                         {{ $key }}: {{ $value }}@if (!$loop->last), @endif
                                         @endforeach   --}}
-                                        @if (isset($decondedOldData['total_amount']))
-                                            Total Amount: {{ $decondedOldData['total_amount'] }},
+                                        @if (isset($decondedOldData['jobForm']['total_amount']))
+                                            Total Amount: {{ $decondedOldData['jobForm']['total_amount'] }},
                                         @endif
-                                        @if (isset($decondedOldData['comission']))
-                                            Comission% : {{ $decondedOldData['comission'] }} %,
+                                        @if (isset($decondedOldData['jobForm']['comission']))
+                                            Comission% : {{ $decondedOldData['jobForm']['comission'] }} %,
                                         @endif
-                                        @if (isset($decondedOldData['comission_amount']))
-                                            Comission Amount: {{ $decondedOldData['comission_amount'] }},
+                                        @if (isset($decondedOldData['jobForm']['comission_amount']))
+                                            Comission Amount: {{ $decondedOldData['jobForm']['comission_amount'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['job']['dispatch_time']))
+                                        Dispatch Time: {{ $decondedOldData['job']['dispatch_time'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['job']['arrival_time']))
+                                        Arrival Time: {{ $decondedOldData['job']['arrival_time'] }},
+                                        @endif
+                                        @if (isset($decondedOldData['job']['checkout_time']))
+                                        Checkout Time: {{ $decondedOldData['job']['checkout_time'] }},
                                         @endif
                                       </td>
                                       <td>
@@ -192,6 +201,15 @@
                                         @endif
                                         @if (isset($decondedNewData['comission_amount']))
                                         Comission Amount: {{ $decondedNewData['comission_amount'] }},
+                                        @endif
+                                        @if (isset($decondedNewData['dispatch_time']))
+                                        Dispatch Time: {{ $decondedNewData['dispatch_time'] }},
+                                        @endif
+                                        @if (isset($decondedNewData['arrival_time']))
+                                        Arrival Time: {{ $decondedNewData['arrival_time'] }},
+                                        @endif
+                                        @if (isset($decondedNewData['checkout_time']))
+                                        Checkout Time: {{ $decondedNewData['checkout_time'] }},
                                         @endif
                                       </td>
                                       <td>{{$item->comment}}</td>
@@ -253,6 +271,22 @@
                                         <input class="form-control" type="text" name="comment" id="">
                                       </div>
                                       <strong class="commentError strong" style="color: red;"></strong>
+                                      <div class="form-group">
+                                        <label for="comment" class="col-form-label">Dispatch Time:</label>
+                                        <input class="form-control" type="datetime-local" name="dispatch_time" id="">
+                                        {{-- <input type="datetime-local" name="" id=""> --}}
+                                      </div>
+                                      <strong class="dispatch_timeError strong" style="color: red;"></strong>
+                                      <div class="form-group">
+                                        <label for="comment" class="col-form-label">Arrival Time:</label>
+                                        <input class="form-control" type="datetime-local" name="arrival_time" id="">
+                                      </div>
+                                      <strong class="arrival_timeError strong" style="color: red;"></strong>
+                                      <div class="form-group">
+                                        <label for="comment" class="col-form-label">Checkout Time:</label>
+                                        <input class="form-control" type="datetime-local" name="checkout_time" id="">
+                                      </div>
+                                      <strong class="checkout_timeError strong" style="color: red;"></strong>
                                   </form>
                                   </div>
                                   <div class="modal-footer">

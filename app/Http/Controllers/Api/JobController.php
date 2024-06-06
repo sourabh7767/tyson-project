@@ -123,6 +123,7 @@ class JobController extends Controller
                 'is_lead'              => empty($request->is_lead) ? 0 : $request->is_lead,
 
             ]);
+
             return returnSuccessResponse('JobForm updated successfully.', $jobForm);
             
         } else {

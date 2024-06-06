@@ -105,6 +105,7 @@ class JobController extends Controller
             $model = Job::with('jobForm')->where('id', $jobId)->first();
             return response()->json(['job_data' => $model]);
         }
+
         $model = Job::with('jobForm','editJobs')->where('id', decrypt($jobId) )->first();
         //echo"<pre>";print_r($model->jobForm);die;
         return view('jobs.view',compact("model"));
@@ -114,18 +115,20 @@ class JobController extends Controller
         $id = $request->id;
         $request->validate([
             'admin_comission_per' => [
+                'sometimes',
                 'required_if:job_status,6',
-                'regex:/^\d+(\.\d{1,2})?$/'
+                // 'regex:/^\d+(\.\d{1,2})?$/'
             ],
             'admin_comission_amount_per' => [
+                'sometimes',
                 'required_if:job_status,6',
-                'regex:/^\d+(\.\d{1,2})?$/'
+                // 'regex:/^\d+(\.\d{1,2})?$/'
             ],
             ],[
               "admin_comission_per.required_if" => "The admin comission Percentage field is required"  ,
               "admin_comission_amount_per.required_if" => "The admin comission Amount field is required!",
-              "admin_comission_per.regex" => "The admin comission Percentage field must be a number or decimal",
-              "admin_comission_amount_per.regex" => "The admin comission Amount field must be a number or decimal"
+            //   "admin_comission_per.regex" => "The admin comission Percentage field must be a number or decimal",
+            //   "admin_comission_amount_per.regex" => "The admin comission Amount field must be a number or decimal"
             ]);
         $job = Job::find($id);
 
@@ -162,25 +165,53 @@ public function update(Request $request){
         $newData = [
             "total_amount" => $request->total_amount,
             "comission_per" => $request->comission_per,
-            "comission_amount" => $request->comission_amount
+            "comission_amount" => $request->comission_amount,
+            "dispatch_time" =>$request->dispatch_time,
+            "arrival_time"=>$request->arrival_time,
+            "checkout_time"=>$request->checkout_time,
         ];
         $existingRecord = JobForm::find($request->job_id);
         if(empty($existingRecord)){
             session()->flash('error',"Job Form not added");
             return response()->json('error');
         }
+        $jobObj = Job::find($request->job_id);
         $editJobObj = new EditJob();
+        $oldData = [
+            'jobForm' => $existingRecord->toArray(),
+            'job' => [
+                'dispatch_time' => $jobObj->dispatch_time,
+                'arrival_time' => $jobObj->arrival_time,
+                'checkout_time' => $jobObj->checkout_time,
+            ]
+        ];
         $editJobObj->user_id = auth()->user()->id;
         $editJobObj->job_id = $request->job_id;
         $editJobObj->new_data = json_encode($newData);
-        $editJobObj->old_data = json_encode($existingRecord);
+        $editJobObj->old_data = json_encode($oldData);
         $editJobObj->comment = $request->comment;
         if($editJobObj->save()){
             $existingRecord->comission = !empty($request->comission_per) ? $request->comission_per : $existingRecord->comission;
             $existingRecord->total_amount = !empty($request->total_amount) ? $request->total_amount : $existingRecord->total_amount;
             $existingRecord->comission_amount = !empty($request->comission_amount) ? $request->comission_amount : $existingRecord->comission_amount;
-            // $existingRecord->job_form_type = auth()->user()->role;
-            $existingRecord->save();
+            // $existingRecord->save();
+            if($existingRecord->save()){
+                
+                $jobObj->dispatch_time = !empty($request->dispatch_time) ? $request->dispatch_time : $jobObj->dispatch_time;
+                $jobObj->arrival_time = !empty($request->arrival_time) ? $request->arrival_time : $jobObj->arrival_time;
+                $jobObj->checkout_time = !empty($request->checkout_time) ? $request->checkout_time : $jobObj->checkout_time;
+                // $jobObj->save();
+                if($jobObj->save()){
+
+                }else{
+                    session()->flash('error',"Job not Updated");
+                    return response()->json('error');
+                }
+            }else{
+                session()->flash('error',"JobForm not Updated");
+                return response()->json('error');
+            }
+            
             session()->flash('success',"Job Updated");
             return response()->json('success');
         }
