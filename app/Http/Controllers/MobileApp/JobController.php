@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MobileApp;
 
 use App\Http\Controllers\Controller;
 use App\Models\EditJob;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\JobForm;
@@ -153,16 +154,17 @@ public function exportToExcel(Request $request)
     $selectedUsers = $request->input('selectedUsers');
     $endDate = date('Y-m-d', strtotime($endDate . ' +1 day'));
     $export = new JobsExport($startDate, $endDate, $selectedUsers);
-
+    
     return Excel::download($export, 'jobs.xlsx');
 }
 public function update(Request $request){
+    // dd($diff);
     $request->validate([
         'comment' => 'required',
         // 'total_amount' => 'required',
         // 'comission_per' => "required",
-        ]);
-        $newData = [
+    ]);
+    $newData = [
             "total_amount" => $request->total_amount,
             "comission_per" => $request->comission_per,
             "comission_amount" => $request->comission_amount,
@@ -198,12 +200,15 @@ public function update(Request $request){
                 $existingRecord->save();
             }
             
-                $jobObj->dispatch_time = !empty($request->dispatch_time) ? $request->dispatch_time : $jobObj->dispatch_time;
-                $jobObj->arrival_time = !empty($request->arrival_time) ? $request->arrival_time : $jobObj->arrival_time;
-                $jobObj->checkout_time = !empty($request->checkout_time) ? $request->checkout_time : $jobObj->checkout_time;
+            $jobObj->dispatch_time = !empty($request->dispatch_time) ? $request->dispatch_time : $jobObj->dispatch_time;
+            $jobObj->arrival_time = !empty($request->arrival_time) ? $request->arrival_time : $jobObj->arrival_time;
+            $jobObj->checkout_time = !empty($request->checkout_time) ? $request->checkout_time : $jobObj->checkout_time;
+            // $diff = $this->getTimeDifference($request->dispatch_time,$request->checkout_time);
+            // $jobObj->total_hours = $diff;
+                
                 // $jobObj->save();
                 if($jobObj->save()){
-
+                    
                 }else{
                     session()->flash('error',"Job not Updated");
                     return response()->json('error');
@@ -212,5 +217,20 @@ public function update(Request $request){
             return response()->json('success');
         }
 }
+
+public function getTimeDifference($startDateTime,$endDateTime)
+    {
+
+        $startTime = Carbon::parse($startDateTime);
+    $endTime = Carbon::parse($endDateTime);
+
+    // Calculate the difference
+    $diff = $endTime->diff($startTime);
+
+    // Format the difference including days
+    $formattedDiff = sprintf('%d:%02d:%02d', $diff->d * 24 + $diff->h, $diff->i, $diff->s);
+
+    return $formattedDiff;
+    }
 
 }
