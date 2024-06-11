@@ -107,7 +107,7 @@ class JobController extends Controller
             return response()->json(['job_data' => $model]);
         }
 
-        $model = Job::with('jobForm','editJobs')->where('id', decrypt($jobId) )->first();
+        $model = Job::with('jobForm','editJobs','user:id,role')->where('id', decrypt($jobId) )->first();
         //echo"<pre>";print_r($model->jobForm);die;
         return view('jobs.view',compact("model"));
     }

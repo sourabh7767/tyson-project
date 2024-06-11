@@ -3,10 +3,22 @@
     $userObj = auth()->user();
     $role = \App\Models\Role::where(['id' => $userObj->role])->first();
 @endphp
+<div class="modal custom_modal right fade" id="notification" tabindex="-1" aria-labelledby="clientfModel" data-keyboard="false" data-backdrop="static"  aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <livewire:coment-render>
+    </div>
+  </div> 
 <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
-    <div class="navbar-container d-flex content">
-        <ul class="nav navbar-nav align-items-center ms-auto">
+    <div class="navbar-container d-flex content justify-content-end">
+        <ul class="nav navbar-nav align-items-left">
+        <li class="notification_box">
+            <livewire:coment-counter>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav align-items-center">
+           
             <li class="nav-item dropdown dropdown-user">
+                
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
                         <span class="user-name fw-bolder">{{$userObj->full_name ? $userObj->full_name : $userObj->first_name}}</span>
@@ -30,5 +42,6 @@
             </li>
         </ul>
     </div>
+    
 </nav>
 <!-- END: Header-->

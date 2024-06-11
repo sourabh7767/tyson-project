@@ -16,6 +16,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
         <link rel="stylesheet" href="{{ asset('fontawesome/css/all.css') }}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ asset('fontawesome/css/fontawesome.css') }}">
         <link rel="stylesheet" href="{{ asset('fontawesome/css/regular.css') }}">
         <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
@@ -121,11 +122,11 @@
         </script>
         
         <script src="{{ asset('js/sweetalert.min.js') }}"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
         <!-- BEGIN: Page JS-->
         @stack('page_script')
         <!-- END: Page JS-->
-
+        @livewireScripts
     </body>
 </html>

@@ -243,6 +243,7 @@
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                               Edit
                             </button>
+                            {{-- {{dd($model)}} --}}
                             </div>
                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered" role="document">
@@ -267,7 +268,7 @@
                                       <div class="form-group">
                                         <label for="comission-perecentage" class="col-form-label">Comission Perecentage:</label>
                                         @php
-                                            $comissionArr = getCommission(isset($model->jobForm[0]) ? $model->jobForm[0]->job_form_type : "");
+                                            $comissionArr = getCommission(isset($model->user) ? $model->user->role : "");
                                         @endphp
                                         <select name="comission_per" class="form-control" id="commission-percentage">
                                           <option value="">Select</option>

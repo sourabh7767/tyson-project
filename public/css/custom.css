@@ -9,3 +9,29 @@ table.dataTable>thead .sorting:after, table.dataTable>thead .sorting_asc:after, 
 .import-sheet{
 	width: 267px;
 }
+.notification_box{
+    position: relative;
+}
+/* .notification_box::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff0000;
+    border-radius: 50px;
+    border: 2px solid #f5fbfb;
+    right: 7px;
+    top: 0;
+} */
+
+button.btn_close {
+    border: none;
+    background: transparent;
+}
+.scroll{
+    height: calc(100vh - 150px);
+    overflow: auto;
+}
+.notificationText{
+    font-size: 15px;
+}

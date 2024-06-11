@@ -83,7 +83,8 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 $highestRow = $event->sheet->getHighestRow();
-                
+                $totalCommissionAmount=0;
+                $totalAmount=0;
                 $totalSeconds = 0;
                 foreach ($this->collection() as $job) {
                     $timeParts = explode(':', $job->total_hours);
@@ -92,9 +93,12 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
                         $minutes = intval($timeParts[1]);
                         $seconds = intval($timeParts[2]);
                         $totalSeconds += $hours * 3600 + $minutes * 60 + $seconds;
+                       
                     } else {
                         // Log or handle invalid time values
                     }
+                    $totalCommissionAmount += $job->comission_amount;
+                    $totalAmount += $job->total_amount;
                 }
     
                 // Calculate hours, minutes, and seconds from total seconds
@@ -108,9 +112,22 @@ class JobsExport implements FromCollection, WithHeadings, WithEvents
     
                 // Append the sum of total hours to the Excel sheet
                 $event->sheet->setCellValue('L' . ($highestRow + 1), $totalHours);
+                $event->sheet->setCellValue('N' . ($highestRow + 1), $totalCommissionAmount);
+                $event->sheet->setCellValue('O' . ($highestRow + 1), $totalAmount);
                 
                 // Optionally, you can apply formatting to the total hours cell
                 $event->sheet->getStyle('L' . ($highestRow + 1))->getFont()->setBold(true);
+                $event->sheet->getStyle('N' . ($highestRow + 1))->getFont()->setBold(true);
+                $event->sheet->getStyle('O' . ($highestRow + 1))->getFont()->setBold(true);
+                $columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
+                $widths = [20, 10, 12, 8, 20, 12, 10, 20, 12, 8, 20, 10, 20, 20, 20]; // Adjust these widths as necessary
+
+                foreach ($columns as $index => $column) {
+                    $event->sheet->getColumnDimension($column)->setWidth($widths[$index]);
+                }
+                
+                // Enable text wrapping for the header row
+                $event->sheet->getStyle('A1:O1')->getAlignment()->setWrapText(true);
             },
         ];
     }
