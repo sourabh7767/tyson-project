@@ -72,21 +72,26 @@
             <div class="card data-table">
                <div class="card-header">
                   <h4 class="m-0"><i class="fas fa-users mr-2"></i>&nbsp;{{ __('Jobs') }}</h4></br>
-                  <div class="form-group">
+                  <div class="form-group d-flex">
                     @php
                         $users = app\Models\User::where('role', '!=', 1)->where('role', '!=', 2)->orderBy('full_name')->get();
                     @endphp
-                    <select name="user_id" id="selected_users" class="form-control"> 
-                      <option value="">Select Employee</option>
-                      @foreach ($users as $user)
-                      <option value="{{$user->id}}">{{$user->full_name}}</option>
-                      @endforeach
-                    </select>
+                    <div class="mid-left">
+                        <select name="user_id" id="selected_users" class="form-control"> 
+                          <option value="">Select Employee</option>
+                          @foreach ($users as $user)
+                          <option value="{{$user->id}}">{{$user->full_name}}</option>
+                          @endforeach
+                        </select>
+                    </div>
                     
-                    <input type="date" name="start_date" id="start_date">
-                    <input type="date" name="end_date" id="end_date" >
-                    &nbsp;&nbsp;<button class="btn btn-success" id="filterBtn">Filter</button>
-              <button class="btn btn-success" id="exportBtn" type="button" >Export</button>
+                    <div class="mid-right">
+                        <input type="date" name="start_date" id="start_date">
+                        <input type="date" name="end_date" id="end_date" >
+                        &nbsp;&nbsp;<button class="btn btn-success" id="filterBtn">Filter</button>
+                        <button class="btn btn-success" id="exportBtn" type="button" >Export</button>
+                    </div>
+                    
 
                 </div>
                   <div>
