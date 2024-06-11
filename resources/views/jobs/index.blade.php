@@ -72,7 +72,7 @@
             <div class="card data-table">
                <div class="card-header">
                   <h4 class="m-0"><i class="fas fa-users mr-2"></i>&nbsp;{{ __('Jobs') }}</h4></br>
-                  <div class="form-group d-flex">
+                  <div class="form-group d-flex" style="gap: 10px;">
                     @php
                         $users = app\Models\User::where('role', '!=', 1)->where('role', '!=', 2)->orderBy('full_name')->get();
                     @endphp
