@@ -12,7 +12,7 @@ class ComentRender extends Component
 
     public function refreshComments()
     {
-        return $this->comments = \App\Models\EditJob::select('id','comment','user_id','created_at')->orderBy('id','DESC')->get();
+        return $this->comments = \App\Models\EditJob::select('id','comment','user_id','created_at','job_id')->orderBy('id','DESC')->get();
     }
 
     public function __construct()

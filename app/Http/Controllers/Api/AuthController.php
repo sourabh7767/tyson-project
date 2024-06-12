@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use App\Models\ErrorLog;
 use App\Models\EmailQueue;
+use App\Mail\ForgetPassword;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -85,9 +87,9 @@ class AuthController extends Controller
        $userObj->save();
 
        $updatedUser = User::find($inputArr['user_id']);
-       $authToken = $updatedUser->createToken('authToken')->plainTextToken;
+    //    $authToken = $updatedUser->createToken('authToken')->plainTextToken;
        $returnArr = $updatedUser->jsonResponse();
-       $returnArr['auth_token'] = $authToken;
+    //    $returnArr['auth_token'] = $authToken;
        return returnSuccessResponse('Otp verified successfully', $returnArr);
     }
 
@@ -208,18 +210,19 @@ class AuthController extends Controller
         $resetPasswordOtp = $userObj->generateEmailVerificationOtp();
         $userObj->email_verification_otp = $resetPasswordOtp;
         $userObj->save();
-
-          EmailQueue::add([
-            'to' => $userObj->email,
-            'subject' => "Reset Password OTP",
-            'view' => 'mail',
-            'type'=>0,
-            'viewArgs' => [
-                'name' => $userObj->full_name,
-                'body' => "Your reset password otp is: ".$userObj->email_verification_otp
-            ]
-        ]);
-
+        $details = [
+            'email' => $userObj->email,
+            'otp' => $resetPasswordOtp 
+        ];
+        try{
+            Mail::to($userObj->email)->send(new ForgetPassword($details));
+            return returnSuccessResponse('Reset password OTP sent successfully', $userObj->jsonResponse());
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 422);
+        }
         return returnSuccessResponse('Reset password OTP sent successfully', $userObj->jsonResponse());
     }
 
@@ -229,7 +232,6 @@ class AuthController extends Controller
 
     	$rules = [
                     'user_id' => 'required',
-                    'reset_password_otp' => 'required',
                     'new_password' => 'required',
                     'confirm_new_password' => 'required|same:new_password'
 
@@ -242,10 +244,9 @@ class AuthController extends Controller
         }
 
         $userObj = User::where('id', $inputArr['user_id'])
-                        ->where('email_verification_otp', $inputArr['reset_password_otp'])
                         ->first();
         if (!$userObj) {
-            return returnNotFoundResponse('Invalid reset password OTP');
+            return returnNotFoundResponse('Invalid user id');
         }
 
         $userObj->email_verification_otp = null;

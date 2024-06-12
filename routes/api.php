@@ -22,16 +22,16 @@ Route::prefix('v1')->namespace('Api')->group(function () {
 //         // User Register Route
 //         Route::post('/register', 'AuthController@register')->name('register');
 //         Route::post('/resendOtp', 'AuthController@resendOtp')->name('resendOtp');
-//         Route::post('/verifyOtp', 'AuthController@verifyOtp')->name('verifyOtp');
 
-       
+
 
 
 //         // User Login Route
-        Route::post('/login', 'AuthController@login')->name('login');
+Route::post('/login', 'AuthController@login')->name('login');
 // 		Route::post('/resendOtp', 'AuthController@resendOtp')->name('resendOtp');
-// 		 Route::post('/forgotPassword', 'AuthController@forgotPassword')->name('forgotPassword');
-// 		Route::post('/resetPassword', 'AuthController@resetPassword')->name('resetPassword');
+		Route::post('/forgotPassword', 'AuthController@forgotPassword')->name('forgotPassword');
+		Route::post('/verifyOtp', 'AuthController@verifyOtp')->name('verifyOtp');
+		Route::post('/resetPassword', 'AuthController@resetPassword')->name('resetPassword');
 // 	    Route::get('/getPage', 'HomeController@getPage')->name('getPage');
 
 		

@@ -108,8 +108,7 @@ class JobController extends Controller
         }
 
         $model = Job::with('jobForm','editJobs','user:id,role')->where('id', decrypt($jobId) )->first();
-        //echo"<pre>";print_r($model->jobForm);die;
-        return view('jobs.view',compact("model"));
+            return view('jobs.view',compact("model"));
     }
 
     public function updateJobStatus(request $request){
@@ -177,7 +176,7 @@ public function update(Request $request){
         //     session()->flash('error',"Job Form not added");
         //     return response()->json('error');
         // }
-        $jobObj = Job::find($request->job_id);
+        $jobObj = Job::where('id',$request->job_id)->with('user:id,fcm_token,device_type')->first();
         $editJobObj = new EditJob();
         $oldData = [
             'jobForm' => !empty($existingRecord) ? $existingRecord->toArray() : "",
@@ -213,6 +212,9 @@ public function update(Request $request){
                     session()->flash('error',"Job not Updated");
                     return response()->json('error');
                 }
+                $data['job_data'] = $jobObj;
+                // $data['']
+                $this->sendPushNotification($jobObj->user->fcm_token,"Admin Comment","Admin Commented On your job",$jobObj->user->device_type,$data,0);
             session()->flash('success',"Job Updated");
             return response()->json('success');
         }
@@ -232,5 +234,55 @@ public function getTimeDifference($startDateTime,$endDateTime)
 
     return $formattedDiff;
     }
+
+    public function sendPushNotification($firebaseToken,$title,$body,$deviceType=0,$extraData=[],$badgeCount=0)
+    {    
+       // $deviceType = 0;
+        $SERVER_API_KEY = env('FCM_SERVER_KEY');
+        
+        if($deviceType == 1){
+            $data = [
+                "to" => $firebaseToken,
+                "notification" => [
+                    "title" => $title,
+                    "body" => $body,
+                    "sound" => "default",  
+                   // "badge" => $badgeCount, 
+                ],
+                "data" => $extraData,
+            ];
+        }else{
+            $data = [
+                "to" => $firebaseToken,
+                "notification" => [
+                    "title" => $title,
+                    "body" => $body,  
+                    "sound" => "default",  
+                    //"badge" => $badgeCount, 
+                ],
+                "data" => $extraData,
+                "priority" => "high"
+            ];
+        }
+        
+        $dataString = json_encode($data);
+        
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+      
+        $ch = curl_init();
+        
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+                 
+        $response = curl_exec($ch);
+        return true;
+    } 
 
 }

@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body scroll" >
             @forelse ($comments as $comment)
-            <div class="dashCard mb-2">
+            <a href="{{route('jobs.show',encrypt($comment->job_id))}}"><div class="dashCard mb-2">
                 <div class="dashCardImg d-flex">
                     <img class="me-2" src="{{asset('img/notification_modal.svg')}}" alt="user icon">
                     <h2 class="notificationText"><b> {{$comment->getUser()->full_name}} commented </b> <br> {{$comment->comment}} </h2>
@@ -20,7 +20,7 @@
                         <p class="notificationStatus">{{($comment->created_at->diffForHumans())}}</p>
                     </div>
                 </div>
-            </div>
+            </div></a>
             @empty
                 {{"No data found"}}
             @endforelse

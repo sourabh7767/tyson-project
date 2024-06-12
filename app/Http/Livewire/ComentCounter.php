@@ -10,7 +10,7 @@ class ComentCounter extends Component
 
     public function __construct()
     {
-        return $this->commentCounter = (int) \App\Models\EditJob::exists();
+        $this->commentCounter = (int) \App\Models\EditJob::exists();
     }
 
     public function refreshNotificationCount()
