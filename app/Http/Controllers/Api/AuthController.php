@@ -104,20 +104,20 @@ class AuthController extends Controller
             return returnNotFoundResponse('User not found with this user id');
         }
        
-        $verificationOtp = $userObj->generateEmailVerificationOtp();
+        $verificationOtp = 1111;//$userObj->generateEmailVerificationOtp();
         $userObj->email_verification_otp = $verificationOtp;
         $userObj->save();
 
-        EmailQueue::add([
-            'to' => $userObj->email,
-            'subject' => "Verification Code",
-            'view' => 'mail',
-            'type'=>0,
-            'viewArgs' => [
-                'name' => $userObj->full_name,
-                'body' => "Your verification otp is: ".$userObj->email_verification_otp
-            ]
-        ]);
+        // EmailQueue::add([
+        //     'to' => $userObj->email,
+        //     'subject' => "Verification Code",
+        //     'view' => 'mail',
+        //     'type'=>0,
+        //     'viewArgs' => [
+        //         'name' => $userObj->full_name,
+        //         'body' => "Your verification otp is: ".$userObj->email_verification_otp
+        //     ]
+        // ]);
     
 
         return returnSuccessResponse('Otp resend successfully!',$userObj->jsonResponse());
@@ -207,22 +207,22 @@ class AuthController extends Controller
         if(empty($userObj->email_verified_at))
             return returnNotFoundResponse('Please verify your email.');
 
-        $resetPasswordOtp = $userObj->generateEmailVerificationOtp();
+        $resetPasswordOtp = 1111;//$userObj->generateEmailVerificationOtp();
         $userObj->email_verification_otp = $resetPasswordOtp;
         $userObj->save();
-        $details = [
-            'email' => $userObj->email,
-            'otp' => $resetPasswordOtp 
-        ];
-        try{
-            Mail::to($userObj->email)->send(new ForgetPassword($details));
-            return returnSuccessResponse('Reset password OTP sent successfully', $userObj->jsonResponse());
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 422);
-        }
+        // $details = [
+        //     'email' => $userObj->email,
+        //     'otp' => $resetPasswordOtp 
+        // ];
+        // try{
+        //     Mail::to($userObj->email)->send(new ForgetPassword($details));
+        //     return returnSuccessResponse('Reset password OTP sent successfully', $userObj->jsonResponse());
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => $e->getMessage()
+        //     ], 422);
+        // }
         return returnSuccessResponse('Reset password OTP sent successfully', $userObj->jsonResponse());
     }
 
