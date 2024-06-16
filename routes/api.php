@@ -28,7 +28,7 @@ Route::prefix('v1')->namespace('Api')->group(function () {
 
 //         // User Login Route
 Route::post('/login', 'AuthController@login')->name('login');
-// 		Route::post('/resendOtp', 'AuthController@resendOtp')->name('resendOtp');
+		Route::post('/resendOtp', 'AuthController@resendOtp')->name('resendOtp');
 		Route::post('/forgotPassword', 'AuthController@forgotPassword')->name('forgotPassword');
 		Route::post('/verifyOtp', 'AuthController@verifyOtp')->name('verifyOtp');
 		Route::post('/resetPassword', 'AuthController@resetPassword')->name('resetPassword');
