@@ -53,7 +53,7 @@ class Controller extends BaseController
         "aud" => "https://oauth2.googleapis.com/token",
         "exp" => $time + 3600,
         "iat" => $time
-    ]);
+    ]); 
     
     // Encode Header
     $base64UrlHeader = $this->base64UrlEncode($header);
