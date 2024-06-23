@@ -127,6 +127,6 @@
         <!-- BEGIN: Page JS-->
         @stack('page_script')
         <!-- END: Page JS-->
-        {{-- @livewireScripts --}}
+        @livewireScripts
     </body>
 </html>
