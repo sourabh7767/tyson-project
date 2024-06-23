@@ -29,7 +29,7 @@ class Controller extends BaseController
     }
     public function fireBaseConfig()
 {
-    $filePath = base_path('service-success-app-firebase-adminsdk-xlhck-0530286d04.json');
+    $filePath = base_path('service-success-app-firebase-adminsdk-xlhck-8d3d67b876.json');
     $authConfigString = file_get_contents($filePath);
     // Parse service account details
     $authConfig = json_decode($authConfigString);
