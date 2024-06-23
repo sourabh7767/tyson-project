@@ -290,4 +290,24 @@ class JobController extends Controller
         $model->save();
         return returnSuccessResponse('Comment added successfully.', $model);
     }
+
+    public function getJobById(Request $request)
+    {
+        $rules = [
+            'job_id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $errorMessages = $validator->errors()->all();
+            throw new HttpResponseException(returnValidationErrorResponse($errorMessages[0]));
+        }
+        $jobs = Job::where('id', $request->job_id)->with('jobForm','editJobs')->first();
+        if(!empty($jobs)){
+            return returnSuccessResponse("Job",$jobs);
+        }else{
+            return returnErrorResponse('Job  not found.');
+        }
+    }
 }

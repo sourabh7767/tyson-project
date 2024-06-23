@@ -27,4 +27,104 @@ class Controller extends BaseController
         }
             
     }
+    public function fireBaseConfig()
+{
+    $filePath = base_path('google-services.json');
+    $authConfigString = file_get_contents($filePath);
+    // Parse service account details
+    $authConfig = json_decode($authConfigString);
+    return $authConfig->client[0]->api_key[0]->current_key;
+    // Read private key from service account details
+    $secret = openssl_get_privatekey($authConfig->private_key);
+    
+    // Create the token header
+    $header = json_encode([
+        'typ' => 'JWT',
+        'alg' => 'RS256'
+    ]);
+    
+    // Get seconds since 1 January 1970
+    $time = time();
+    
+    
+    $payload = json_encode([
+        "iss" => $authConfig->client_email,
+        "scope" => "https://www.googleapis.com/auth/firebase.messaging",
+        "aud" => "https://oauth2.googleapis.com/token",
+        "exp" => $time + 3600,
+        "iat" => $time
+    ]);
+    
+    // Encode Header
+    $base64UrlHeader = $this->base64UrlEncode($header);
+    
+    // Encode Payload
+    $base64UrlPayload = $this->base64UrlEncode($payload);
+    
+    // Create Signature Hash
+    $result = openssl_sign($base64UrlHeader . "." . $base64UrlPayload, $signature, $secret, OPENSSL_ALGO_SHA256);
+    
+    // Encode Signature to Base64Url String
+    $base64UrlSignature = $this->base64UrlEncode($signature);
+    
+    // Create JWT
+    $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+    
+    //-----Request token------
+    $options = array('http' => array(
+        'method'  => 'POST',
+        'content' => 'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion='.$jwt,
+        'header'  =>
+            "Content-Type: application/x-www-form-urlencoded"
+    ));
+    $context  = stream_context_create($options);
+    $responseText = file_get_contents("https://oauth2.googleapis.com/token", false, $context);
+    
+    return json_decode($responseText);
+}
+
+public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$message = "",$extraData = []){
+    $data = json_encode([
+        "message" => [
+            "token" => $fcmToken,
+            "notification" => [
+                "body" => $message,
+                "title" => $title,
+            ],
+            "data" => [
+                // "badge" => (string)$badgeCount,
+                "extraData" => json_encode($extraData), 
+                "content_available" => "true"
+            ],
+            "android" => [
+                "notification" => [
+                    "sound "=> "default"
+                ],
+            ],
+        ]
+    ]);
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://fcm.googleapis.com/v1/projects/service-success-app/messages:send',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => $data,
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: Bearer $authToken",
+        'Content-Type: application/json'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+
+}
 }

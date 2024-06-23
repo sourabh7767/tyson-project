@@ -29,4 +29,17 @@ class HomeController extends Controller
         $monthlys = User::monthly();
         return view('home',compact("users","data","monthlys"));
     }
+
+    function base64UrlEncode($text)
+    {
+        return str_replace(
+            ['+', '/', '='],
+            ['-', '_', ''],
+            base64_encode($text)
+        );
+    }
+
+// Read service account details
+
+
 }

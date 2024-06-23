@@ -28,7 +28,7 @@ Route::prefix('v1')->namespace('Api')->group(function () {
 
 //         // User Login Route
 Route::post('/login', 'AuthController@login')->name('login');
-		Route::post('/resendOtp', 'AuthController@resendOtp')->name('resendOtp');
+Route::post('/resendOtp', 'AuthController@resendOtp')->name('resendOtp');
 		Route::post('/forgotPassword', 'AuthController@forgotPassword')->name('forgotPassword');
 		Route::post('/verifyOtp', 'AuthController@verifyOtp')->name('verifyOtp');
 		Route::post('/resetPassword', 'AuthController@resetPassword')->name('resetPassword');
@@ -46,6 +46,7 @@ Route::post('/login', 'AuthController@login')->name('login');
  		Route::post('/add-update-job-form-technician', 'JobController@addjobFormTechnician')->name('addJobFormTechnician');
  		Route::get('job-history', 'JobController@jobHistory')->name('jobHistory');
 		 Route::post('add-comment', 'JobController@addComment')->name('addComment');
+		 Route::get('getJobById','JobController@getJobById')->name('getJobById');
 // 			Route::get('/profile', 'AccountController@getProfile')->name('profile');
 // 			Route::post('/updateProfile', 'AccountController@updateProfile')->name('updateProfile');
 // 			Route::get('/notification', 'AccountController@notification')->name('notification');

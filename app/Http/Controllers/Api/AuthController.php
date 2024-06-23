@@ -128,7 +128,6 @@ class AuthController extends Controller
     	$rules = [
     		'email' => 'required',
             'password' => 'required',
-
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -157,7 +156,7 @@ class AuthController extends Controller
         if (!Auth::attempt(['email' => $inputArr['email'], 'password' => $inputArr['password']])) {
             return returnNotFoundResponse('Invalid credentials');
         }
-        
+        $userObj->fcm_token = $request->fcm_token;
         $userObj->save();
 
         $userObj->tokens()->delete();
