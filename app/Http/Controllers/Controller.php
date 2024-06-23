@@ -61,6 +61,7 @@ class Controller extends BaseController
     // Encode Payload
     $base64UrlPayload = $this->base64UrlEncode($payload); 
     
+    
     // Create Signature Hash
     $result = openssl_sign($base64UrlHeader . "." . $base64UrlPayload, $signature, $secret, OPENSSL_ALGO_SHA256);
     
