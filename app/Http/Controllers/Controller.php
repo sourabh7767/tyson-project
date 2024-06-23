@@ -29,11 +29,11 @@ class Controller extends BaseController
     }
     public function fireBaseConfig()
 {
-    $filePath = base_path('google-services.json');
+    $filePath = base_path('service-success-app-firebase-adminsdk-xlhck-0530286d04.json');
     $authConfigString = file_get_contents($filePath);
     // Parse service account details
     $authConfig = json_decode($authConfigString);
-    return $authConfig->client[0]->api_key[0]->current_key;
+    // return $authConfig->client[0]->api_key[0]->current_key;
     // Read private key from service account details
     $secret = openssl_get_privatekey($authConfig->private_key);
     
@@ -82,28 +82,43 @@ class Controller extends BaseController
     
     return json_decode($responseText);
 }
+function base64UrlEncode($text)
+{
+    return str_replace(
+        ['+', '/', '='],
+        ['-', '_', ''],
+        base64_encode($text)
+    );
+}
 
 public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$message = "",$extraData = []){
-    $data = json_encode([
-        "message" => [
-            "token" => $fcmToken,
-            "notification" => [
-                "body" => $message,
-                "title" => $title,
-            ],
-            "data" => [
-                // "badge" => (string)$badgeCount,
-                "extraData" => json_encode($extraData), 
-                "content_available" => "true"
-            ],
-            "android" => [
-                "notification" => [
-                    "sound "=> "default"
-                ],
-            ],
-        ]
-    ]);
-    $curl = curl_init();
+    // $data = json_encode([
+    //     "message" => [
+    //         "token" => $fcmToken,
+    //         "notification" => [
+    //             "body" => $message,
+    //             "title" => $title,
+    //             ""
+    //         ],
+    //         "data" => [
+    //             "key" => "skjfdsnf",
+    //         ],
+    //     ]
+    // ]);
+    $encodedData = json_encode($extraData);
+    $data = '{
+   "message":{
+      "token":"'.$fcmToken.'",
+      "notification":{
+        "body":"'.$message.'",
+        "title":"'.$title.'"
+      },
+      "data":{
+        "key":"'.$encodedData.'"
+      }
+   }
+}';
+   $curl = curl_init();
 
     curl_setopt_array($curl, array(
     CURLOPT_URL => 'https://fcm.googleapis.com/v1/projects/service-success-app/messages:send',

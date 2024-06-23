@@ -157,8 +157,9 @@ public function exportToExcel(Request $request)
     return Excel::download($export, 'jobs.xlsx');
 }
 public function update(Request $request){
-    $configResult  = $this->fireBaseConfig();
-    dd($configResult);
+    
+    //  dd($abc);
+    // dd($configResult->access_token);
     $request->validate([
         'comment' => 'required',
         // 'total_amount' => 'required',
@@ -213,10 +214,12 @@ public function update(Request $request){
                     session()->flash('error',"Job not Updated");
                     return response()->json('error');
                 }
-                $data['job_data'] = $jobObj;
+                $data['job_id'] = $jobObj->id;
                 
                 // $data['']
                 // $this->sendPushNotification($jobObj->user->fcm_token,"Admin Comment","Admin Commented On your job",$jobObj->user->device_type,$data,0);
+                $configResult  = $this->fireBaseConfig();
+                $this->sendFireBasePushNotification($configResult->access_token,$jobObj->user->fcm_token,"Comment",$request->comment,$data);
             session()->flash('success',"Job Updated");
             return response()->json('success');
         }
