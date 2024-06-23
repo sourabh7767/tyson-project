@@ -119,6 +119,7 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
       }
    }
 }';
+
    $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -138,6 +139,7 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
     ));
 
     $response = curl_exec($curl);
+    // dd($response);
 
     curl_close($curl);
     echo $response;

@@ -218,8 +218,10 @@ public function update(Request $request){
                 
                 // $data['']
                 // $this->sendPushNotification($jobObj->user->fcm_token,"Admin Comment","Admin Commented On your job",$jobObj->user->device_type,$data,0);
-                $configResult  = $this->fireBaseConfig();
-                $this->sendFireBasePushNotification($configResult->access_token,$jobObj->user->fcm_token,"Comment",$request->comment,$data);
+                if(!empty($jobObj->user->fcm_token)){
+                    $configResult  = $this->fireBaseConfig();
+                    $this->sendFireBasePushNotification($configResult->access_token,$jobObj->user->fcm_token,"Comment",$request->comment,$jobObj->id);
+                }
             session()->flash('success',"Job Updated");
             return response()->json('success');
         }
