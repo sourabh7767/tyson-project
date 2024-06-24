@@ -16,6 +16,8 @@ class JobController extends Controller
 {
     public function index(Request $request, Job $job)
     {
+        $configResult  = $this->fireBaseConfig();
+                    echo "<pre>";print_r($configResult);die;
     	if ($request->ajax()) {
 
             $users = $job->getAllJobs($request);
@@ -158,8 +160,7 @@ public function exportToExcel(Request $request)
 }
 public function update(Request $request){
     echo "success";
-    $configResult  = $this->fireBaseConfig();
-                    echo "<pre>";print_r($configResult);die;
+    
     //  dd($abc);
     // dd($configResult->access_token);
     $request->validate([
