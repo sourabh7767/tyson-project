@@ -157,6 +157,7 @@ public function exportToExcel(Request $request)
     return Excel::download($export, 'jobs.xlsx');
 }
 public function update(Request $request){
+    echo "success";
     $configResult  = $this->fireBaseConfig();
                     echo "<pre>";print_r($configResult);die;
     //  dd($abc);
