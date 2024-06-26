@@ -115,7 +115,7 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
         "title":"'.$title.'"
       },
       "data":{
-        ''key'':"'.$encodedData.'"
+        "key" : "'.$encodedData.'"
       }
    }
 }';
