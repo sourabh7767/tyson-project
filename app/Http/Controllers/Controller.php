@@ -115,12 +115,12 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
         "title":"'.$title.'"
       },
       "data":{
-        "key":"'.$encodedData.'"
+        ''key'':"'.$encodedData.'"
       }
    }
 }';
-echo "here";
-echo "<ptr>";print_r($data);die;
+// echo "here";
+// echo "<ptr>";print_r($data);die;
    $curl = curl_init();
 
     curl_setopt_array($curl, array(
