@@ -93,7 +93,7 @@ function base64UrlEncode($text)
 }
 
 public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$message = "",$extraData = []){
-    echo $authToken;die;
+    
     // $data = json_encode([
     //     "message" => [
     //         "token" => $fcmToken,
