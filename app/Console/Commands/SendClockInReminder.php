@@ -40,10 +40,10 @@ class SendClockInReminder extends Command
      */
     public function handle()
     {
-        $currentTime = Carbon::now('Asia/Kolkata');
+        $currentTime = Carbon::now('America/Denver');
         $currentHour = $currentTime->hour;
         echo "Current Hour: $currentHour\n";
-        if ($currentHour == 8) {
+        if ($currentHour == 9) {
             // 8 AM - Check who has not logged in
             $usersNotLoggedIn = User::where('is_logged_in', 2)->get();
 
@@ -158,9 +158,6 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
         "body":"'.$message.'",
         "title":"'.$title.'"
       },
-      "data":{
-        "key":"'.$encodedData.'"
-      }
    }
 }';
 
@@ -186,7 +183,7 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
     // dd($response);
 
     curl_close($curl);
-    echo $response;
+    return $response;
 
 }
 }
