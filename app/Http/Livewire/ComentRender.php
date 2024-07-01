@@ -12,10 +12,20 @@ class ComentRender extends Component
 
     public function refreshComments()
     {
-        return $this->comments = \App\Models\EditJob::select('id','comment','user_id','created_at','job_id')->orderBy('id','DESC')->get();
+        $oldCommentsCount = count($this->comments);
+        $this->comments = \App\Models\EditJob::select('id','comment','user_id','created_at','job_id')->orderBy('id','DESC')->get();
+        $newCommentsCount = count($this->comments);
+        if ($newCommentsCount > $oldCommentsCount) {
+            $this->emit('newCommentNotification');
+        }
+        return $this->comments;
     }
 
-    public function __construct()
+    // public function __construct()
+    // {
+    //     $this->comments = $this->refreshComments();
+    // }
+    public function mount()
     {
         $this->comments = $this->refreshComments();
     }
