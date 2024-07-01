@@ -93,6 +93,7 @@ function base64UrlEncode($text)
 }
 
 public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$message = "",$extraData = []){
+    
     // $data = json_encode([
     //     "message" => [
     //         "token" => $fcmToken,
@@ -115,11 +116,12 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
         "title":"'.$title.'"
       },
       "data":{
-        "key":"'.$encodedData.'"
+        "key" : "'.$encodedData.'"
       }
    }
 }';
-
+// echo "here";
+// echo "<ptr>";print_r($data);die;
    $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -142,7 +144,8 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
     // dd($response);
 
     curl_close($curl);
-    echo $response;
+    
+    return $response;
 
 }
 }
