@@ -157,6 +157,7 @@ class AuthController extends Controller
             return returnNotFoundResponse('Invalid credentials');
         }
         $userObj->fcm_token = $request->fcm_token;
+        $userObj->is_logged_in = 1;
         $userObj->save();
 
         $userObj->tokens()->delete();
@@ -176,6 +177,7 @@ class AuthController extends Controller
 
         $userObj->tokens()->delete();
         $userObj->fcm_token = null;
+        $userObj->is_logged_in = 2;
         $userObj->save();
         return returnSuccessResponse('User logged out successfully');
     }

@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
          //$schedule->command('expire_subscription')->hourly();
          $schedule->command('time-slots:update')
                 ->everyMinute();
+        $schedule->command('send:clockin-reminder')->everyMinute();
     }
 
     /**
