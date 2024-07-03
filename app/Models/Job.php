@@ -98,7 +98,7 @@ class Job extends Model
     }
     public function editJobs()
     {
-        return $this->hasMany(EditJob::class);
+        return $this->hasMany(EditJob::class)->orderBy('id','DESC');
     }
 
     public function user()

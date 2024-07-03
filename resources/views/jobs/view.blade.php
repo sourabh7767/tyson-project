@@ -157,6 +157,7 @@
                                       <th>Old Data</th>
                                       <th>New Data</th>
                                       <th >Comment</th>
+                                      <th >Comment Date</th>
                                     </tr>
                                     @forelse ($model->editJobs as $key => $item)
                                     @php
@@ -230,6 +231,8 @@
                                         @endif
                                       </td>
                                       <td>{{$item->comment}}</td>
+                                      <td>{{ Carbon\Carbon::parse($item->created_at)->setTimezone('America/Denver')->format('d-m-Y H:i A') }}</td>
+
                                     </tr>
                                       @empty
                                         <tr colspan="4">No Data Found</tr>  
