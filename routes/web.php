@@ -74,6 +74,10 @@ use Illuminate\Support\Facades\Route;
         Route::get('user/change-password','UserController@changePasswordView')->name('user.changePassword');
         Route::post('user/change-password','UserController@changePassword')->name('user.changePassword.submit');
 
+        //settings
+        Route::get('user/set/time','UserController@setReminder')->name('user.setTime');
+        Route::post('user/update/time','UserController@updateReminder')->name('user.setTime.submit');
+
         Route::get('user/change-password/{id}','UserController@changeUserPasswordView')->name('user.changeUserPassword');
         Route::post('user/change-password/{id}','UserController@changeUserPassword')->name('user.changeUserPassword.submit');
         

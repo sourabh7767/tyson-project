@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Setting;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -42,34 +43,57 @@ class SendClockInReminder extends Command
     {
         $currentTime = Carbon::now('America/Denver');
         $currentHour = $currentTime->hour;
-        echo "Current Hour: $currentHour\n";
-        if ($currentHour == 9) {
-            // 8 AM - Check who has not logged in
-            $usersNotLoggedIn = User::where('is_logged_in', 2)->get();
-
-            foreach ($usersNotLoggedIn as $user) {
-                $configResult = $this->fireBaseConfig();
-                $message = "You have not logged in today. Please remember to log in.";
-                $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $message);
-            }
-
-            $this->info('Log-in reminders sent successfully.');
-            return true;
-        } elseif ($currentHour == 19) {
-            
-            // 7 PM - Check who has not logged out
-            $usersNotLoggedOut = User::where('is_logged_in', 1)->get();
-
-            foreach ($usersNotLoggedOut as $user) {
-                $configResult = $this->fireBaseConfig();
-                $message = "You have not logged out yet. Please remember to log out.";
-                $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $message);
-            }
-
-            $this->info('Log-out reminders sent successfully.');
+        if ($currentTime->isSunday()) {
+            $this->info("Today is Sunday. Reminders are not sent on Sundays.");
             return true;
         }
-        $this->info('Log-out reminders sent successfully.');
+        $settings = Setting::first();
+
+        if(!empty($settings)){
+            if($settings->is_cron_on == 1){
+                $loginReminderHour = Carbon::parse($settings->start_time)->hour;
+                // dd($loginReminderHour);
+                $logoutReminderHour = Carbon::parse($settings->end_time)->hour;
+                $loginMessage = $settings->start_message;
+                $logoutMessage = $settings->end_message;
+                echo "Current Hour: $currentHour\n";
+                if ($currentHour == $loginReminderHour) {
+                    // 8 AM - Check who has not logged in
+                    $usersNotLoggedIn = User::where('is_logged_in', 2)->get();
+        
+                    foreach ($usersNotLoggedIn as $user) {
+                        $configResult = $this->fireBaseConfig();
+                        // $message = "You have not logged in today. Please remember to log in.";
+                        $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $loginMessage);
+                    }
+        
+                    $this->info('Log-in reminders sent successfully.');
+                    return true;
+                } elseif ($currentHour == $logoutReminderHour) {
+                    
+                    // 7 PM - Check who has not logged out
+                    $usersNotLoggedOut = User::where('is_logged_in', 1)->get();
+        
+                    foreach ($usersNotLoggedOut as $user) {
+                        $configResult = $this->fireBaseConfig();
+                        // $message = "You have not logged out yet. Please remember to log out.";
+                        $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $logoutMessage);
+                    }
+        
+                    $this->info('Log-out reminders sent successfully.');
+                    return true;
+                }else{
+                    $this->info('No reminders sent. Current timing is not in the reminder timing.');
+                }
+            }else{
+                $this->info('Cron is Turned Off from Admin Side.');
+                return true;
+            }
+        }else{
+            $this->info("Cron Timings are not set yet!");
+        }
+        
+        
     }
     public function fireBaseConfig()
 {

@@ -10,6 +10,7 @@ use Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\ProcessEmail;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
@@ -358,6 +359,58 @@ class UserController extends Controller
 		$data['data'] = $terms->getPages('about-us');
 		return view('pages.terms', $data);
 	}
+    public function setReminder()
+    {
+        $time = Setting::where('user_id',auth()->user()->id)->first();
+        return view('user.set-time',['time' => $time]);
+    }
+    public function updateReminder(Request $request)
+    {
+        $userObj = auth()->user();
+        if(!$userObj){
+            return redirect()->back()->with('error', 'User not found');
+        }
+        // dd($request->all());
+        // $validatedData = $request->validate([
+        //     'start_time' => 'required',
+        //     'end_time' => 'required',
+        //     'start_message' => 'required',
+        //     'end_message' => 'required',
+        //     'is_cron_on' => 'required',
+        // ]);
+        $rules = array(
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'start_message' => 'required',
+            'end_message' => 'required',
+            'is_cron_on' => 'required',                     
+        );
+        $msg = [
+            'start_time.required' => "The Login time field is required.",
+            'end_time.required' => "The Logout time field is required.",
+            'start_message.required' => "The Login message field is required.",
+            'end_message.required' => "The logout message field is required.",
+            // 'end_message.required' => "The logout message field is required.",
 
+        ];
+        $validator = Validator::make($request->all(), $rules,$msg);
+        if ($validator->fails()) {
+            // dd("sa");
+            return Redirect::back()->withInput()->withErrors($validator);
+        } 
+        $validatedData = $request->all();
+        // Retrieve or create the setting
+        $setting = Setting::updateOrCreate(
+            ['user_id' => $userObj->id],
+            [
+                'start_time' => $validatedData['start_time'],
+                'end_time' => $validatedData['end_time'],
+                'start_message' => $validatedData['start_message'],
+                'end_message' => $validatedData['end_message'],
+                'is_cron_on' => $validatedData['is_cron_on']
+            ]
+        );
 
+        return redirect()->back()->with('success', 'Settings saved successfully');
+    }
 }
