@@ -77,6 +77,10 @@ use Illuminate\Support\Facades\Route;
         //settings
         Route::get('user/set/time','UserController@setReminder')->name('user.setTime');
         Route::post('user/update/time','UserController@updateReminder')->name('user.setTime.submit');
+        //push notification 
+        
+        Route::get('user/get/push/notification','UserController@getNotificationForm')->name('user.getNotificationForm');
+        Route::post('user/send/push/notification','UserController@sendPushNotificationsAdmin')->name('User.Send.Push.Notification');
 
         Route::get('user/change-password/{id}','UserController@changeUserPasswordView')->name('user.changeUserPassword');
         Route::post('user/change-password/{id}','UserController@changeUserPassword')->name('user.changeUserPassword.submit');

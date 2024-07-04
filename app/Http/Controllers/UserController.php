@@ -413,4 +413,56 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Settings saved successfully');
     }
+    public function getNotificationForm()
+    {
+        $users = User::all();
+        return view('user.send-push-notification',['users' => $users]);
+    }
+
+    public function sendPushNotificationsAdmin(Request $request)
+    {
+        $rules = array(
+            'message' => 'required',
+            'title' => 'required',
+            'users' =>  'required_without:send_to_all',
+            'send_to_all' => 'required_without:users',
+            // 'is_cron_on' => 'required',                     
+        );
+        $msg =  [
+            'send_to_all.required_without' => 'Please select at least one user or choose to send to all users.',
+            'users.required_without' => 'Please select at least one user or choose to send to all users.',
+        ];
+        $validator = Validator::make($request->all(), $rules,$msg);
+        if ($validator->fails()) {
+            return Redirect::back()->withInput()->withErrors($validator);
+        } 
+        $abc = [];
+        $message = $request->input('message');
+        $title = $request->input('title');
+        $url = $request->input('url');
+        $sendToAll = $request->has('send_to_all');
+        $userIds = $request->input('users', []);
+
+        if (!empty($sendToAll)) {
+            $users = User::all();
+        } else {
+            $users = User::whereIn('id', $userIds)->get();
+        }
+        if(!empty($url)){
+            $type = 3;
+        }else{
+            $type = 4;
+        }
+        // $data['url'] = $url;
+        // $data['type'] = $type;
+        foreach ($users as $user) {
+            if(empty($user->fcm_token)){
+                $configResult  = $this->fireBaseConfig();
+                $this->sendFireBasePushNotification($configResult->access_token,$user->fcm_token,$title,$message,$type);
+            }
+        }
+        // dd($abc);
+        session()->flash('success',"Notifications sent successfully.");
+        return redirect()->back()->with('success', 'Notifications sent successfully.');
+    }
 }

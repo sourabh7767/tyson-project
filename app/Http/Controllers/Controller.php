@@ -141,10 +141,9 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
     ));
 
     $response = curl_exec($curl);
-    // dd($response);
-
-    curl_close($curl);
     
+    curl_close($curl);
+    // echo "<ptr>";print_r($response);die;
     return $response;
 
 }

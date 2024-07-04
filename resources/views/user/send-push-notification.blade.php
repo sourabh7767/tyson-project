@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('title')
-    Reminder Settings
+    Send Push Notification
 @endsection
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @section('content')
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
@@ -12,7 +12,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('user.home') }}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active">Reminder Settings
+                        <li class="breadcrumb-item active">Send Push Notification
                         </li>
                     </ol>
                 </div>
@@ -25,10 +25,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h5><b>Reminder Settings</b></h5>
+                    <h5><b>Send Push Notification</b></h5>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.setTime.submit') }}">
+                    {{-- <form method="POST" action="{{ route('User.Send.Push.Notification') }}">
                         @csrf
                         <div class="form-group">
                             <div class="row">
@@ -89,19 +89,28 @@
                             </div>
                         </div>
                         <br>
+                        <div class="form-group row">
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" class="btn btn-primary my-4">Submit</button>
+                            </div>
+                        </div>
+                    </form> --}}
+                    <form action="{{ route('User.Send.Push.Notification') }}" method="POST">
+                        @csrf
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label for="exampleInputPassword2" class="float-right">Logout Message</label>
+                                    <label class="float-right" for="users">Select Users</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input name="end_message" type="text"
-                                        class="form-control {{ $errors->has('end_message') ? ' is-invalid' : '' }}"
-                                        id="exampleInputPassword2" value="{{ @$time->end_message }}"
-                                        placeholder="Enter End">
-                                    @if ($errors->has('end_message'))
+                                        <select name="users[]" id="users" class="form-control {{ $errors->has('users') ? ' is-invalid' : '' }}" multiple="multiple">
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('users'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('end_message') }}</strong>
+                                            <strong>{{ $errors->first('users') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -110,43 +119,91 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="float-right" for="flexRadioDefault1">
-                                        Cron Status  ( {{@$time->is_cron_on == 1 ? "Working" : "Not Working"}} )
-                                      </label>
+                                    <label class="float-right" for="send_to_all">Send to All Users</label>
                                 </div>
                                 <div class="col-md-6">
-                                        <input class="form-check-input" type="radio" name="is_cron_on" id="flexRadioDefault1" value="1" {{@$time->is_cron_on == 1 ? "checked" : ""}}>&nbsp;&nbsp;On&nbsp;</input>
-                                        <input class="form-check-input" type="radio" name="is_cron_on" id="flexRadioDefault1" value="2" {{@$time->is_cron_on == 2 ? "checked" : ""}}>&nbsp;&nbsp;Off</input>
+                                    <input type="checkbox" class="form-check-input {{ $errors->has('send_to_all') ? ' is-invalid' : '' }}" id="send_to_all" name="send_to_all" value="1">&nbsp;&nbsp;Yes</input>
+                                    @if ($errors->has('send_to_all'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('send_to_all') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
-                                   
                             </div>
                         </div>
                         <br>
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label class="float-right" for="flexRadioDefault1">
-                                        Default radio
-                                      </label>
+                                    <label class="float-right" for="send_to_all">Title</label>
                                 </div>
-                               
+                                <div class="col-md-6">
+                                    <input type="text" name="title" id="title" placeholder="Enter the title" class="form-control {{ $errors->has('title') ? ' is-invalid' : '' }}">
+                                    @if ($errors->has('title'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('title') }}</strong>
+                                    </span>
+                                @endif
+                                </div>
                             </div>
                         </div>
-                        <br> --}}
-                        <div class="form-group row">
-                            <div class="col-sm-12 text-center">
-                                <button type="submit" class="btn btn-primary my-4">Submit</button>
+                        <br>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="float-right" for="send_to_all">Message</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <textarea name="message" id="message" placeholder="Enter the message" class="form-control {{ $errors->has('message') ? ' is-invalid' : '' }}"></textarea>
+                                    @if ($errors->has('message'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('message') }}</strong>
+                                    </span>
+                                @endif
+                                </div>
                             </div>
                         </div>
-
-
-
-
-
-
+                        <br>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="float-right" for="send_to_all">URL (Optional)</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="url" name="url" id="url" placeholder="Enter the url" class="form-control {{ $errors->has('url') ? ' is-invalid' : '' }}">
+                                    @if ($errors->has('url'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('url') }}</strong>
+                                    </span>
+                                @endif
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Notifications</button>
                     </form>
+                
                 </div>
             </div>
         </div>
     </div>
+@push('page_script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#users').select2({
+                placeholder: "Select users",
+                allowClear: true
+            });
+
+            $('#send_to_all').change(function() {
+                if(this.checked) {
+                    $('#users').prop('disabled', true);
+                } else {
+                    $('#users').prop('disabled', false);
+                }
+            });
+        });
+    </script>
+
+@endpush
 @endsection

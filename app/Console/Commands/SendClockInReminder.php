@@ -180,8 +180,11 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
       "token":"'.$fcmToken.'",
       "notification":{
         "body":"'.$message.'",
-        "title":"'.$title.'"
+        "title":"'.$title.'",
       },
+      "data" => [
+           "key" => "2",
+       ],
    }
 }';
 
