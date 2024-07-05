@@ -447,7 +447,7 @@ class UserController extends Controller
             $users = User::all();
         } else {
             $users = User::whereIn('id', $userIds)->get();
-            echo "<pre>";print_r($users);die;
+            
         }
         if(!empty($url)){
             $type = 3;
@@ -456,7 +456,7 @@ class UserController extends Controller
         }
         // $data['url'] = $url;
         // $data['type'] = $type;
-        echo "<pre>";print_r($users);die; 
+        echo "<pre>";print_r($users);die;
         $configResult  = $this->fireBaseConfig();
         foreach ($users as $user) {
             
