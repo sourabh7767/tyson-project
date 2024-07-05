@@ -442,7 +442,8 @@ class UserController extends Controller
         $url = $request->input('url');
         $sendToAll = $request->has('send_to_all');
         $userIds = $request->input('users', []);
-
+        echo "<pre>";print_r($sendToAll);
+        echo "<pre>";print_r($userIds);die;
         if (!empty($sendToAll)) {
             $users = User::all();
         } else {
@@ -455,7 +456,7 @@ class UserController extends Controller
         }
         // $data['url'] = $url;
         // $data['type'] = $type;
-        echo "<pre>";print_r($users);die;
+        echo "<pre>";print_r($users);die; 
         $configResult  = $this->fireBaseConfig();
         foreach ($users as $user) {
             
