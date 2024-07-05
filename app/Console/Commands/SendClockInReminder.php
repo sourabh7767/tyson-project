@@ -48,7 +48,7 @@ class SendClockInReminder extends Command
             return true;
         }
         $settings = Setting::first();
-
+        $configResult = $this->fireBaseConfig();
         if(!empty($settings)){
             if($settings->is_cron_on == 1){
                 $loginReminderHour = Carbon::parse($settings->start_time)->hour;
@@ -60,11 +60,13 @@ class SendClockInReminder extends Command
                 if ($currentHour == $loginReminderHour) {
                     // 8 AM - Check who has not logged in
                     $usersNotLoggedIn = User::where('is_logged_in', 2)->get();
-        
+
+                    
                     foreach ($usersNotLoggedIn as $user) {
-                        $configResult = $this->fireBaseConfig();
-                        // $message = "You have not logged in today. Please remember to log in.";
-                        $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $loginMessage);
+                        if($user->fcm_token){
+                            // $message = "You have not logged in today. Please remember to log in.";
+                            $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $loginMessage);
+                        }
                     }
         
                     $this->info('Log-in reminders sent successfully.');
@@ -73,11 +75,13 @@ class SendClockInReminder extends Command
                     
                     // 7 PM - Check who has not logged out
                     $usersNotLoggedOut = User::where('is_logged_in', 1)->get();
-        
+                    
                     foreach ($usersNotLoggedOut as $user) {
-                        $configResult = $this->fireBaseConfig();
-                        // $message = "You have not logged out yet. Please remember to log out.";
-                        $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $logoutMessage);
+                        if($user->fcm_token){
+                            // $message = "You have not logged out yet. Please remember to log out.";
+                             $this->sendFireBasePushNotification($configResult->access_token, $user->fcm_token, "Reminder", $logoutMessage);
+                        }
+                        
                     }
         
                     $this->info('Log-out reminders sent successfully.');
