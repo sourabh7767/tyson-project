@@ -92,7 +92,7 @@ function base64UrlEncode($text)
     );
 }
 
-public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$message = "",$extraData = []){
+public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$message = "",$extraData = [],$type=0,$url=""){
     
     // $data = json_encode([
     //     "message" => [
@@ -108,19 +108,37 @@ public function sendFireBasePushNotification($authToken,$fcmToken,$title = "",$m
     //     ]
     // ]);
     $encodedData = json_encode($extraData);
-    $data = '{
-   "message":{
-      "token":"'.$fcmToken.'",
-      "notification":{
-        "body":"'.$message.'",
-        "title":"'.$title.'"
-      },
-      "data":{
-        "key" : "'.$encodedData.'",
-        "abc" : "1",
-      }
-   }
-}';
+    if($url){
+        $data = '{
+            "message":{
+               "token":"'.$fcmToken.'",
+               "notification":{
+                 "body":"'.$message.'",
+                 "title":"'.$title.'"
+               },
+               "data":{
+                 "key" : "'.$encodedData.'",
+                 "url" : "'.$url.'",
+                 "type" :"'.$type.'", 
+               }
+            }
+         }';
+    }else{
+        $data = '{
+            "message":{
+               "token":"'.$fcmToken.'",
+               "notification":{
+                 "body":"'.$message.'",
+                 "title":"'.$title.'"
+               },
+               "data":{
+                 "key" : "'.$encodedData.'",
+                 "type" :"'.$type.'",
+               }
+            }
+         }';
+    }
+  
 // echo "here";
 // echo "<ptr>";print_r($data);die;
    $curl = curl_init();
