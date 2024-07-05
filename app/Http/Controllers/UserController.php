@@ -459,12 +459,11 @@ class UserController extends Controller
         
         $configResult  = $this->fireBaseConfig();
         foreach ($users as $user) {
-            echo "<pre>";print_r($user);die;    
-            if(empty($user->fcm_token)){
-                $this->sendFireBasePushNotification($configResult->access_token,$user->fcm_token,$title,$message,$type);die;
+            if(!empty($user->fcm_token)){
+                $this->sendFireBasePushNotification($configResult->access_token,$user->fcm_token,$title,$message,$type);
             }
         }
-        die;
+        
         // dd($abc);
         session()->flash('success',"Notifications sent successfully.");
         return redirect()->back()->with('success', 'Notifications sent successfully.');
