@@ -461,6 +461,7 @@ class UserController extends Controller
                 $this->sendFireBasePushNotification($configResult->access_token,$user->fcm_token,$title,$message,$type);die;
             }
         }
+        die;
         // dd($abc);
         session()->flash('success',"Notifications sent successfully.");
         return redirect()->back()->with('success', 'Notifications sent successfully.');
