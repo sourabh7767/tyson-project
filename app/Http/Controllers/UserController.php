@@ -455,9 +455,9 @@ class UserController extends Controller
         }
         // $data['url'] = $url;
         // $data['type'] = $type;
+        $configResult  = $this->fireBaseConfig();
         foreach ($users as $user) {
             if(empty($user->fcm_token)){
-                $configResult  = $this->fireBaseConfig();
                 $this->sendFireBasePushNotification($configResult->access_token,$user->fcm_token,$title,$message,$type);
             }
         }
