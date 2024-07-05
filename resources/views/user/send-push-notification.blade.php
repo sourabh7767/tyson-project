@@ -100,6 +100,22 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3">
+                                    <label class="float-right" for="send_to_all">Send to All Users</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="checkbox" class="form-check-input {{ $errors->has('send_to_all') ? ' is-invalid' : '' }}" id="send_to_all" name="send_to_all" value="1">&nbsp;&nbsp;Yes</input>
+                                    @if ($errors->has('send_to_all'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('send_to_all') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
                                     <label class="float-right" for="users">Select Users</label>
                                 </div>
                                 <div class="col-md-6">
@@ -116,22 +132,6 @@
                                 </div>
                             </div>
                         </div><br>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="float-right" for="send_to_all">Send to All Users</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="checkbox" class="form-check-input {{ $errors->has('send_to_all') ? ' is-invalid' : '' }}" id="send_to_all" name="send_to_all" value="1">&nbsp;&nbsp;Yes</input>
-                                    @if ($errors->has('send_to_all'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('send_to_all') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <br>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3">
