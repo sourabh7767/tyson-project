@@ -442,12 +442,12 @@ class UserController extends Controller
         $url = $request->input('url');
         $sendToAll = $request->has('send_to_all');
         $userIds = $request->input('users', []);
-        echo "<pre>";print_r($sendToAll);
-        echo "<pre>";print_r($userIds);die;
+        
         if (!empty($sendToAll)) {
             $users = User::all();
         } else {
             $users = User::whereIn('id', $userIds)->get();
+            echo "<pre>";print_r($users);die;
         }
         if(!empty($url)){
             $type = 3;
