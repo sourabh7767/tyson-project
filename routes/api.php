@@ -46,6 +46,7 @@ Route::get('getJobById/{jobid}','JobController@getJobById')->name('getJobById');
  		Route::post('/add-update-job-form-technician', 'JobController@addjobFormTechnician')->name('addJobFormTechnician');
  		Route::get('job-history', 'JobController@jobHistory')->name('jobHistory');
 		 Route::post('add-comment', 'JobController@addComment')->name('addComment');
+		 Route::post('trip', 'TripDataController@start')->name('start');
 		 
 // 			Route::get('/profile', 'AccountController@getProfile')->name('profile');
 // 			Route::post('/updateProfile', 'AccountController@updateProfile')->name('updateProfile');

@@ -1,6 +1,25 @@
-<?php 
+<?php
+
+use Carbon\Carbon;
 
 const RECORD_PER_PAGE = 10;
+const TYPR_TRIP = 1;
+const TYPE_STAND_BY = 2;
+const TYPE_MEETING = 3;
+function getTimeDifference($startDateTime,$endDateTime)
+    {
+
+        $startTime = Carbon::parse($startDateTime);
+    $endTime = Carbon::parse($endDateTime);
+
+    // Calculate the difference
+    $diff = $endTime->diff($startTime);
+
+    // Format the difference including days
+    $formattedDiff = sprintf('%d:%02d:%02d', $diff->d * 24 + $diff->h, $diff->i, $diff->s);
+
+    return $formattedDiff;
+    }
 
 function saveUploadedFile($file, $folder = "images")
 {
