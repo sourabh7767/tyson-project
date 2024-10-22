@@ -28,6 +28,14 @@ class TripDataController extends Controller
             if(DB::table('trip_data')->where('user_id',$request->user()->id)->where('end_time',null)->exists()){
                 return returnErrorResponse('You already have an ongoing trip,stand by, or in meeting!');
             }
+            if($request->type == TYPR_TRIP){
+                $message = "Trip started successfully";
+            }elseif($request->type == TYPE_STAND_BY){
+                $message = "On stand by.";
+            }elseif($request->type == TYPE_MEETING){
+                $message = "Meeting started successfully";
+            }
+            // $message = 
             // Start the trip: Insert new trip data
             $id = DB::table('trip_data')->insertGetId([
                 'type' => $request->type,
@@ -40,10 +48,16 @@ class TripDataController extends Controller
                 'updated_at'    => now(),
             ]);
     
-            return returnSuccessResponse("Trip started successfully", $id);
+            return returnSuccessResponse($message, $id);
     
         } elseif (!empty($request->id)) {
-            
+            if($request->type == TYPR_TRIP){
+                $message = "Trip Closed successfully";
+            }elseif($request->type == TYPE_STAND_BY){
+                $message = "Removed from stand by.";
+            }elseif($request->type == TYPE_MEETING){
+                $message = "Meeting Closed successfully";
+            }
             // Close the trip: Update existing trip with end time and calculate total hours
             $trip = DB::table('trip_data')->where('id', $request->id)->first();
             if(!empty($trip->end_time)){
@@ -66,7 +80,7 @@ class TripDataController extends Controller
                 'updated_at'    => now(),
             ]);
     
-            return returnSuccessResponse("Trip closed successfully", $request->id);
+            return returnSuccessResponse($message, $request->id);
         }
     }
     
