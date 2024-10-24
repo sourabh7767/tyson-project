@@ -12,6 +12,7 @@ use App\Models\JobFormTechnician;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
@@ -268,8 +269,15 @@ class JobController extends Controller
             $endDate = date('Y-m-d', strtotime($request->end_date . ' +1 day'));
             $jobs = $jobs->whereBetween('dispatch_time',[$request->start_date,$endDate]);
         }
+        $ongoingTrip = DB::table('trip_data')->where('user_id',$request->user()->id)->where('end_time',null)->first();
         $jobs = $jobs->get();
-        return returnSuccessResponse('Job history found.', $jobs);
+        $responseData = [
+            'ongoingTrip' => $ongoingTrip ?? (object)[],
+            'jobs' => $jobs,
+        ];
+        
+        // Return the response with the jobs directly at the root level
+        return returnCustomSuccessResponse('Job history found.', $responseData['jobs'], $responseData['ongoingTrip']);
     }
     public function addComment(Request $request){
         $rules = [
